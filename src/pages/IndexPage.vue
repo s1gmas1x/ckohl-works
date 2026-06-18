@@ -1,17 +1,19 @@
 <template>
-  <q-page class="flex flex-center">
-    <div class="column items-center">
-      <img
-        alt="Quasar logo"
-        src="~@/assets/quasar-logo-vertical.svg"
-        style="width: 200px; height: 200px"
-      />
-
-      <q-btn class="q-mt-md" color="primary" to="/second" label="Go to Second Page" no-caps />
-    </div>
+  <q-page class="home-page">
+    <HeroSection />
+    <TrustBar />
+    <FeaturedSolutions />
+    <ProcessSection />
+    <CtaSection />
+    <SiteFooter />
   </q-page>
 </template>
 
 <script setup>
-//
+import CtaSection from '@/components/sections/CtaSection.vue'
+import FeaturedSolutions from '@/components/sections/FeaturedSolutions.vue'
+import HeroSection from '@/components/sections/HeroSection.vue'
+import ProcessSection from '@/components/sections/ProcessSection.vue'
+import TrustBar from '@/components/sections/TrustBar.vue'
+import SiteFooter from '@/components/layout/SiteFooter.vue'
 </script>

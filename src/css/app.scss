@@ -1,1 +1,139 @@
-// app global css
+html {
+  scroll-behavior: smooth;
+}
+
+:root {
+  --ckw-orange: #ff8a00;
+  --ckw-orange-deep: #c55d00;
+  --ckw-black: #020406;
+  --ckw-charcoal: #080b0f;
+  --ckw-charcoal-soft: #0d1218;
+  --ckw-card-bg: #0f151c;
+  --ckw-container: 1160px;
+  --ckw-page-bg: var(--ckw-black);
+  --ckw-text-strong: #ffffff;
+  --ckw-text-primary: #d7dde5;
+  --ckw-text-muted: #a2acb8;
+  --ckw-border: rgba(255, 255, 255, 0.1);
+  --ckw-border-strong: rgba(255, 255, 255, 0.16);
+  --ckw-card-shadow: 0 28px 80px rgba(0, 0, 0, 0.42);
+  --ckw-font-body:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+body {
+  min-width: 320px;
+  margin: 0;
+  background:
+    radial-gradient(circle at 50% -14%, rgba(255, 138, 0, 0.14), transparent 32%),
+    var(--ckw-page-bg);
+  color: var(--ckw-text-primary);
+  font-family: var(--ckw-font-body);
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+small,
+span,
+button,
+input,
+textarea {
+  font-family: inherit;
+}
+
+.q-layout,
+.q-page,
+.q-card,
+.q-btn,
+.q-item,
+.q-chip,
+.q-field {
+  font-family: var(--ckw-font-body);
+}
+
+.q-page-container {
+  background: var(--ckw-page-bg);
+}
+
+.home-page {
+  min-height: 100vh;
+  background:
+    linear-gradient(180deg, rgba(8, 11, 15, 0.18), rgba(8, 11, 15, 0.92) 68%), var(--ckw-page-bg);
+  color: var(--ckw-text-primary);
+}
+
+.section-inner {
+  width: min(var(--ckw-container), calc(100% - 32px));
+  margin: 0 auto;
+}
+
+.content-section {
+  padding: 56px 0;
+}
+
+.ckw-btn {
+  min-height: 48px;
+  padding: 0 20px;
+  border-radius: 6px;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.ckw-btn--primary {
+  color: #ffffff !important;
+  box-shadow:
+    0 14px 34px rgba(255, 138, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.ckw-btn--outline {
+  color: var(--ckw-text-strong) !important;
+  border-color: var(--ckw-border-strong) !important;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.q-btn.bg-primary {
+  background: linear-gradient(180deg, #ff9b22, var(--ckw-orange-deep)) !important;
+}
+
+.q-drawer {
+  background: #070a0e;
+  color: var(--ckw-text-strong);
+}
+
+.q-drawer .q-item {
+  color: var(--ckw-text-primary);
+  font-weight: 700;
+}
+
+.q-drawer .q-item__label--header {
+  color: var(--ckw-orange);
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 680px) {
+  .section-inner {
+    width: min(var(--ckw-container), calc(100% - 28px));
+  }
+
+  .content-section {
+    padding: 42px 0;
+  }
+
+  .ckw-btn {
+    width: 100%;
+  }
+}

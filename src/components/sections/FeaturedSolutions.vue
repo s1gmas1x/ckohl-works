@@ -1,0 +1,45 @@
+<template>
+  <section id="solutions" class="content-section featured-solutions">
+    <div class="section-inner">
+      <SectionHeading
+        eyebrow="Featured Solutions"
+        title="Solutions that connect and convert."
+        description="Capability categories designed around practical business outcomes and maintainable digital foundations."
+      />
+
+      <div class="featured-solutions__grid">
+        <SolutionCard v-for="solution in solutions" :key="solution.title" :solution="solution" />
+      </div>
+    </div>
+  </section>
+</template>
+
+<script setup>
+import { solutions } from '@/data/home.js'
+import SectionHeading from '@/components/ui/SectionHeading.vue'
+import SolutionCard from '@/components/ui/SolutionCard.vue'
+</script>
+
+<style lang="scss" scoped>
+.featured-solutions {
+  padding-top: 12px;
+}
+
+.featured-solutions__grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 18px;
+}
+
+@media (max-width: 1180px) {
+  .featured-solutions__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .featured-solutions__grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>

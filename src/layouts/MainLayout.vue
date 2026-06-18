@@ -1,20 +1,29 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
-        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
+  <q-layout view="lHh lpR fFf">
+    <SiteHeader @toggle-drawer="rightDrawerOpen = !rightDrawerOpen" />
 
-        <q-toolbar-title> Quasar App </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
-      </q-toolbar>
-    </q-header>
-
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
-      <q-list>
-        <q-item-label header> Essential Links </q-item-label>
-
-        <EssentialLink v-for="link in linksList" :key="link.title" v-bind="link" />
+    <q-drawer
+      v-model="rightDrawerOpen"
+      side="right"
+      overlay
+      bordered
+      :width="280"
+      class="site-drawer"
+    >
+      <q-list padding>
+        <q-item-label header> Navigation </q-item-label>
+        <q-item
+          v-for="item in drawerItems"
+          :key="item.label"
+          clickable
+          :href="`#${item.id}`"
+          @click="handleDrawerNavigation(item.id)"
+        >
+          <q-item-section>{{ item.label }}</q-item-section>
+        </q-item>
+        <q-item clickable href="mailto:hello@ckworks.dev">
+          <q-item-section>Schedule Consultation</q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 
@@ -25,57 +34,33 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import EssentialLink from '@/components/EssentialLink.vue'
+import { nextTick, ref } from 'vue'
+import SiteHeader from '@/components/layout/SiteHeader.vue'
 
-const linksList = [
-  {
-    label: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev',
-  },
-  {
-    label: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework',
-  },
-  {
-    label: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev',
-  },
-  {
-    label: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev',
-  },
-  {
-    label: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev',
-  },
-  {
-    label: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev',
-  },
-  {
-    label: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev',
-  },
+const HEADER_SCROLL_OFFSET = 92
+const rightDrawerOpen = ref(false)
+
+const drawerItems = [
+  { label: 'Solutions', id: 'solutions' },
+  { label: 'Process', id: 'process' },
+  { label: 'Contact', id: 'contact' },
 ]
 
-const leftDrawerOpen = ref(false)
+async function handleDrawerNavigation(sectionId) {
+  rightDrawerOpen.value = false
+  await nextTick()
 
-function toggleLeftDrawer() {
-  leftDrawerOpen.value = !leftDrawerOpen.value
+  window.setTimeout(() => {
+    const section = document.getElementById(sectionId)
+
+    if (!section) return
+
+    const scrollTop = section.getBoundingClientRect().top + window.scrollY - HEADER_SCROLL_OFFSET
+
+    window.scrollTo({
+      top: Math.max(scrollTop, 0),
+      behavior: 'smooth',
+    })
+  }, 220)
 }
 </script>

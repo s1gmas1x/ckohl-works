@@ -1,24 +1,17 @@
-# Ckohl Works (ckohl-works)
+# CKohl Works
 
-## Install the dependencies
+Digital experiences built with purpose.
 
-```bash
-pnpm install
-# or: yarn/npm/bun install
-```
+CKohl Works is a business-focused website showcasing digital solutions including:
 
-### Start the app in development mode (HMR, error reporting, etc.)
+- NFC Smart Cards
+- QR Experiences
+- Business Websites
+- Custom Applications
+- Analytics & Reporting
 
-```bash
-quasar dev
-```
+Built with:
 
-### Build the app for production
-
-```bash
-quasar build
-```
-
-### Customize the configuration
-
-See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
+- Vue 3
+- Quasar
+- Vite
