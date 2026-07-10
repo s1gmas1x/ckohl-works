@@ -1,5 +1,5 @@
 <template>
-  <section id="contact" class="content-section cta-section">
+  <section class="content-section cta-section">
     <div class="section-inner">
       <div class="cta-section__panel">
         <div>
@@ -18,7 +18,7 @@
           color="primary"
           icon-right="arrow_forward"
           label="Start a Conversation"
-          href="mailto:hello@ckworks.dev"
+          href="mailto:chad_kohl@ckohl.com"
           class="ckw-btn ckw-btn--primary"
         />
       </div>

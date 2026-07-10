@@ -33,11 +33,11 @@
           >
             <q-icon name="business_center" size="20px" />
           </a>
-          <a href="mailto:hello@ckworks.dev" aria-label="Email CKohl Works">
+          <a href="mailto:chad_kohl@ckohl.com" aria-label="Email CKohl Works">
             <q-icon name="mail_outline" size="20px" />
           </a>
         </div>
-        <a href="mailto:hello@ckworks.dev">hello@ckworks.dev</a>
+        <a href="mailto:chad_kohl@ckohl.com">chad_kohl@ckohl.com</a>
         <small>&copy; {{ year }} CKohl Works. All rights reserved.</small>
       </div>
     </div>
