@@ -4,6 +4,7 @@
     <TrustBar />
     <FeaturedSolutions />
     <ServicesCareSection />
+    <NfcQrSection />
     <ProcessSection />
     <CtaSection />
     <SiteFooter />
@@ -14,6 +15,7 @@
 import CtaSection from '@/components/sections/CtaSection.vue'
 import FeaturedSolutions from '@/components/sections/FeaturedSolutions.vue'
 import HeroSection from '@/components/sections/HeroSection.vue'
+import NfcQrSection from '@/components/sections/NfcQrSection.vue'
 import ProcessSection from '@/components/sections/ProcessSection.vue'
 import ServicesCareSection from '@/components/sections/ServicesCareSection.vue'
 import TrustBar from '@/components/sections/TrustBar.vue'
