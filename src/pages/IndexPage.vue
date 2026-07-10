@@ -7,12 +7,14 @@
     <NfcQrSection />
     <ProcessSection />
     <CtaSection />
+    <ContactFormSection />
     <SiteFooter />
   </q-page>
 </template>
 
 <script setup>
 import CtaSection from '@/components/sections/CtaSection.vue'
+import ContactFormSection from '@/components/sections/ContactFormSection.vue'
 import FeaturedSolutions from '@/components/sections/FeaturedSolutions.vue'
 import HeroSection from '@/components/sections/HeroSection.vue'
 import NfcQrSection from '@/components/sections/NfcQrSection.vue'

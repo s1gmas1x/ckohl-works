@@ -25,7 +25,7 @@
         >
           <q-item-section>{{ item.label }}</q-item-section>
         </q-item>
-        <q-item clickable href="mailto:hello@ckworks.dev">
+        <q-item clickable href="mailto:chad_kohl@ckohl.com">
           <q-item-section>Schedule Consultation</q-item-section>
         </q-item>
       </q-list>
