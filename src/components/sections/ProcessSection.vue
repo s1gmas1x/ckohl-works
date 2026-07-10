@@ -1,7 +1,7 @@
 <template>
   <section id="process" class="content-section process-section">
     <div class="section-inner">
-      <SectionHeading eyebrow="Our Process" title="A simple process for exceptional results." />
+      <SectionHeading eyebrow="How It Works" title="A straightforward path from idea to launch." />
 
       <div class="process-section__steps">
         <article v-for="(step, index) in processSteps" :key="step.title" class="process-step">

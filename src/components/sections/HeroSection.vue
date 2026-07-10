@@ -4,17 +4,14 @@
       <div class="hero-section__copy">
         <p class="hero-section__eyebrow">
           <q-icon name="bolt" size="16px" />
-          <span>Business solutions built for momentum</span>
+          <span>Practical digital tools for local businesses</span>
         </p>
 
-        <h1>
-          Digital <span>experiences.</span><br />
-          Built with <span>purpose.</span>
-        </h1>
+        <h1>Give customers a <span>clear next step.</span></h1>
 
         <p class="hero-section__summary">
-          We help businesses connect with customers through smart cards, websites, applications, and
-          modern digital solutions.
+          Ckohl Works builds websites, smart QR and NFC experiences, and ongoing technical support
+          for local businesses that want customer touchpoints to work harder.
         </p>
 
         <div class="hero-section__actions">
@@ -23,7 +20,7 @@
             no-caps
             color="primary"
             icon="calendar_month"
-            label="Schedule Consultation"
+            label="Start a Conversation"
             href="#contact"
             class="ckw-btn ckw-btn--primary"
           />
@@ -48,20 +45,20 @@
           <div class="hero-showcase__phone-top"></div>
           <BrandMark aria-label="CKohl Works mobile preview" />
           <div class="hero-showcase__avatar" aria-hidden="true"></div>
-          <strong>Your Name</strong>
-          <span>Business Owner</span>
-          <p>Helping businesses connect and grow.</p>
+          <strong>Your Business</strong>
+          <span>Customer destination</span>
+          <p>Give customers the useful information they need next.</p>
           <div class="hero-showcase__phone-actions">
             <span>Call</span>
             <span>Email</span>
             <span>Save</span>
           </div>
-          <div class="hero-showcase__phone-row">Visit Website</div>
-          <div class="hero-showcase__phone-row">View Our Services</div>
+          <div class="hero-showcase__phone-row">View Menu</div>
+          <div class="hero-showcase__phone-row">Get Directions</div>
         </div>
 
         <div class="hero-showcase__dashboard">
-          <span>Analytics Overview</span>
+          <span>Example customer journey</span>
           <div class="hero-showcase__metrics">
             <strong>1,248</strong>
             <strong>842</strong>

@@ -3,18 +3,21 @@
     <div class="section-inner">
       <div class="cta-section__panel">
         <div>
-          <p class="cta-section__eyebrow">Ready for the next step?</p>
-          <h2>Ready to build something amazing <span>together?</span></h2>
+          <p class="cta-section__eyebrow">Start with the next useful step</p>
+          <h2>Tell us what customers need to <span>do next.</span></h2>
         </div>
 
-        <p>Let us discuss your project and explore how CKohl Works can help your business grow.</p>
+        <p>
+          We will talk through the customer experience you need and choose a practical first
+          version.
+        </p>
 
         <q-btn
           unelevated
           no-caps
           color="primary"
           icon-right="arrow_forward"
-          label="Schedule Consultation"
+          label="Start a Conversation"
           href="mailto:hello@ckworks.dev"
           class="ckw-btn ckw-btn--primary"
         />

@@ -23,7 +23,7 @@
         no-caps
         color="primary"
         icon-right="arrow_forward"
-        label="Schedule Consultation"
+        label="Start a Conversation"
         href="#contact"
         class="ckw-btn ckw-btn--primary site-header__cta"
       />
@@ -73,9 +73,8 @@ const route = useRoute()
 const router = useRouter()
 
 const navigationItems = [
-  { label: 'Solutions', id: 'solutions', hasMenu: true },
-  { label: 'Process', id: 'process' },
-  { label: 'About', id: 'solutions' },
+  { label: 'Solutions', id: 'solutions' },
+  { label: 'How It Works', id: 'process' },
   { label: 'Contact', id: 'contact' },
 ]
 
