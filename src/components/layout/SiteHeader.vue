@@ -32,6 +32,18 @@
         flat
         dense
         round
+        :icon="theme === 'dark' ? 'light_mode' : 'dark_mode'"
+        :aria-label="theme === 'dark' ? 'Use light mode' : 'Use dark mode'"
+        class="site-header__theme"
+        @click="$emit('toggle-theme')"
+      >
+        <q-tooltip>{{ theme === 'dark' ? 'Use light mode' : 'Use dark mode' }}</q-tooltip>
+      </q-btn>
+
+      <q-btn
+        flat
+        dense
+        round
         icon="menu"
         aria-label="Open navigation"
         class="site-header__menu"
@@ -46,7 +58,14 @@ import { nextTick } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import BrandMark from '@/components/ui/BrandMark.vue'
 
-defineEmits(['toggle-drawer'])
+defineEmits(['toggle-drawer', 'toggle-theme'])
+
+defineProps({
+  theme: {
+    type: String,
+    required: true,
+  },
+})
 
 const HEADER_SCROLL_OFFSET = 92
 
@@ -85,7 +104,7 @@ async function scrollToSection(sectionId) {
 
 <style lang="scss" scoped>
 .site-header {
-  background: rgba(5, 7, 9, 0.82);
+  background: var(--ckw-header-bg);
   border-bottom: 1px solid var(--ckw-border);
   color: var(--ckw-text-strong);
   backdrop-filter: blur(18px);
@@ -131,6 +150,15 @@ async function scrollToSection(sectionId) {
   color: var(--ckw-text-strong);
 }
 
+.site-header__theme {
+  margin-left: 14px;
+  color: var(--ckw-text-strong);
+}
+
+.site-header__theme:hover {
+  color: var(--ckw-orange);
+}
+
 @media (max-width: 980px) {
   .site-header__nav,
   .site-header__cta {
@@ -139,6 +167,11 @@ async function scrollToSection(sectionId) {
 
   .site-header__menu {
     display: inline-flex;
+  }
+
+  .site-header__theme {
+    margin-left: auto;
+    margin-right: 6px;
   }
 }
 

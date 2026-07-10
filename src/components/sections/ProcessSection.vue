@@ -56,11 +56,11 @@ import SectionHeading from '@/components/ui/SectionHeading.vue'
   place-items: center;
   width: 88px;
   height: 88px;
-  background: rgba(11, 16, 22, 0.96);
+  background: var(--ckw-surface);
   border: 1px solid var(--ckw-border-strong);
   border-radius: 50%;
   color: var(--ckw-orange);
-  box-shadow: 0 0 30px rgba(255, 138, 0, 0.12);
+  box-shadow: 0 0 30px var(--ckw-icon-shadow);
 }
 
 .process-step h3,
