@@ -5,27 +5,71 @@ html {
 :root {
   --ckw-orange: #ff8a00;
   --ckw-orange-deep: #c55d00;
-  --ckw-black: #020406;
-  --ckw-charcoal: #080b0f;
-  --ckw-charcoal-soft: #0d1218;
-  --ckw-card-bg: #0f151c;
   --ckw-container: 1160px;
-  --ckw-page-bg: var(--ckw-black);
+  --ckw-font-body:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+:root,
+:root[data-theme='dark'] {
+  --ckw-page-bg: #020406;
+  --ckw-page-overlay: linear-gradient(180deg, rgba(8, 11, 15, 0.18), rgba(8, 11, 15, 0.92) 68%);
+  --ckw-header-bg: rgba(5, 7, 9, 0.82);
+  --ckw-footer-bg: rgba(2, 4, 6, 0.72);
+  --ckw-surface: #080b0f;
+  --ckw-surface-raised: #0f151c;
+  --ckw-surface-subtle: rgba(255, 255, 255, 0.055);
+  --ckw-surface-panel-gradient: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.055),
+    rgba(255, 255, 255, 0.015)
+  );
+  --ckw-surface-visual-gradient: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.08),
+    rgba(255, 255, 255, 0.015)
+  );
   --ckw-text-strong: #ffffff;
   --ckw-text-primary: #d7dde5;
   --ckw-text-muted: #a2acb8;
   --ckw-border: rgba(255, 255, 255, 0.1);
   --ckw-border-strong: rgba(255, 255, 255, 0.16);
+  --ckw-visual-border: rgba(255, 255, 255, 0.09);
+  --ckw-grid-line: rgba(255, 138, 0, 0.08);
   --ckw-card-shadow: 0 28px 80px rgba(0, 0, 0, 0.42);
-  --ckw-font-body:
-    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --ckw-icon-shadow: rgba(255, 138, 0, 0.42);
+}
+
+:root[data-theme='light'] {
+  --ckw-page-bg: #f5f7f8;
+  --ckw-page-overlay: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.5),
+    rgba(232, 236, 239, 0.78) 68%
+  );
+  --ckw-header-bg: rgba(255, 255, 255, 0.88);
+  --ckw-footer-bg: #e9edef;
+  --ckw-surface: #ffffff;
+  --ckw-surface-raised: #ffffff;
+  --ckw-surface-subtle: #f1f3f4;
+  --ckw-surface-panel-gradient: linear-gradient(145deg, #ffffff, #eef1f3);
+  --ckw-surface-visual-gradient: linear-gradient(145deg, #ffffff, #edf1f3);
+  --ckw-text-strong: #17202a;
+  --ckw-text-primary: #33404d;
+  --ckw-text-muted: #5d6a77;
+  --ckw-border: rgba(23, 32, 42, 0.16);
+  --ckw-border-strong: rgba(23, 32, 42, 0.24);
+  --ckw-visual-border: rgba(23, 32, 42, 0.16);
+  --ckw-grid-line: rgba(197, 93, 0, 0.16);
+  --ckw-card-shadow: 0 18px 46px rgba(23, 32, 42, 0.12);
+  --ckw-icon-shadow: rgba(197, 93, 0, 0.2);
 }
 
 body {
   min-width: 320px;
   margin: 0;
   background:
-    radial-gradient(circle at 50% -14%, rgba(255, 138, 0, 0.14), transparent 32%),
+    radial-gradient(circle at 50% -14%, rgba(255, 138, 0, 0.12), transparent 32%),
     var(--ckw-page-bg);
   color: var(--ckw-text-primary);
   font-family: var(--ckw-font-body);
@@ -68,8 +112,7 @@ textarea {
 
 .home-page {
   min-height: 100vh;
-  background:
-    linear-gradient(180deg, rgba(8, 11, 15, 0.18), rgba(8, 11, 15, 0.92) 68%), var(--ckw-page-bg);
+  background: var(--ckw-page-overlay), var(--ckw-page-bg);
   color: var(--ckw-text-primary);
 }
 
@@ -100,7 +143,7 @@ textarea {
 .ckw-btn--outline {
   color: var(--ckw-text-strong) !important;
   border-color: var(--ckw-border-strong) !important;
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--ckw-surface-subtle);
 }
 
 .q-btn.bg-primary {
@@ -108,7 +151,7 @@ textarea {
 }
 
 .q-drawer {
-  background: #070a0e;
+  background: var(--ckw-surface);
   color: var(--ckw-text-strong);
 }
 

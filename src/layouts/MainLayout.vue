@@ -1,6 +1,10 @@
 <template>
   <q-layout view="lHh lpR fFf">
-    <SiteHeader @toggle-drawer="rightDrawerOpen = !rightDrawerOpen" />
+    <SiteHeader
+      :theme="theme"
+      @toggle-drawer="rightDrawerOpen = !rightDrawerOpen"
+      @toggle-theme="toggleTheme"
+    />
 
     <q-drawer
       v-model="rightDrawerOpen"
@@ -38,13 +42,29 @@ import { nextTick, ref } from 'vue'
 import SiteHeader from '@/components/layout/SiteHeader.vue'
 
 const HEADER_SCROLL_OFFSET = 92
+const THEME_STORAGE_KEY = 'ckohl-works-theme'
 const rightDrawerOpen = ref(false)
+const theme = ref(getInitialTheme())
 
 const drawerItems = [
   { label: 'Solutions', id: 'solutions' },
   { label: 'Process', id: 'process' },
   { label: 'Contact', id: 'contact' },
 ]
+
+function getInitialTheme() {
+  if (typeof document === 'undefined') return 'dark'
+
+  return document.documentElement.dataset.theme === 'light' ? 'light' : 'dark'
+}
+
+function toggleTheme() {
+  theme.value = theme.value === 'dark' ? 'light' : 'dark'
+
+  document.documentElement.dataset.theme = theme.value
+  document.documentElement.style.colorScheme = theme.value
+  window.localStorage.setItem(THEME_STORAGE_KEY, theme.value)
+}
 
 async function handleDrawerNavigation(sectionId) {
   rightDrawerOpen.value = false

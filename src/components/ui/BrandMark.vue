@@ -53,7 +53,7 @@ const rightBrace = '}}'
 }
 
 .brand-mark__sigil strong {
-  color: #ffffff;
+  color: var(--ckw-text-strong);
   font-size: 1.6rem;
   font-weight: 750;
 }

@@ -36,8 +36,7 @@
   padding: 34px 46px;
   background:
     radial-gradient(circle at 78% 82%, rgba(255, 138, 0, 0.36), transparent 28%),
-    linear-gradient(145deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.018)),
-    var(--ckw-card-bg);
+    var(--ckw-surface-panel-gradient), var(--ckw-surface-raised);
   border: 1px solid var(--ckw-border-strong);
   border-radius: 12px;
   box-shadow: var(--ckw-card-shadow);

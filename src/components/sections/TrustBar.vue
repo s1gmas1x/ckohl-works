@@ -27,9 +27,7 @@ import { trustItems as items } from '@/data/home.js'
   z-index: 3;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.015)),
-    rgba(8, 11, 15, 0.92);
+  background: var(--ckw-surface-panel-gradient), var(--ckw-surface);
   border: 1px solid var(--ckw-border-strong);
   border-radius: 12px;
   box-shadow: var(--ckw-card-shadow);
@@ -50,7 +48,7 @@ import { trustItems as items } from '@/data/home.js'
 
 .trust-bar__item :deep(.q-icon) {
   color: var(--ckw-orange);
-  filter: drop-shadow(0 0 18px rgba(255, 138, 0, 0.42));
+  filter: drop-shadow(0 0 18px var(--ckw-icon-shadow));
 }
 
 .trust-bar__item h2,

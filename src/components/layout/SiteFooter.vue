@@ -53,7 +53,7 @@ const year = new Date().getFullYear()
 <style lang="scss" scoped>
 .site-footer {
   padding: 34px 0 30px;
-  background: rgba(2, 4, 6, 0.72);
+  background: var(--ckw-footer-bg);
   border-top: 1px solid var(--ckw-border);
 }
 

@@ -48,7 +48,8 @@ defineProps({
   height: 100%;
   padding: 12px;
   background:
-    linear-gradient(145deg, rgba(255, 138, 0, 0.11), rgba(255, 138, 0, 0) 36%), var(--ckw-card-bg);
+    linear-gradient(145deg, rgba(255, 138, 0, 0.11), rgba(255, 138, 0, 0) 36%),
+    var(--ckw-surface-raised);
   border-color: var(--ckw-border);
   border-radius: 8px;
   box-shadow: var(--ckw-card-shadow);
@@ -62,8 +63,8 @@ defineProps({
   min-height: 148px;
   background:
     radial-gradient(circle at 50% 20%, rgba(255, 138, 0, 0.28), transparent 32%),
-    linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.015));
-  border: 1px solid rgba(255, 255, 255, 0.09);
+    var(--ckw-surface-visual-gradient);
+  border: 1px solid var(--ckw-visual-border);
   border-radius: 7px;
   color: var(--ckw-orange);
   overflow: hidden;
@@ -74,8 +75,8 @@ defineProps({
   position: absolute;
   inset: 16px;
   background-image:
-    linear-gradient(rgba(255, 138, 0, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 138, 0, 0.08) 1px, transparent 1px);
+    linear-gradient(var(--ckw-grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--ckw-grid-line) 1px, transparent 1px);
   background-size: 24px 24px;
   mask-image: radial-gradient(circle, #000 0 48%, transparent 74%);
 }
@@ -83,7 +84,7 @@ defineProps({
 .solution-card__visual :deep(.q-icon) {
   position: relative;
   z-index: 1;
-  filter: drop-shadow(0 0 18px rgba(255, 138, 0, 0.45));
+  filter: drop-shadow(0 0 18px var(--ckw-icon-shadow));
 }
 
 .solution-card :deep(.q-card__section) {
