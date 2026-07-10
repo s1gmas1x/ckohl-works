@@ -3,21 +3,21 @@
     <div class="site-footer__inner">
       <div class="site-footer__brand">
         <BrandMark />
-        <p>Digital experiences. Built with purpose.</p>
+        <p>Practical digital tools for local businesses.</p>
       </div>
 
       <nav class="site-footer__links" aria-label="Solutions">
         <span>Solutions</span>
-        <a href="#solutions">NFC Smart Cards</a>
-        <a href="#solutions">Customer Engagement</a>
         <a href="#solutions">Business Websites</a>
-        <a href="#solutions">Custom Applications</a>
-        <a href="#solutions">Analytics & Insights</a>
+        <a href="#solutions">Smart QR &amp; NFC</a>
+        <a href="#solutions">Customer Action Pages</a>
+        <a href="#solutions">Hosting &amp; Care</a>
+        <a href="#solutions">Custom Work</a>
       </nav>
 
       <nav class="site-footer__links" aria-label="Company">
         <span>Company</span>
-        <a href="#process">Process</a>
+        <a href="#process">How It Works</a>
         <a href="#solutions">Solutions</a>
         <a href="#contact">Contact</a>
       </nav>

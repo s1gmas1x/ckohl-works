@@ -48,7 +48,7 @@ const theme = ref(getInitialTheme())
 
 const drawerItems = [
   { label: 'Solutions', id: 'solutions' },
-  { label: 'Process', id: 'process' },
+  { label: 'How It Works', id: 'process' },
   { label: 'Contact', id: 'contact' },
 ]
 

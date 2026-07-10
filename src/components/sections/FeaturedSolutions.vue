@@ -3,8 +3,8 @@
     <div class="section-inner">
       <SectionHeading
         eyebrow="Featured Solutions"
-        title="Solutions that connect and convert."
-        description="Capability categories designed around practical business outcomes and maintainable digital foundations."
+        title="Useful tools for the customer moments that matter."
+        description="Start with a clear website, a smart customer destination, and the care needed to keep both useful."
       />
 
       <div class="featured-solutions__grid">
