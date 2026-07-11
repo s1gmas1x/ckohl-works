@@ -4,6 +4,8 @@
 import { defineConfig } from '#q-app'
 
 export default defineConfig((/* ctx */) => {
+  const isGitHubPagesBuild = process.env.DEPLOY_TARGET === 'github-pages'
+
   return {
     // https://v2.quasar.dev/quasar-cli-vite/prefetch-feature
     // preFetch: true,
@@ -44,7 +46,7 @@ export default defineConfig((/* ctx */) => {
       // vueRouterBase,
       // vueDevtools,
 
-      // publicPath: '/',
+      publicPath: isGitHubPagesBuild ? '/ckohl-works/' : '/',
       // define: {},
       // defineEnv: {}
       // ignorePublicFolder: true,
