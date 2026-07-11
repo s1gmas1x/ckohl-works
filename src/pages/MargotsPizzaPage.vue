@@ -1,6 +1,6 @@
 <template>
   <q-page class="margots-page">
-    <section class="margots-hero">
+    <section class="margots-hero" :style="{ '--margots-hero-image': `url(${heroImage})` }">
       <div class="margots-container margots-hero__grid">
         <div class="margots-hero__copy">
           <p class="margots-kicker">Ckohl Works demonstration</p>
@@ -29,9 +29,6 @@
           </div>
           <small>This is a static Ckohl Works demonstration. Ordering is not live.</small>
         </div>
-        <figure class="margots-hero__visual">
-          <img :src="heroImage" alt="Margot's Pizza flapper illustration holding a pizza" />
-        </figure>
       </div>
     </section>
 
@@ -163,8 +160,8 @@ const pizzas = [
 .margots-hero {
   padding: 110px 0 72px;
   background:
-    radial-gradient(circle at 68% 40%, rgba(184, 116, 25, 0.3), transparent 34%),
-    linear-gradient(120deg, #250809, #120405);
+    linear-gradient(90deg, rgba(25, 3, 5, 0.98), rgba(25, 3, 5, 0.93) 38%, rgba(25, 3, 5, 0.2) 74%),
+    var(--margots-hero-image) center / cover no-repeat;
 }
 .margots-hero__grid,
 .margots-location__grid {
@@ -215,19 +212,14 @@ const pizzas = [
 .margots-hero small {
   color: #c7a96c;
 }
-.margots-hero__visual {
+.margots-hero__grid::after {
+  content: '';
   min-height: 420px;
-  border: 1px solid rgba(217, 168, 59, 0.6);
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
-  overflow: hidden;
 }
-.margots-hero__visual img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  min-height: 420px;
-  object-fit: cover;
-  object-position: center;
+.margots-page .ckw-btn--outline {
+  color: #f5dfb0 !important;
+  border-color: rgba(217, 168, 59, 0.72) !important;
+  background: rgba(26, 5, 7, 0.6);
 }
 .margots-section {
   padding: 72px 0;
@@ -320,12 +312,11 @@ const pizzas = [
   .margots-menu-grid {
     grid-template-columns: 1fr;
   }
-  .margots-hero__visual {
-    max-width: 420px;
-    min-height: 300px;
+  .margots-hero {
+    background-position: 65% center;
   }
-  .margots-hero__visual img {
-    min-height: 300px;
+  .margots-hero__grid::after {
+    display: none;
   }
   .margots-actions .q-btn,
   .margots-location__actions .q-btn {
