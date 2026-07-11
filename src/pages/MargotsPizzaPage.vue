@@ -30,7 +30,7 @@
           <small>This is a static Ckohl Works demonstration. Ordering is not live.</small>
         </div>
         <figure class="margots-hero__visual">
-          <img :src="mockup" alt="Margot's Pizza flapper illustration holding a pizza" />
+          <img :src="heroImage" alt="Margot's Pizza flapper illustration holding a pizza" />
         </figure>
       </div>
     </section>
@@ -106,7 +106,7 @@
 </template>
 
 <script setup>
-import mockup from '@/assets/images/mockup/margots-pizza-mockup.png'
+import heroImage from '@/assets/images/mockup/margots-pizza-hero.png'
 
 const actions = [
   {
@@ -223,13 +223,11 @@ const pizzas = [
 }
 .margots-hero__visual img {
   display: block;
-  width: 185%;
-  max-width: none;
+  width: 100%;
   height: 100%;
   min-height: 420px;
   object-fit: cover;
-  object-position: 77% 17%;
-  transform: translateX(-41%);
+  object-position: center;
 }
 .margots-section {
   padding: 72px 0;
