@@ -5,7 +5,7 @@
         <div class="margots-hero__copy">
           <p class="margots-kicker">Ckohl Works demonstration</p>
           <p class="margots-brand">Margot's Pizza</p>
-          <h1>Thin crust. Big flavor. Made the Midwest way.</h1>
+          <h1>A classic Colorado Springs pizza tradition, preserved.</h1>
           <p>
             See how a restaurant NFC card or QR code can bring customers to the menu, directions,
             and the next useful action.
@@ -30,7 +30,7 @@
           <small>This is a static Ckohl Works demonstration. Ordering is not live.</small>
         </div>
         <figure class="margots-hero__visual">
-          <img :src="mockup" alt="Margot's Pizza website concept" />
+          <img :src="mockup" alt="Margot's Pizza flapper illustration holding a pizza" />
         </figure>
       </div>
     </section>
@@ -65,7 +65,11 @@
         <div>
           <p class="margots-kicker">Find Margot's</p>
           <h2 class="margots-heading">Good pizza should be easy to find.</h2>
-          <p>Fargo, ND<br />Moorhead, MN<br /><span>Demo locations only</span></p>
+          <p>
+            Colorado Springs, CO<br />Classic restaurant recreation<br /><span
+              >Demo location only</span
+            >
+          </p>
         </div>
         <div class="margots-location__actions">
           <q-btn
@@ -121,13 +125,13 @@ const actions = [
 const pizzas = [
   {
     name: 'The Margot',
-    description: 'Pepperoni, mozzarella, Fargo sauce blend.',
+    description: 'Pepperoni, mozzarella, and house sauce.',
     price: '$17',
     variant: 'pizza-card__image--pepperoni',
   },
   {
     name: 'The Classic',
-    description: 'Sausage, mozzarella, Fargo sauce blend.',
+    description: 'Sausage, mozzarella, and house sauce.',
     price: '$17',
     variant: 'pizza-card__image--sausage',
   },
@@ -139,7 +143,7 @@ const pizzas = [
   },
   {
     name: 'The Cheese',
-    description: 'Fargo sauce blend and mozzarella.',
+    description: 'House sauce and mozzarella.',
     price: '$15',
     variant: 'pizza-card__image--cheese',
   },
@@ -212,16 +216,20 @@ const pizzas = [
   color: #c7a96c;
 }
 .margots-hero__visual {
-  margin: 0;
+  min-height: 420px;
   border: 1px solid rgba(217, 168, 59, 0.6);
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+  overflow: hidden;
 }
 .margots-hero__visual img {
   display: block;
-  width: 100%;
-  aspect-ratio: 3 / 4;
+  width: 185%;
+  max-width: none;
+  height: 100%;
+  min-height: 420px;
   object-fit: cover;
-  object-position: top;
+  object-position: 77% 17%;
+  transform: translateX(-41%);
 }
 .margots-section {
   padding: 72px 0;
@@ -316,6 +324,10 @@ const pizzas = [
   }
   .margots-hero__visual {
     max-width: 420px;
+    min-height: 300px;
+  }
+  .margots-hero__visual img {
+    min-height: 300px;
   }
   .margots-actions .q-btn,
   .margots-location__actions .q-btn {
