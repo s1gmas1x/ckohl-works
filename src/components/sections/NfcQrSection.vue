@@ -8,15 +8,25 @@
           title="The card gets the tap. The destination does the work."
           description="Give customers one simple way to reach the menu, review link, booking page, contact details, or offer that matters right now."
         />
-        <q-btn
-          unelevated
-          no-caps
-          color="primary"
-          icon-right="arrow_forward"
-          label="Start a Conversation"
-          href="#contact"
-          class="ckw-btn ckw-btn--primary"
-        />
+        <div class="nfc-qr-section__actions">
+          <q-btn
+            unelevated
+            no-caps
+            color="primary"
+            icon-right="arrow_forward"
+            label="Start a Conversation"
+            href="#contact"
+            class="ckw-btn ckw-btn--primary"
+          />
+          <q-btn
+            outline
+            no-caps
+            icon-right="open_in_new"
+            label="View the restaurant demo"
+            to="/margots-pizza"
+            class="ckw-btn ckw-btn--outline"
+          />
+        </div>
       </div>
 
       <div class="nfc-qr-section__details">
@@ -60,6 +70,11 @@ import SectionHeading from '@/components/ui/SectionHeading.vue'
   grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
   gap: 54px;
   align-items: center;
+}
+.nfc-qr-section__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 .nfc-qr-section__details {
   display: grid;
