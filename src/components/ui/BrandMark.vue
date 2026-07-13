@@ -31,7 +31,7 @@ const rightBraces = '}}'
 <style lang="scss" scoped>
 .brand-mark {
   display: inline-grid;
-  gap: 3px;
+  gap: 6px;
   width: fit-content;
   color: var(--ckw-text-strong);
   text-decoration: none;
