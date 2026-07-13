@@ -86,6 +86,10 @@ body {
   outline-offset: 3px;
 }
 
+.q-field :focus-visible {
+  outline: none !important;
+}
+
 .q-field--focused .q-field__control::before {
   border-color: var(--ckw-orange) !important;
   border-width: 2px;
