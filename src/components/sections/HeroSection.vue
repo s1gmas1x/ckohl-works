@@ -7,7 +7,10 @@
           <span>Practical digital tools for local businesses</span>
         </p>
 
-        <h1>Give customers a <span>clear next step.</span></h1>
+        <h1>
+          <span class="hero-section__title-line">Give customers a</span
+          ><span>clear next step.</span>
+        </h1>
 
         <p class="hero-section__summary">
           Ckohl Works builds websites, smart QR and NFC experiences, and ongoing technical support
@@ -53,8 +56,7 @@ import heroProductPreview from '@/assets/images/hero/ckohl-works-product-preview
 <style lang="scss" scoped>
 .hero-section {
   position: relative;
-  min-height: 690px;
-  padding: 86px 0 44px;
+  padding: 18px 0 30px;
   background:
     radial-gradient(circle at 78% 16%, rgba(255, 138, 0, 0.18), transparent 30%),
     radial-gradient(circle at 28% 94%, rgba(255, 138, 0, 0.08), transparent 32%);
@@ -79,7 +81,7 @@ import heroProductPreview from '@/assets/images/hero/ckohl-works-product-preview
   display: grid;
   grid-template-columns: minmax(0, 0.95fr) minmax(420px, 1.2fr);
   gap: 44px;
-  align-items: center;
+  align-items: start;
 }
 
 .hero-section__copy {
@@ -104,14 +106,19 @@ import heroProductPreview from '@/assets/images/hero/ckohl-works-product-preview
 .hero-section h1 {
   margin: 0;
   color: var(--ckw-text-strong);
-  font-size: clamp(3.2rem, 6vw, 5.65rem);
+  font-size: clamp(2.55rem, 3.5vw, 3.75rem);
   font-weight: 850;
   letter-spacing: 0;
   line-height: 1.03;
 }
 
 .hero-section h1 span {
+  display: block;
   color: var(--ckw-orange);
+}
+
+.hero-section h1 .hero-section__title-line {
+  color: var(--ckw-text-strong);
 }
 
 .hero-section__summary {
@@ -131,8 +138,7 @@ import heroProductPreview from '@/assets/images/hero/ckohl-works-product-preview
 .hero-showcase {
   position: relative;
   display: grid;
-  place-items: center;
-  min-height: 500px;
+  place-items: start center;
 }
 
 .hero-showcase::after {
@@ -379,7 +385,7 @@ import heroProductPreview from '@/assets/images/hero/ckohl-works-product-preview
   line-height: 1.4;
 }
 
-@media (max-width: 1080px) {
+@media (max-width: 860px) {
   .hero-section__grid {
     grid-template-columns: 1fr;
   }
@@ -387,16 +393,12 @@ import heroProductPreview from '@/assets/images/hero/ckohl-works-product-preview
   .hero-section__copy {
     max-width: 740px;
   }
-
-  .hero-showcase {
-    min-height: 500px;
-  }
 }
 
 @media (max-width: 680px) {
   .hero-section {
     min-height: 0;
-    padding-top: 54px;
+    padding-top: 26px;
   }
 
   .hero-section__copy {

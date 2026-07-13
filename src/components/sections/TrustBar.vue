@@ -60,8 +60,8 @@ import { trustItems as items } from '@/data/home.js'
 
 .trust-bar__item p {
   color: var(--ckw-text-muted);
-  font-size: 0.88rem;
-  line-height: 1.45;
+  font-size: 0.94rem;
+  line-height: 1.5;
 }
 
 @media (max-width: 980px) {

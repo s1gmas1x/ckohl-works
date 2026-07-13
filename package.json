@@ -14,6 +14,9 @@
     "postinstall": "quasar prepare --silent"
   },
   "dependencies": {
+    "@fontsource/inter": "^5.2.8",
+    "@fontsource/orbitron": "^5.2.8",
+    "@fontsource/ubuntu": "^5.2.8",
     "@quasar/extras": "^2.0.0",
     "quasar": "^2.20.0",
     "vue": "^3.5.22",
