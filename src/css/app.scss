@@ -91,6 +91,25 @@ body {
   border-width: 2px;
 }
 
+.ckw-select-menu {
+  background: var(--ckw-surface-raised) !important;
+  border: 1px solid var(--ckw-border-strong);
+  box-shadow: var(--ckw-card-shadow);
+  color: var(--ckw-text-primary);
+}
+
+.ckw-select-menu .q-item {
+  min-height: 46px;
+  color: var(--ckw-text-primary);
+}
+
+.ckw-select-menu .q-item--active,
+.ckw-select-menu .q-manual-focusable--focus > .q-item,
+.ckw-select-menu .q-manual-focusable--focus {
+  background: var(--ckw-surface-subtle);
+  color: var(--ckw-text-strong);
+}
+
 a {
   color: inherit;
 }

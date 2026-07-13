@@ -26,6 +26,7 @@
             outlined
             label="Best way to reach you"
             :options="contactMethods"
+            popup-content-class="ckw-select-menu"
             :rules="[requiredRule]"
           />
           <q-select
@@ -33,6 +34,7 @@
             outlined
             label="What can we help with?"
             :options="services"
+            popup-content-class="ckw-select-menu"
             :rules="[requiredRule]"
           />
           <q-input
