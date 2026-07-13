@@ -52,7 +52,7 @@ const rightBraces = '}}'
 .brand-mark__sigil span {
   color: var(--ckw-orange);
   font-family: 'Inter', var(--ckw-font-body);
-  font-weight: 200;
+  font-weight: 300;
 }
 
 .brand-mark__sigil strong {
