@@ -43,7 +43,7 @@ const rightBraces = '}}'
   gap: 7px;
   color: var(--ckw-text-strong);
   font-family: 'Orbitron', var(--ckw-font-body);
-  font-size: 1.95rem;
+  font-size: 2.25rem;
   font-weight: 500;
   letter-spacing: 0;
   line-height: 1;
@@ -57,7 +57,7 @@ const rightBraces = '}}'
 
 .brand-mark__sigil strong {
   color: var(--ckw-text-strong);
-  font-size: 1.58rem;
+  font-size: 1.82rem;
   font-weight: 500;
 }
 
@@ -80,11 +80,11 @@ const rightBraces = '}}'
 @media (max-width: 600px) {
   .brand-mark__sigil {
     gap: 5px;
-    font-size: 1.58rem;
+    font-size: 1.8rem;
   }
 
   .brand-mark__sigil strong {
-    font-size: 1.28rem;
+    font-size: 1.46rem;
   }
 
   .brand-mark__wordmark {
