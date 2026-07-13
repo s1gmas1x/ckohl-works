@@ -56,6 +56,11 @@
           </p>
         </article>
       </div>
+
+      <p class="services-care__custom-work">
+        Need something beyond these focused offers? Custom integrations and application features are
+        available when separately scoped around a real business need.
+      </p>
     </div>
   </section>
 </template>
@@ -101,6 +106,13 @@ import SectionHeading from '@/components/ui/SectionHeading.vue'
 .services-care__summary,
 .services-care__boundary {
   margin: 0;
+}
+.services-care__custom-work {
+  max-width: 760px;
+  margin: 24px auto 0;
+  color: var(--ckw-text-muted);
+  line-height: 1.6;
+  text-align: center;
 }
 
 .services-care__panel-heading p {

@@ -78,8 +78,9 @@ const route = useRoute()
 const router = useRouter()
 
 const navigationItems = [
-  { label: 'Solutions', id: 'solutions' },
-  { label: 'How It Works', id: 'process' },
+  { label: 'How It Works', id: 'how-it-works' },
+  { label: 'Offers', id: 'solutions' },
+  { label: 'Demos', id: 'demonstrations' },
   { label: 'Contact', id: 'contact' },
 ]
 

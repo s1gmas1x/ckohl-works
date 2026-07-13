@@ -52,8 +52,9 @@ const isMargotsPage = computed(() => route.path === '/margots-pizza')
 const displayTheme = computed(() => (isMargotsPage.value ? 'dark' : theme.value))
 
 const drawerItems = [
-  { label: 'Solutions', id: 'solutions' },
-  { label: 'How It Works', id: 'process' },
+  { label: 'How It Works', id: 'how-it-works' },
+  { label: 'Offers', id: 'solutions' },
+  { label: 'Demos', id: 'demonstrations' },
   { label: 'Contact', id: 'contact' },
 ]
 

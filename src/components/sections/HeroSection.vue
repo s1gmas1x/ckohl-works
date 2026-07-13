@@ -3,18 +3,39 @@
     <div class="section-inner hero-section__grid">
       <div class="hero-section__copy">
         <p class="hero-section__eyebrow">
-          <q-icon name="bolt" size="16px" />
-          <span>Practical digital tools for local businesses</span>
+          <q-icon name="contactless" size="17px" />
+          <span>Managed tap-and-scan pages for local businesses</span>
         </p>
 
         <h1>
-          <span class="hero-section__title-line">Give customers a</span
-          ><span>clear next step.</span>
+          <span class="hero-section__title-line hero-section__title-line--desktop"
+            >Give customers one</span
+          >
+          <span
+            class="hero-section__title-line hero-section__title-line--desktop hero-section__title-accent"
+            >useful place to go.</span
+          >
+          <span class="hero-section__title-line hero-section__title-line--mobile"
+            >Give customers</span
+          >
+          <span
+            class="hero-section__title-line hero-section__title-line--mobile hero-section__title-accent"
+            >one useful</span
+          >
+          <span
+            class="hero-section__title-line hero-section__title-line--mobile hero-section__title-accent"
+            >place to go.</span
+          >
         </h1>
 
         <p class="hero-section__summary">
-          Ckohl Works builds websites, smart QR and NFC experiences, and ongoing technical support
-          for local businesses that want customer touchpoints to work harder.
+          Ckohl Works creates mobile business pages connected to QR codes, NFC cards, and links.
+          Customers can call, book, get directions, view a menu, save your contact, or take the next
+          useful action.
+        </p>
+
+        <p class="hero-section__benefit">
+          Change where the card or printed QR leads later without replacing it.
         </p>
 
         <div class="hero-section__actions">
@@ -22,26 +43,26 @@
             unelevated
             no-caps
             color="primary"
-            icon="calendar_month"
-            label="Start a Conversation"
-            href="#contact"
+            icon-right="arrow_downward"
+            label="See How It Works"
+            href="#how-it-works"
             class="ckw-btn ckw-btn--primary"
           />
           <q-btn
             outline
             no-caps
             icon-right="arrow_forward"
-            label="Explore Solutions"
-            href="#solutions"
+            label="View a Demo"
+            href="#demonstrations"
             class="ckw-btn ckw-btn--outline"
           />
         </div>
       </div>
 
-      <div class="hero-showcase" aria-label="CKohl Works solution preview">
+      <div class="hero-showcase" aria-label="Ckohl Works physical-to-mobile destination preview">
         <img
           :src="heroProductPreview"
-          alt="NFC card, business destination phone, and tablet interface"
+          alt="A Margot's Pizza NFC and QR card beside the mobile menu destination it opens"
           class="hero-showcase__image"
         />
       </div>
@@ -50,382 +71,157 @@
 </template>
 
 <script setup>
-import heroProductPreview from '@/assets/images/hero/ckohl-works-product-preview.png'
+import heroProductPreview from '@/assets/images/hero/margots-tap-scan-preview-refined.png'
 </script>
 
 <style lang="scss" scoped>
 .hero-section {
   position: relative;
-  padding: 18px 0 30px;
-  background:
-    radial-gradient(circle at 78% 16%, rgba(255, 138, 0, 0.18), transparent 30%),
-    radial-gradient(circle at 28% 94%, rgba(255, 138, 0, 0.08), transparent 32%);
+  padding: 34px 0 40px;
   overflow: hidden;
 }
-
 .hero-section::before {
-  content: '';
   position: absolute;
   inset: 0;
-  background-image:
-    linear-gradient(rgba(255, 138, 0, 0.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 138, 0, 0.06) 1px, transparent 1px);
-  background-size: 76px 76px;
-  mask-image: radial-gradient(circle at 62% 44%, #000, transparent 56%);
-  opacity: 0.45;
+  background:
+    radial-gradient(circle at 78% 24%, rgba(249, 156, 30, 0.1), transparent 29%),
+    radial-gradient(circle at 24% 94%, rgba(249, 156, 30, 0.04), transparent 32%);
+  content: '';
 }
-
 .hero-section__grid {
   position: relative;
-  z-index: 1;
   display: grid;
-  grid-template-columns: minmax(0, 0.95fr) minmax(420px, 1.2fr);
-  gap: 44px;
-  align-items: start;
+  grid-template-columns: minmax(0, 0.82fr) minmax(540px, 1.18fr);
+  gap: 38px;
+  align-items: center;
 }
-
 .hero-section__copy {
   display: grid;
-  gap: 24px;
-  max-width: 540px;
+  gap: 22px;
+  max-width: 570px;
 }
-
+.hero-section__eyebrow,
+.hero-section__benefit {
+  margin: 0;
+}
 .hero-section__eyebrow {
   display: inline-flex;
-  align-items: center;
   gap: 8px;
+  align-items: center;
   width: fit-content;
-  margin: 0;
   color: var(--ckw-orange);
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   font-weight: 800;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
 }
-
 .hero-section h1 {
   margin: 0;
   color: var(--ckw-text-strong);
-  font-size: clamp(2.55rem, 3.5vw, 3.75rem);
-  font-weight: 850;
-  letter-spacing: 0;
+  font-size: clamp(2.55rem, 3.1vw, 3.55rem);
+  font-weight: 800;
   line-height: 1.03;
 }
-
-.hero-section h1 span {
+.hero-section__title-line {
   display: block;
+}
+.hero-section__title-line--mobile {
+  display: none;
+}
+.hero-section__title-accent {
   color: var(--ckw-orange);
 }
-
-.hero-section h1 .hero-section__title-line {
-  color: var(--ckw-text-strong);
-}
-
 .hero-section__summary {
-  max-width: 480px;
+  max-width: 540px;
   margin: 0;
   color: var(--ckw-text-primary);
-  font-size: 1.18rem;
-  line-height: 1.62;
+  font-size: 1.13rem;
+  line-height: 1.65;
 }
-
+.hero-section__benefit {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  color: var(--ckw-text-strong);
+  font-size: 0.98rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.hero-section__benefit::before {
+  width: 9px;
+  height: 9px;
+  margin-top: 0.38rem;
+  background: var(--ckw-orange);
+  border-radius: 50%;
+  content: '';
+  flex: 0 0 auto;
+}
 .hero-section__actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 14px;
 }
-
+.hero-section .ckw-btn--primary {
+  box-shadow:
+    0 6px 16px rgba(255, 138, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
 .hero-showcase {
   position: relative;
   display: grid;
-  place-items: start center;
+  overflow: hidden;
+  padding: 1px;
+  border: 1px solid color-mix(in srgb, var(--ckw-border-strong) 72%, transparent);
+  border-radius: 10px;
+  background: var(--ckw-surface);
+  box-shadow: 0 18px 38px rgba(8, 12, 18, 0.16);
+  place-items: center;
 }
-
-.hero-showcase::after {
-  content: '';
-  position: absolute;
-  right: -8%;
-  bottom: -2%;
-  left: 6%;
-  height: 34px;
-  background: rgba(0, 0, 0, 0.55);
-  border-radius: 50%;
-  filter: blur(14px);
-}
-
 .hero-showcase__image {
-  position: relative;
-  z-index: 1;
   display: block;
-  width: min(100%, 720px);
-  max-height: 520px;
+  width: 100%;
+  max-height: 570px;
   object-fit: contain;
 }
-
-.hero-showcase__card,
-.hero-showcase__phone,
-.hero-showcase__destination {
-  position: absolute;
-  background: linear-gradient(145deg, rgba(21, 25, 30, 0.98), rgba(6, 9, 12, 0.98));
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow:
-    0 28px 90px rgba(0, 0, 0, 0.45),
-    0 0 54px rgba(255, 138, 0, 0.11);
-}
-
-.hero-showcase__card {
-  top: 42px;
-  left: 0;
-  display: grid;
-  place-items: center;
-  width: 270px;
-  height: 150px;
-  border-radius: 20px;
-  transform: rotate(-9deg);
-}
-
-.hero-showcase__card :deep(.q-icon) {
-  position: absolute;
-  top: 23px;
-  right: 23px;
-  color: rgba(255, 255, 255, 0.64);
-}
-
-.hero-showcase__phone {
-  z-index: 2;
-  top: 46px;
-  left: 178px;
-  display: grid;
-  justify-items: center;
-  width: 230px;
-  min-height: 430px;
-  padding: 34px 20px 20px;
-  border: 7px solid #06080b;
-  border-radius: 36px;
-  color: #ffffff;
-  text-align: center;
-  transform: rotate(8deg);
-}
-
-.hero-showcase__phone-top {
-  position: absolute;
-  top: 12px;
-  width: 76px;
-  height: 18px;
-  background: #05070a;
-  border-radius: 0 0 12px 12px;
-}
-
-.hero-showcase__monogram {
-  color: var(--ckw-orange);
-  font-size: 1rem;
-  font-weight: 900;
-  letter-spacing: 0.12em;
-  line-height: 1;
-  white-space: nowrap;
-}
-
-.hero-showcase__card-mark {
-  display: grid;
-  justify-items: center;
-  gap: 8px;
-}
-
-.hero-showcase__card-sigil {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: #ffffff;
-  font-size: 1.9rem;
-  font-weight: 800;
-  line-height: 1;
-}
-
-.hero-showcase__card-sigil span {
-  color: var(--ckw-orange);
-}
-
-.hero-showcase__card-sigil strong {
-  font-size: 1.55rem;
-  font-weight: 750;
-}
-
-.hero-showcase__card-wordmark {
-  display: inline-flex;
-  gap: 10px;
-  color: rgba(255, 255, 255, 0.82);
-  font-size: 0.46rem;
-  font-weight: 800;
-  letter-spacing: 0.34em;
-  line-height: 1;
-}
-
-.hero-showcase__card-wordmark span:last-child {
-  color: var(--ckw-orange);
-}
-
-.hero-showcase__phone .hero-showcase__monogram {
-  margin-bottom: 2px;
-  font-size: 0.62rem;
-}
-
-.hero-showcase__avatar {
-  width: 68px;
-  height: 68px;
-  margin-bottom: 9px;
-  background:
-    radial-gradient(circle at 50% 34%, #f2d3be 0 18%, transparent 19%),
-    radial-gradient(circle at 50% 62%, #f2d3be 0 28%, transparent 29%),
-    linear-gradient(145deg, rgba(255, 138, 0, 0.85), #202833);
-  border: 2px solid rgba(255, 255, 255, 0.14);
-  border-radius: 50%;
-}
-
-.hero-showcase__phone strong {
-  color: #ffffff;
-  font-size: 1rem;
-}
-
-.hero-showcase__phone span,
-.hero-showcase__phone p {
-  color: rgba(255, 255, 255, 0.72);
-  font-size: 0.72rem;
-}
-
-.hero-showcase__phone p {
-  max-width: 142px;
-  margin: 8px 0 12px;
-  line-height: 1.35;
-}
-
-.hero-showcase__phone-actions {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 6px;
-  width: 100%;
-  margin-bottom: 10px;
-}
-
-.hero-showcase__phone-actions span,
-.hero-showcase__phone-row {
-  background: rgba(255, 255, 255, 0.055);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 8px;
-  color: rgba(255, 255, 255, 0.88);
-}
-
-.hero-showcase__phone-actions span {
-  padding: 8px 0;
-}
-
-.hero-showcase__phone-row {
-  width: 100%;
-  margin-top: 7px;
-  padding: 10px 12px;
-  color: rgba(255, 255, 255, 0.72);
-  font-size: 0.72rem;
-  text-align: left;
-}
-
-.hero-showcase__destination {
-  display: grid;
-  align-content: start;
-  gap: 18px;
-  right: -8px;
-  bottom: 40px;
-  width: 340px;
-  min-height: 245px;
-  padding: 24px;
-  border-radius: 16px;
-  transform: perspective(800px) rotateY(-11deg) rotateZ(-4deg);
-}
-
-.hero-showcase__destination p {
-  margin: 0;
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 0.9rem;
-  font-weight: 800;
-}
-
-.hero-showcase__destination-actions {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 9px;
-}
-
-.hero-showcase__destination-actions span {
-  padding: 12px 8px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 8px;
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-align: center;
-}
-
-.hero-showcase__destination-route {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 10px;
-  align-items: center;
-  padding: 14px;
-  background: rgba(255, 138, 0, 0.08);
-  border: 1px solid rgba(255, 138, 0, 0.2);
-  border-radius: 10px;
-}
-
-.hero-showcase__destination-route :deep(.q-icon) {
-  color: var(--ckw-orange);
-}
-
-.hero-showcase__destination-route span {
-  color: rgba(255, 255, 255, 0.72);
-  font-size: 0.76rem;
-  line-height: 1.4;
-}
-
-@media (max-width: 860px) {
+@media (max-width: 880px) {
   .hero-section__grid {
     grid-template-columns: 1fr;
   }
-
   .hero-section__copy {
-    max-width: 740px;
+    max-width: 680px;
+  }
+  .hero-showcase {
+    max-width: 620px;
   }
 }
-
-@media (max-width: 680px) {
+@media (max-width: 560px) {
   .hero-section {
-    min-height: 0;
-    padding-top: 26px;
+    padding: 30px 0 38px;
   }
-
   .hero-section__copy {
     gap: 18px;
   }
-
   .hero-section h1 {
-    font-size: 3rem;
+    font-size: clamp(2.4rem, 11.5vw, 3.15rem);
   }
-
+  .hero-section__title-line--desktop {
+    display: none;
+  }
+  .hero-section__title-line--mobile {
+    display: block;
+  }
+  .hero-section__eyebrow {
+    font-size: 0.7rem;
+    line-height: 1.45;
+  }
   .hero-section__summary {
     font-size: 1rem;
   }
-
   .hero-section__actions {
     display: grid;
   }
-
-  .hero-showcase {
-    min-height: 0;
-    margin-top: 0;
-    place-items: start center;
-  }
-
   .hero-showcase__image {
-    width: 100%;
-    max-height: 290px;
+    max-height: none;
   }
 }
 </style>
