@@ -28,71 +28,50 @@ export const trustItems = [
 
 export const solutions = [
   {
-    title: 'Business Websites',
+    title: 'Tap-and-Scan Business Pages',
     description:
-      'Mobile-friendly sites that explain your business and make it easy for customers to act.',
-    icon: 'desktop_windows',
-    variant: 'web',
-    href: '#contact',
-  },
-  {
-    title: 'Smart QR & NFC',
-    description:
-      'A tap or scan can lead customers to the right menu, review link, booking page, or contact details.',
+      'QR and NFC experiences for menus, directions, reviews, booking, promotions, service details, and vendor or property pages.',
     icon: 'contactless',
     variant: 'nfc',
     href: '#contact',
   },
   {
-    title: 'Customer Action Pages',
+    title: 'Digital Contact Cards',
     description:
-      'Focused pages for menus, directions, reviews, booking links, service details, and special offers.',
-    icon: 'qr_code_2',
+      'Give customers one mobile place to call, email, visit your site, book, get directions, or save your details.',
+    icon: 'badge',
     variant: 'qr',
     href: '#contact',
   },
   {
-    title: 'Hosting & Care',
+    title: 'Business Websites and Care',
     description:
-      'Keep your site available and up to date with defined maintenance and support options.',
+      'Mobile-friendly websites, hosting, maintenance, updates, and support for the parts of your business customers rely on.',
     icon: 'support_agent',
     variant: 'app',
-    href: '#contact',
-  },
-  {
-    title: 'Custom Work When Needed',
-    description:
-      'When the standard site is not enough, scoped integrations and features can be quoted separately.',
-    icon: 'build',
-    variant: 'analytics',
     href: '#contact',
   },
 ]
 
 export const processSteps = [
   {
-    icon: 'search',
-    title: 'Discover',
-    description: 'We identify the customer action that matters most.',
+    icon: 'contactless',
+    title: 'Tap or scan',
+    description: 'A customer uses an NFC card or a printed QR code.',
   },
   {
-    icon: 'edit',
-    title: 'Plan',
-    description: 'We choose a focused, useful first version.',
+    icon: 'smartphone',
+    title: 'Open the right page',
+    description: 'They reach a mobile page built around your business.',
   },
   {
-    icon: 'code',
-    title: 'Build',
-    description: 'We create the website or customer destination.',
+    icon: 'touch_app',
+    title: 'Take action',
+    description: 'They call, book, get directions, save a contact, or view a menu.',
   },
   {
-    icon: 'rocket_launch',
-    title: 'Launch',
-    description: 'We test it, publish it, and make it ready to share.',
-  },
-  {
-    icon: 'support_agent',
-    title: 'Care',
-    description: 'Defined care keeps the important details current.',
+    icon: 'edit_note',
+    title: 'Update it later',
+    description: 'The destination can change without replacing the physical item.',
   },
 ]

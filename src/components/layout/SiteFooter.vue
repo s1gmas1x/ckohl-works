@@ -8,17 +8,15 @@
 
       <nav class="site-footer__links" aria-label="Solutions">
         <span>Solutions</span>
-        <a href="#solutions">Business Websites</a>
-        <a href="#solutions">Smart QR &amp; NFC</a>
-        <a href="#solutions">Customer Action Pages</a>
-        <a href="#solutions">Hosting &amp; Care</a>
-        <a href="#solutions">Custom Work</a>
+        <a href="#solutions">Tap-and-Scan Pages</a>
+        <a href="#solutions">Digital Contact Cards</a>
+        <a href="#services">Business Websites &amp; Care</a>
       </nav>
 
       <nav class="site-footer__links" aria-label="Company">
         <span>Company</span>
-        <a href="#process">How It Works</a>
-        <a href="#solutions">Solutions</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#demonstrations">Demonstrations</a>
         <a href="#contact">Contact</a>
       </nav>
 

@@ -1,21 +1,38 @@
 <template>
-  <section id="process" class="content-section process-section">
+  <section id="how-it-works" class="content-section process-section">
     <div class="section-inner">
-      <SectionHeading eyebrow="How It Works" title="A straightforward path from idea to launch." />
+      <SectionHeading
+        eyebrow="How it works"
+        title="The card and QR are the beginning, not the whole product."
+        description="We build and manage what a customer sees after the tap or scan, around the action that matters to your business."
+      />
 
       <div class="process-section__steps">
         <article v-for="(step, index) in processSteps" :key="step.title" class="process-step">
-          <div class="process-step__icon">
-            <q-icon :name="step.icon" size="34px" />
-          </div>
-          <div class="process-step__copy">
-            <h3>
-              <span>{{ index + 1 }}</span>
-              {{ step.title }}
-            </h3>
-            <p>{{ step.description }}</p>
-          </div>
+          <span class="process-step__number">{{ index + 1 }}</span>
+          <q-icon :name="step.icon" size="27px" />
+          <h3>{{ step.title }}</h3>
+          <p>{{ step.description }}</p>
         </article>
+      </div>
+
+      <div class="destination-compare">
+        <div>
+          <p class="destination-compare__label">Static QR code</p>
+          <h3>Printed once, tied to one URL.</h3>
+          <p>
+            Useful for a fixed link, but changing the destination can mean replacing what you
+            printed.
+          </p>
+        </div>
+        <div class="destination-compare__managed">
+          <p class="destination-compare__label">Managed Ckohl Works destination</p>
+          <h3>Keep the card. Update what it leads to.</h3>
+          <p>
+            When your menu, promotion, booking page, or business needs change, we can update the
+            destination without replacing the card or code.
+          </p>
+        </div>
       </div>
     </div>
   </section>
@@ -27,86 +44,89 @@ import SectionHeading from '@/components/ui/SectionHeading.vue'
 </script>
 
 <style lang="scss" scoped>
+.process-section {
+  background: var(--ckw-surface);
+}
 .process-section__steps {
-  position: relative;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 26px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
 }
-
-.process-section__steps::before {
-  content: '';
-  position: absolute;
-  top: 43px;
-  right: 9%;
-  left: 9%;
-  border-top: 2px dotted rgba(255, 138, 0, 0.78);
-}
-
 .process-step {
   position: relative;
-  display: grid;
-  justify-items: center;
-  gap: 16px;
-  text-align: center;
+  padding: 24px 18px;
+  border-top: 2px solid var(--ckw-orange);
 }
-
-.process-step__icon {
-  display: grid;
-  place-items: center;
-  width: 88px;
-  height: 88px;
-  background: var(--ckw-surface);
-  border: 1px solid var(--ckw-border-strong);
-  border-radius: 50%;
+.process-step__number {
   color: var(--ckw-orange);
-  box-shadow: 0 0 30px var(--ckw-icon-shadow);
+  font-size: 0.78rem;
+  font-weight: 800;
 }
-
+.process-step :deep(.q-icon) {
+  display: block;
+  margin: 14px 0;
+  color: var(--ckw-text-strong);
+}
 .process-step h3,
 .process-step p {
   margin: 0;
 }
-
 .process-step h3 {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 10px;
   color: var(--ckw-text-strong);
-  font-size: 1.08rem;
-  font-weight: 800;
+  font-size: 1.15rem;
 }
-
-.process-step h3 span {
-  color: var(--ckw-orange);
-  font-size: 1.35rem;
-}
-
 .process-step p {
+  margin-top: 8px;
   color: var(--ckw-text-muted);
-  font-size: 0.95rem;
   line-height: 1.55;
 }
-
-@media (max-width: 900px) {
-  .process-section__steps {
+.destination-compare {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 42px;
+  overflow: hidden;
+  background: var(--ckw-border-strong);
+  border: 1px solid var(--ckw-border-strong);
+  border-radius: 8px;
+}
+.destination-compare > div {
+  padding: 28px;
+  background: var(--ckw-surface-raised);
+}
+.destination-compare__managed {
+  background:
+    linear-gradient(145deg, rgba(249, 156, 30, 0.14), transparent 60%), var(--ckw-surface-raised) !important;
+}
+.destination-compare__label,
+.destination-compare h3,
+.destination-compare p {
+  margin: 0;
+}
+.destination-compare__label {
+  margin-bottom: 10px;
+  color: var(--ckw-orange);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+.destination-compare h3 {
+  color: var(--ckw-text-strong);
+  font-size: 1.25rem;
+}
+.destination-compare p:not(.destination-compare__label) {
+  margin-top: 10px;
+  color: var(--ckw-text-primary);
+  line-height: 1.6;
+}
+@media (max-width: 760px) {
+  .process-section__steps,
+  .destination-compare {
     grid-template-columns: 1fr;
-    gap: 18px;
   }
-
-  .process-section__steps::before {
-    display: none;
-  }
-
-  .process-step {
-    grid-template-columns: 72px 1fr;
-    justify-items: start;
-    text-align: left;
-  }
-
-  .process-step__icon {
-    width: 64px;
-    height: 64px;
+  .process-section__steps {
+    gap: 8px;
   }
 }
 </style>

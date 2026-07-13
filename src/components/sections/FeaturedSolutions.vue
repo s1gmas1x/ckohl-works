@@ -2,9 +2,9 @@
   <section id="solutions" class="content-section featured-solutions">
     <div class="section-inner">
       <SectionHeading
-        eyebrow="Featured Solutions"
-        title="Useful tools for the customer moments that matter."
-        description="Start with a clear website, a smart customer destination, and the care needed to keep both useful."
+        eyebrow="What we build"
+        title="Three useful ways to meet customers where they are."
+        description="Start with the focused business page or site that solves the next customer problem, then keep it current with real support."
       />
 
       <div class="featured-solutions__grid">
@@ -27,17 +27,11 @@ import SolutionCard from '@/components/ui/SolutionCard.vue'
 
 .featured-solutions__grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
 }
 
-@media (max-width: 1180px) {
-  .featured-solutions__grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 760px) {
+@media (max-width: 900px) {
   .featured-solutions__grid {
     grid-template-columns: 1fr;
   }
