@@ -14,16 +14,24 @@
           email.
         </p>
         <div class="contact-form__fields">
-          <q-input v-model.trim="form.name" outlined label="Your name" :rules="[requiredRule]" />
+          <q-input
+            v-model.trim="form.name"
+            outlined
+            stack-label
+            label="Your name"
+            :rules="[requiredRule]"
+          />
           <q-input
             v-model.trim="form.business"
             outlined
+            stack-label
             label="Business name"
             :rules="[requiredRule]"
           />
           <q-select
             v-model="form.contactMethod"
             outlined
+            stack-label
             label="Best way to reach you"
             :options="contactMethods"
             popup-content-class="ckw-select-menu"
@@ -32,6 +40,7 @@
           <q-select
             v-model="form.service"
             outlined
+            stack-label
             label="What can we help with?"
             :options="services"
             popup-content-class="ckw-select-menu"
@@ -41,6 +50,7 @@
             v-model.trim="form.details"
             class="contact-form__details"
             outlined
+            stack-label
             type="textarea"
             label="A little about your project"
             :rules="[requiredRule]"
