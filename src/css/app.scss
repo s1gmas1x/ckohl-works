@@ -81,7 +81,7 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+:where(a, button, select, [tabindex]):focus-visible {
   outline: 3px solid var(--ckw-focus-ring) !important;
   outline-offset: 3px;
 }
@@ -89,6 +89,10 @@ body {
 .q-field--focused .q-field__control::before {
   border-color: var(--ckw-orange) !important;
   border-width: 2px;
+}
+
+.q-field--focused .q-field__control::after {
+  border-color: var(--ckw-orange) !important;
 }
 
 .ckw-select-menu {
