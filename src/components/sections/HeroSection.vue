@@ -7,7 +7,10 @@
           <span>Practical digital tools for local businesses</span>
         </p>
 
-        <h1>Give customers a <span>clear next step.</span></h1>
+        <h1>
+          <span class="hero-section__title-line">Give customers a</span
+          ><span>clear next step.</span>
+        </h1>
 
         <p class="hero-section__summary">
           Ckohl Works builds websites, smart QR and NFC experiences, and ongoing technical support
@@ -104,14 +107,19 @@ import heroProductPreview from '@/assets/images/hero/ckohl-works-product-preview
 .hero-section h1 {
   margin: 0;
   color: var(--ckw-text-strong);
-  font-size: clamp(2.75rem, 4.2vw, 4.5rem);
+  font-size: clamp(2.55rem, 3.5vw, 3.75rem);
   font-weight: 850;
   letter-spacing: 0;
   line-height: 1.03;
 }
 
 .hero-section h1 span {
+  display: block;
   color: var(--ckw-orange);
+}
+
+.hero-section h1 .hero-section__title-line {
+  color: var(--ckw-text-strong);
 }
 
 .hero-section__summary {
