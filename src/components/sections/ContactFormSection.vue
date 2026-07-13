@@ -77,9 +77,6 @@
           type="submit"
           class="ckw-btn ckw-btn--primary"
         />
-        <a class="contact-form__email-link" href="mailto:chad_kohl@ckohl.com">
-          Prefer email? chad_kohl@ckohl.com
-        </a>
       </q-form>
     </div>
   </section>
@@ -153,13 +150,6 @@ function submitRequest() {
   background: var(--ckw-surface-subtle);
   border: 1px solid var(--ckw-border);
   line-height: 1.5;
-}
-.contact-form__email-link {
-  color: var(--ckw-text-primary);
-  font-size: 0.95rem;
-  font-weight: 700;
-  text-decoration-color: var(--ckw-orange);
-  text-underline-offset: 3px;
 }
 :deep(.q-field__control) {
   min-height: 54px;
