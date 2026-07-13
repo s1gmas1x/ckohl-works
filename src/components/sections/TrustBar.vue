@@ -18,32 +18,27 @@ import { trustItems as items } from '@/data/home.js'
 
 <style lang="scss" scoped>
 .trust-bar {
-  margin-top: -32px;
-  padding-bottom: 54px;
+  margin-top: -10px;
+  padding-bottom: 48px;
 }
 
 .trust-bar__panel {
-  position: relative;
-  z-index: 3;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  background: var(--ckw-surface-panel-gradient), var(--ckw-surface);
-  border: 1px solid var(--ckw-border-strong);
-  border-radius: 12px;
-  box-shadow: var(--ckw-card-shadow);
-  overflow: hidden;
+  border-top: 1px solid var(--ckw-border);
+  border-bottom: 1px solid var(--ckw-border);
 }
 
 .trust-bar__item {
   display: grid;
   justify-items: center;
-  gap: 10px;
-  padding: 30px 24px;
+  gap: 8px;
+  padding: 22px 16px;
   text-align: center;
 }
 
 .trust-bar__item + .trust-bar__item {
-  border-left: 1px solid var(--ckw-border-strong);
+  border-left: 1px solid var(--ckw-border);
 }
 
 .trust-bar__item :deep(.q-icon) {
