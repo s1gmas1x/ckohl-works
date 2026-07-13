@@ -36,42 +36,19 @@
       </div>
 
       <div class="hero-showcase" aria-label="CKohl Works solution preview">
-        <div class="hero-showcase__card hero-showcase__card--nfc">
-          <span class="hero-showcase__monogram" aria-hidden="true"
-            >&lbrace;&lbrace; CK &rbrace;&rbrace;</span
-          >
-          <q-icon name="contactless" size="24px" />
-        </div>
-
-        <div class="hero-showcase__phone">
-          <div class="hero-showcase__phone-top"></div>
-          <span class="hero-showcase__monogram" aria-hidden="true"
-            >&lbrace;&lbrace; CK &rbrace;&rbrace;</span
-          >
-          <div class="hero-showcase__avatar" aria-hidden="true"></div>
-          <strong>Your Business</strong>
-          <span>Customer destination</span>
-          <p>Give customers the useful information they need next.</p>
-          <div class="hero-showcase__phone-actions">
-            <span>Call</span>
-            <span>Email</span>
-            <span>Save</span>
-          </div>
-          <div class="hero-showcase__phone-row">View Menu</div>
-          <div class="hero-showcase__phone-row">Get Directions</div>
-        </div>
-
-        <div class="hero-showcase__destination">
-          <q-icon name="ads_click" size="24px" />
-          <div>
-            <strong>One useful destination</strong>
-            <span>Menu, directions, reviews, and contact in one place.</span>
-          </div>
-        </div>
+        <img
+          :src="heroProductPreview"
+          alt="NFC card, business destination phone, and tablet interface"
+          class="hero-showcase__image"
+        />
       </div>
     </div>
   </section>
 </template>
+
+<script setup>
+import heroProductPreview from '@/assets/images/hero/ckohl-works-product-preview.png'
+</script>
 
 <style lang="scss" scoped>
 .hero-section {
@@ -153,7 +130,9 @@
 
 .hero-showcase {
   position: relative;
-  min-height: 520px;
+  display: grid;
+  place-items: center;
+  min-height: 500px;
 }
 
 .hero-showcase::after {
@@ -166,6 +145,15 @@
   background: rgba(0, 0, 0, 0.55);
   border-radius: 50%;
   filter: blur(14px);
+}
+
+.hero-showcase__image {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: min(100%, 720px);
+  max-height: 520px;
+  object-fit: contain;
 }
 
 .hero-showcase__card,
@@ -229,6 +217,45 @@
   letter-spacing: 0.12em;
   line-height: 1;
   white-space: nowrap;
+}
+
+.hero-showcase__card-mark {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+}
+
+.hero-showcase__card-sigil {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #ffffff;
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.hero-showcase__card-sigil span {
+  color: var(--ckw-orange);
+}
+
+.hero-showcase__card-sigil strong {
+  font-size: 1.55rem;
+  font-weight: 750;
+}
+
+.hero-showcase__card-wordmark {
+  display: inline-flex;
+  gap: 10px;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.46rem;
+  font-weight: 800;
+  letter-spacing: 0.34em;
+  line-height: 1;
+}
+
+.hero-showcase__card-wordmark span:last-child {
+  color: var(--ckw-orange);
 }
 
 .hero-showcase__phone .hero-showcase__monogram {
@@ -296,35 +323,59 @@
 
 .hero-showcase__destination {
   display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 12px;
-  align-items: start;
-  z-index: 3;
+  align-content: start;
+  gap: 18px;
   right: -8px;
-  bottom: 34px;
-  width: 304px;
-  padding: 20px;
-  border-radius: 12px;
-  transform: rotate(-4deg);
+  bottom: 40px;
+  width: 340px;
+  min-height: 245px;
+  padding: 24px;
+  border-radius: 16px;
+  transform: perspective(800px) rotateY(-11deg) rotateZ(-4deg);
 }
 
-.hero-showcase__destination :deep(.q-icon) {
+.hero-showcase__destination p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.hero-showcase__destination-actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.hero-showcase__destination-actions span {
+  padding: 12px 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.hero-showcase__destination-route {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  align-items: center;
+  padding: 14px;
+  background: rgba(255, 138, 0, 0.08);
+  border: 1px solid rgba(255, 138, 0, 0.2);
+  border-radius: 10px;
+}
+
+.hero-showcase__destination-route :deep(.q-icon) {
   color: var(--ckw-orange);
 }
 
-.hero-showcase__destination div {
-  display: grid;
-  gap: 5px;
-}
-
-.hero-showcase__destination strong {
-  color: #ffffff;
-  font-size: 0.95rem;
-}
-
-.hero-showcase__destination span {
-  color: rgba(255, 255, 255, 0.68);
-  font-size: 0.78rem;
+.hero-showcase__destination-route span {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.76rem;
   line-height: 1.4;
 }
 
@@ -365,26 +416,14 @@
   }
 
   .hero-showcase {
-    min-height: 430px;
-    margin-top: 12px;
+    min-height: 0;
+    margin-top: 0;
+    place-items: start center;
   }
 
-  .hero-showcase__card {
-    left: 4px;
-    width: 198px;
-    height: 116px;
-  }
-
-  .hero-showcase__phone {
-    left: 84px;
-    width: 198px;
-    min-height: 370px;
-  }
-
-  .hero-showcase__destination {
-    right: -60px;
-    bottom: 26px;
-    width: 244px;
+  .hero-showcase__image {
+    width: 100%;
+    max-height: 290px;
   }
 }
 </style>
