@@ -56,8 +56,8 @@ import heroProductPreview from '@/assets/images/hero/ckohl-works-product-preview
 <style lang="scss" scoped>
 .hero-section {
   position: relative;
-  min-height: 690px;
-  padding: 86px 0 44px;
+  min-height: 620px;
+  padding: 70px 0 34px;
   background:
     radial-gradient(circle at 78% 16%, rgba(255, 138, 0, 0.18), transparent 30%),
     radial-gradient(circle at 28% 94%, rgba(255, 138, 0, 0.08), transparent 32%);
