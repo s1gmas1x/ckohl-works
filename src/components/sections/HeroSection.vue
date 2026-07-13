@@ -37,13 +37,17 @@
 
       <div class="hero-showcase" aria-label="CKohl Works solution preview">
         <div class="hero-showcase__card hero-showcase__card--nfc">
-          <BrandMark aria-label="CKohl Works preview" />
+          <span class="hero-showcase__monogram" aria-hidden="true"
+            >&lbrace;&lbrace; CK &rbrace;&rbrace;</span
+          >
           <q-icon name="contactless" size="24px" />
         </div>
 
         <div class="hero-showcase__phone">
           <div class="hero-showcase__phone-top"></div>
-          <BrandMark aria-label="CKohl Works mobile preview" />
+          <span class="hero-showcase__monogram" aria-hidden="true"
+            >&lbrace;&lbrace; CK &rbrace;&rbrace;</span
+          >
           <div class="hero-showcase__avatar" aria-hidden="true"></div>
           <strong>Your Business</strong>
           <span>Customer destination</span>
@@ -68,10 +72,6 @@
     </div>
   </section>
 </template>
-
-<script setup>
-import BrandMark from '@/components/ui/BrandMark.vue'
-</script>
 
 <style lang="scss" scoped>
 .hero-section {
@@ -170,7 +170,7 @@ import BrandMark from '@/components/ui/BrandMark.vue'
 
 .hero-showcase__card,
 .hero-showcase__phone,
-.hero-showcase__dashboard {
+.hero-showcase__destination {
   position: absolute;
   background: linear-gradient(145deg, rgba(21, 25, 30, 0.98), rgba(6, 9, 12, 0.98));
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -188,10 +188,6 @@ import BrandMark from '@/components/ui/BrandMark.vue'
   height: 150px;
   border-radius: 20px;
   transform: rotate(-9deg);
-}
-
-.hero-showcase__card :deep(.brand-mark) {
-  transform: scale(0.86);
 }
 
 .hero-showcase__card :deep(.q-icon) {
@@ -212,7 +208,7 @@ import BrandMark from '@/components/ui/BrandMark.vue'
   padding: 34px 20px 20px;
   border: 7px solid #06080b;
   border-radius: 36px;
-  color: var(--ckw-text-strong);
+  color: #ffffff;
   text-align: center;
   transform: rotate(8deg);
 }
@@ -226,10 +222,18 @@ import BrandMark from '@/components/ui/BrandMark.vue'
   border-radius: 0 0 12px 12px;
 }
 
-.hero-showcase__phone :deep(.brand-mark) {
-  transform: scale(0.48);
-  transform-origin: top center;
-  margin-bottom: -14px;
+.hero-showcase__monogram {
+  color: var(--ckw-orange);
+  font-size: 1rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.hero-showcase__phone .hero-showcase__monogram {
+  margin-bottom: 2px;
+  font-size: 0.62rem;
 }
 
 .hero-showcase__avatar {
@@ -245,12 +249,13 @@ import BrandMark from '@/components/ui/BrandMark.vue'
 }
 
 .hero-showcase__phone strong {
+  color: #ffffff;
   font-size: 1rem;
 }
 
 .hero-showcase__phone span,
 .hero-showcase__phone p {
-  color: var(--ckw-text-muted);
+  color: rgba(255, 255, 255, 0.72);
   font-size: 0.72rem;
 }
 
@@ -273,7 +278,7 @@ import BrandMark from '@/components/ui/BrandMark.vue'
   background: rgba(255, 255, 255, 0.055);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 8px;
-  color: var(--ckw-text-strong);
+  color: rgba(255, 255, 255, 0.88);
 }
 
 .hero-showcase__phone-actions span {
@@ -284,7 +289,7 @@ import BrandMark from '@/components/ui/BrandMark.vue'
   width: 100%;
   margin-top: 7px;
   padding: 10px 12px;
-  color: var(--ckw-text-muted);
+  color: rgba(255, 255, 255, 0.72);
   font-size: 0.72rem;
   text-align: left;
 }
@@ -294,8 +299,9 @@ import BrandMark from '@/components/ui/BrandMark.vue'
   grid-template-columns: auto 1fr;
   gap: 12px;
   align-items: start;
+  z-index: 3;
   right: -8px;
-  bottom: 52px;
+  bottom: 34px;
   width: 304px;
   padding: 20px;
   border-radius: 12px;
@@ -312,12 +318,12 @@ import BrandMark from '@/components/ui/BrandMark.vue'
 }
 
 .hero-showcase__destination strong {
-  color: var(--ckw-text-strong);
+  color: #ffffff;
   font-size: 0.95rem;
 }
 
 .hero-showcase__destination span {
-  color: var(--ckw-text-muted);
+  color: rgba(255, 255, 255, 0.68);
   font-size: 0.78rem;
   line-height: 1.4;
 }
