@@ -57,14 +57,12 @@
           <div class="hero-showcase__phone-row">Get Directions</div>
         </div>
 
-        <div class="hero-showcase__dashboard">
-          <span>Example customer journey</span>
-          <div class="hero-showcase__metrics">
-            <strong>1,248</strong>
-            <strong>842</strong>
-            <strong>128</strong>
+        <div class="hero-showcase__destination">
+          <q-icon name="ads_click" size="24px" />
+          <div>
+            <strong>One useful destination</strong>
+            <span>Menu, directions, reviews, and contact in one place.</span>
           </div>
-          <div class="hero-showcase__chart" aria-hidden="true"></div>
         </div>
       </div>
     </div>
@@ -291,60 +289,37 @@ import BrandMark from '@/components/ui/BrandMark.vue'
   text-align: left;
 }
 
-.hero-showcase__dashboard {
-  right: -8px;
-  bottom: 40px;
-  width: 340px;
-  min-height: 245px;
-  padding: 24px;
-  border-radius: 16px;
-  transform: perspective(800px) rotateY(-11deg) rotateZ(-4deg);
-}
-
-.hero-showcase__dashboard span {
-  color: var(--ckw-text-primary);
-  font-weight: 800;
-}
-
-.hero-showcase__metrics {
+.hero-showcase__destination {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 9px;
-  margin: 18px 0;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  align-items: start;
+  right: -8px;
+  bottom: 52px;
+  width: 304px;
+  padding: 20px;
+  border-radius: 12px;
+  transform: rotate(-4deg);
 }
 
-.hero-showcase__metrics strong {
-  padding: 12px 8px;
-  background: rgba(255, 255, 255, 0.045);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 8px;
+.hero-showcase__destination :deep(.q-icon) {
+  color: var(--ckw-orange);
+}
+
+.hero-showcase__destination div {
+  display: grid;
+  gap: 5px;
+}
+
+.hero-showcase__destination strong {
   color: var(--ckw-text-strong);
-  font-size: 1.1rem;
+  font-size: 0.95rem;
 }
 
-.hero-showcase__chart {
-  height: 96px;
-  background:
-    linear-gradient(
-      135deg,
-      transparent 8%,
-      rgba(255, 138, 0, 0.85) 8% 10%,
-      transparent 10% 22%,
-      rgba(255, 138, 0, 0.85) 22% 24%,
-      transparent 24% 40%,
-      rgba(255, 138, 0, 0.85) 40% 42%,
-      transparent 42% 58%,
-      rgba(255, 138, 0, 0.85) 58% 60%,
-      transparent 60% 76%,
-      rgba(255, 138, 0, 0.85) 76% 78%,
-      transparent 78%
-    ),
-    linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
-  background-size:
-    100% 100%,
-    100% 24px;
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 10px;
+.hero-showcase__destination span {
+  color: var(--ckw-text-muted);
+  font-size: 0.78rem;
+  line-height: 1.4;
 }
 
 @media (max-width: 1080px) {
@@ -400,10 +375,10 @@ import BrandMark from '@/components/ui/BrandMark.vue'
     min-height: 370px;
   }
 
-  .hero-showcase__dashboard {
+  .hero-showcase__destination {
     right: -60px;
     bottom: 26px;
-    width: 260px;
+    width: 244px;
   }
 }
 </style>

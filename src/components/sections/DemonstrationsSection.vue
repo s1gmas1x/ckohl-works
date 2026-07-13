@@ -43,7 +43,7 @@ import SectionHeading from '@/components/ui/SectionHeading.vue'
 <style lang="scss" scoped>
 .demo-card {
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.9fr);
   overflow: hidden;
   background: var(--ckw-surface-raised);
   border: 1px solid var(--ckw-border);
@@ -57,7 +57,7 @@ import SectionHeading from '@/components/ui/SectionHeading.vue'
   height: 100%;
   min-height: 340px;
   object-fit: cover;
-  object-position: 68% center;
+  object-position: 84% center;
 }
 
 .demo-card__content {

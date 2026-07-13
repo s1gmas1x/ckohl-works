@@ -78,17 +78,14 @@ import SectionHeading from '@/components/ui/SectionHeading.vue'
 }
 .nfc-qr-section__details {
   display: grid;
-  gap: 14px;
+  gap: 0;
 }
 .nfc-qr-section__details article {
   display: grid;
   grid-template-columns: auto 1fr;
   column-gap: 16px;
-  padding: 20px;
-  background: var(--ckw-surface-raised);
-  border: 1px solid var(--ckw-border);
-  border-radius: 8px;
-  box-shadow: var(--ckw-card-shadow);
+  padding: 18px 0;
+  border-bottom: 1px solid var(--ckw-border);
 }
 .nfc-qr-section__details :deep(.q-icon) {
   grid-row: span 2;
@@ -108,7 +105,7 @@ import SectionHeading from '@/components/ui/SectionHeading.vue'
   line-height: 1.55;
 }
 .nfc-qr-section__note {
-  margin: 4px 0 0;
+  margin: 16px 0 0;
   font-size: 0.9rem;
 }
 @media (max-width: 860px) {
