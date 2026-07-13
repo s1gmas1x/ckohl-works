@@ -43,7 +43,7 @@ const rightBraces = '}}'
   gap: 7px;
   color: var(--ckw-text-strong);
   font-family: 'Orbitron', var(--ckw-font-body);
-  font-size: 1.72rem;
+  font-size: 1.95rem;
   font-weight: 500;
   letter-spacing: 0;
   line-height: 1;
@@ -56,7 +56,7 @@ const rightBraces = '}}'
 
 .brand-mark__sigil strong {
   color: var(--ckw-text-strong);
-  font-size: 1.4rem;
+  font-size: 1.58rem;
   font-weight: 500;
 }
 
@@ -65,7 +65,7 @@ const rightBraces = '}}'
   gap: 15px;
   color: var(--ckw-text-strong);
   font-family: 'Orbitron', var(--ckw-font-body);
-  font-size: 0.64rem;
+  font-size: 0.7rem;
   font-weight: 500;
   letter-spacing: 0.3em;
   line-height: 1;
@@ -79,16 +79,16 @@ const rightBraces = '}}'
 @media (max-width: 600px) {
   .brand-mark__sigil {
     gap: 5px;
-    font-size: 1.42rem;
+    font-size: 1.58rem;
   }
 
   .brand-mark__sigil strong {
-    font-size: 1.14rem;
+    font-size: 1.28rem;
   }
 
   .brand-mark__wordmark {
     gap: 10px;
-    font-size: 0.52rem;
+    font-size: 0.57rem;
     letter-spacing: 0.32em;
   }
 }
