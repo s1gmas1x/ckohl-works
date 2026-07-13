@@ -15,15 +15,15 @@
               unelevated
               no-caps
               color="primary"
-              label="View Menu"
+              label="View Sample Menu"
               href="#menu"
               class="ckw-btn ckw-btn--primary"
             />
             <q-btn
               outline
               no-caps
-              label="Find a Location"
-              href="#locations"
+              label="See the Card Flow"
+              href="#demo-flow"
               class="ckw-btn ckw-btn--outline"
             />
           </div>
@@ -45,10 +45,19 @@
     <section id="menu" class="margots-section">
       <div class="margots-container">
         <p class="margots-kicker">Signature Pizzas</p>
-        <h2 class="margots-heading">A menu that works on the phone in front of the customer.</h2>
+        <h2 class="margots-heading">
+          A menu preview built for the phone in front of the customer.
+        </h2>
+        <p class="margots-menu-note">Sample items and prices for this restaurant demonstration.</p>
         <div class="margots-menu-grid">
           <article v-for="pizza in pizzas" :key="pizza.name">
-            <div class="pizza-card__image" :class="pizza.variant"></div>
+            <div
+              class="pizza-card__image"
+              :class="pizza.variant"
+              :style="{ '--pizza-image': `url(${menuPreviewImage})` }"
+              role="img"
+              :aria-label="pizza.imageAlt"
+            ></div>
             <h3>{{ pizza.name }}</h3>
             <p>{{ pizza.description }}</p>
             <strong>{{ pizza.price }}</strong>
@@ -57,15 +66,14 @@
       </div>
     </section>
 
-    <section id="locations" class="margots-section margots-location">
+    <section id="demo-destinations" class="margots-section margots-location">
       <div class="margots-container margots-location__grid">
         <div>
-          <p class="margots-kicker">Find Margot's</p>
-          <h2 class="margots-heading">Good pizza should be easy to find.</h2>
+          <p class="margots-kicker">Configured Destinations</p>
+          <h2 class="margots-heading">One card can guide a customer to the useful next step.</h2>
           <p>
-            Colorado Springs, CO<br />Classic restaurant recreation<br /><span
-              >Demo location only</span
-            >
+            This demo would connect a customer to a restaurant's menu, directions, review request,
+            or catering inquiry.<br /><span>Destinations are illustrative and not live.</span>
           </p>
         </div>
         <div class="margots-location__actions">
@@ -73,23 +81,23 @@
             unelevated
             no-caps
             color="primary"
-            label="Get Directions"
-            href="#locations"
+            label="Back to Menu"
+            href="#menu"
             class="ckw-btn ckw-btn--primary"
           /><q-btn
             outline
             no-caps
-            label="Read Reviews"
-            href="#reviews"
+            label="See the Demo Flow"
+            href="#demo-flow"
             class="ckw-btn ckw-btn--outline"
           />
         </div>
       </div>
     </section>
 
-    <section id="reviews" class="margots-section margots-review">
+    <section id="demo-flow" class="margots-section margots-review">
       <div class="margots-container">
-        <p class="margots-kicker">Customer Experience Demo</p>
+        <p class="margots-kicker">NFC / QR Demonstration</p>
         <h2 class="margots-heading">
           Menu, directions, reviews, and contact can all begin with one tap or scan.
         </h2>
@@ -104,6 +112,7 @@
 
 <script setup>
 import heroImage from '@/assets/images/mockup/margots-pizza-hero.png'
+import menuPreviewImage from '@/assets/images/mockup/margots-pizza-mockup.png'
 
 const actions = [
   {
@@ -125,24 +134,28 @@ const pizzas = [
     description: 'Pepperoni, mozzarella, and house sauce.',
     price: '$17',
     variant: 'pizza-card__image--pepperoni',
+    imageAlt: 'Thin deck pepperoni pizza with sauce near the edge and cupped pepperoni',
   },
   {
     name: 'The Classic',
     description: 'Sausage, mozzarella, and house sauce.',
     price: '$17',
     variant: 'pizza-card__image--sausage',
+    imageAlt: 'Thin deck sausage pizza with a crisp, lightly blistered edge',
   },
   {
     name: 'The Deluxe',
     description: 'Pepperoni, sausage, green pepper, and mozzarella.',
     price: '$19',
     variant: 'pizza-card__image--deluxe',
+    imageAlt: 'Thin deck deluxe pizza with pepperoni, sausage, green pepper, and cheese',
   },
   {
     name: 'The Cheese',
     description: 'House sauce and mozzarella.',
     price: '$15',
     variant: 'pizza-card__image--cheese',
+    imageAlt: 'Thin deck cheese pizza with sauce and browned mozzarella',
   },
 ]
 </script>
@@ -257,17 +270,26 @@ const pizzas = [
 }
 .pizza-card__image {
   aspect-ratio: 1.35;
-  background: radial-gradient(circle at 50% 50%, #e9aa42 0 38%, #9d351e 39% 54%, #4b1712 55%);
+  background-color: #1a0808;
+  background-image: var(--pizza-image);
+  background-repeat: no-repeat;
+  background-size: 450% auto;
+  background-position: 4.5% 46.7%;
   border: 1px solid rgba(217, 168, 59, 0.4);
 }
 .pizza-card__image--sausage {
-  filter: hue-rotate(12deg);
+  background-position: 34.4% 46.7%;
 }
 .pizza-card__image--deluxe {
-  filter: saturate(1.4) hue-rotate(-10deg);
+  background-position: 64.9% 46.7%;
 }
 .pizza-card__image--cheese {
-  filter: sepia(0.35) brightness(1.1);
+  background-position: 95.1% 46.7%;
+}
+.margots-menu-note {
+  margin: -2px 0 24px;
+  color: #c7a96c;
+  line-height: 1.5;
 }
 .margots-menu-grid strong {
   display: block;
