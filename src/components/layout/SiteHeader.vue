@@ -29,6 +29,7 @@
       />
 
       <q-btn
+        v-if="showThemeToggle"
         flat
         dense
         round
@@ -64,6 +65,10 @@ defineProps({
   theme: {
     type: String,
     required: true,
+  },
+  showThemeToggle: {
+    type: Boolean,
+    default: true,
   },
 })
 

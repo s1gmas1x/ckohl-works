@@ -1,7 +1,8 @@
 <template>
   <q-layout view="lHh lpR fFf">
     <SiteHeader
-      :theme="theme"
+      :theme="displayTheme"
+      :show-theme-toggle="!isMargotsPage"
       @toggle-drawer="rightDrawerOpen = !rightDrawerOpen"
       @toggle-theme="toggleTheme"
     />
@@ -38,13 +39,17 @@
 </template>
 
 <script setup>
-import { nextTick, ref } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import SiteHeader from '@/components/layout/SiteHeader.vue'
 
 const HEADER_SCROLL_OFFSET = 92
 const THEME_STORAGE_KEY = 'ckohl-works-theme'
 const rightDrawerOpen = ref(false)
 const theme = ref(getInitialTheme())
+const route = useRoute()
+const isMargotsPage = computed(() => route.path === '/margots-pizza')
+const displayTheme = computed(() => (isMargotsPage.value ? 'dark' : theme.value))
 
 const drawerItems = [
   { label: 'Solutions', id: 'solutions' },
@@ -61,9 +66,16 @@ function getInitialTheme() {
 function toggleTheme() {
   theme.value = theme.value === 'dark' ? 'light' : 'dark'
 
-  document.documentElement.dataset.theme = theme.value
-  document.documentElement.style.colorScheme = theme.value
   window.localStorage.setItem(THEME_STORAGE_KEY, theme.value)
+}
+
+watch(displayTheme, applyTheme, { immediate: true })
+
+function applyTheme(activeTheme) {
+  if (typeof document === 'undefined') return
+
+  document.documentElement.dataset.theme = activeTheme
+  document.documentElement.style.colorScheme = activeTheme
 }
 
 async function handleDrawerNavigation(sectionId) {
