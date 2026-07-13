@@ -1,9 +1,9 @@
 <template>
   <RouterLink :to="to" class="brand-mark" :aria-label="ariaLabel">
     <span class="brand-mark__sigil" aria-hidden="true">
-      <span>{{ leftBrace }}</span>
+      <span>{{ leftBraces }}</span>
       <strong>CK</strong>
-      <span>{{ rightBrace }}</span>
+      <span>{{ rightBraces }}</span>
     </span>
     <span class="brand-mark__wordmark">
       <span>C K O H L</span>
@@ -24,8 +24,8 @@ defineProps({
   },
 })
 
-const leftBrace = '{{'
-const rightBrace = '}}'
+const leftBraces = '{{'
+const rightBraces = '}}'
 </script>
 
 <style lang="scss" scoped>
@@ -40,31 +40,34 @@ const rightBrace = '}}'
 .brand-mark__sigil {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  font-size: 2rem;
-  font-weight: 800;
+  gap: 7px;
+  color: var(--ckw-text-strong);
+  font-family: 'Orbitron', var(--ckw-font-body);
+  font-size: 1.72rem;
+  font-weight: 500;
   letter-spacing: 0;
   line-height: 1;
 }
 
 .brand-mark__sigil span {
   color: var(--ckw-orange);
-  font-weight: 900;
+  font-weight: 500;
 }
 
 .brand-mark__sigil strong {
   color: var(--ckw-text-strong);
-  font-size: 1.6rem;
-  font-weight: 750;
+  font-size: 1.4rem;
+  font-weight: 500;
 }
 
 .brand-mark__wordmark {
   display: flex;
   gap: 15px;
   color: var(--ckw-text-strong);
+  font-family: 'Orbitron', var(--ckw-font-body);
   font-size: 0.64rem;
-  font-weight: 700;
-  letter-spacing: 0.42em;
+  font-weight: 500;
+  letter-spacing: 0.3em;
   line-height: 1;
   text-transform: uppercase;
 }
@@ -75,12 +78,12 @@ const rightBrace = '}}'
 
 @media (max-width: 600px) {
   .brand-mark__sigil {
-    gap: 6px;
-    font-size: 1.55rem;
+    gap: 5px;
+    font-size: 1.42rem;
   }
 
   .brand-mark__sigil strong {
-    font-size: 1.28rem;
+    font-size: 1.14rem;
   }
 
   .brand-mark__wordmark {

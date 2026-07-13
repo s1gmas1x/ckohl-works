@@ -104,7 +104,7 @@ import heroProductPreview from '@/assets/images/hero/ckohl-works-product-preview
 .hero-section h1 {
   margin: 0;
   color: var(--ckw-text-strong);
-  font-size: clamp(3.2rem, 6vw, 5.65rem);
+  font-size: clamp(2.75rem, 4.2vw, 4.5rem);
   font-weight: 850;
   letter-spacing: 0;
   line-height: 1.03;

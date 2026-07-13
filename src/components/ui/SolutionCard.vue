@@ -108,8 +108,8 @@ defineProps({
 
 .solution-card p {
   color: var(--ckw-text-muted);
-  font-size: 0.92rem;
-  line-height: 1.55;
+  font-size: 0.96rem;
+  line-height: 1.6;
 }
 
 .solution-card__link {

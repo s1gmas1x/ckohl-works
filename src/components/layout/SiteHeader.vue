@@ -132,7 +132,8 @@ async function scrollToSection(sectionId) {
   min-height: 38px;
   padding: 0 10px;
   color: var(--ckw-text-strong);
-  font-size: 0.9rem;
+  font-family: var(--ckw-font-heading);
+  font-size: 0.95rem;
   font-weight: 700;
 }
 

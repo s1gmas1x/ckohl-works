@@ -93,8 +93,8 @@ const year = new Date().getFullYear()
 .site-footer__links a,
 .site-footer__links small {
   color: var(--ckw-text-muted);
-  font-size: 0.9rem;
-  line-height: 1.35;
+  font-size: 0.95rem;
+  line-height: 1.45;
   text-decoration: none;
 }
 

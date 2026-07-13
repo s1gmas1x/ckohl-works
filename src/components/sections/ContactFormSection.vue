@@ -5,10 +5,14 @@
         align="left"
         eyebrow="Request a Quote"
         title="Tell us what you need customers to do next."
-        description="Share the basics and we will follow up with a practical starting point."
+        description="Share the basics and prepare an email request we can follow up on."
       />
 
-      <q-form class="contact-form" @submit="submitRequest">
+      <q-form class="contact-form" aria-describedby="contact-form-note" @submit="submitRequest">
+        <p id="contact-form-note" class="contact-form__note">
+          This form prepares an email in your mail app. No information is sent until you send that
+          email.
+        </p>
         <div class="contact-form__fields">
           <q-input v-model.trim="form.name" outlined label="Your name" :rules="[requiredRule]" />
           <q-input
@@ -41,7 +45,13 @@
           />
         </div>
 
-        <q-banner v-if="submitted" class="contact-form__confirmation" rounded>
+        <q-banner
+          v-if="submitted"
+          class="contact-form__confirmation"
+          rounded
+          role="status"
+          aria-live="polite"
+        >
           Your email app should open with your request ready to send. If it does not, email us at
           chad_kohl@ckohl.com.
         </q-banner>
@@ -50,11 +60,14 @@
           unelevated
           no-caps
           color="primary"
-          icon-right="arrow_forward"
-          label="Prepare My Request"
+          icon-right="mail_outline"
+          label="Prepare Email Request"
           type="submit"
           class="ckw-btn ckw-btn--primary"
         />
+        <a class="contact-form__email-link" href="mailto:chad_kohl@ckohl.com">
+          Prefer email? chad_kohl@ckohl.com
+        </a>
       </q-form>
     </div>
   </section>
@@ -114,6 +127,12 @@ function submitRequest() {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
 }
+.contact-form__note {
+  margin: 0;
+  color: var(--ckw-text-muted);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
 .contact-form__details {
   grid-column: 1 / -1;
 }
@@ -122,6 +141,16 @@ function submitRequest() {
   background: var(--ckw-surface-subtle);
   border: 1px solid var(--ckw-border);
   line-height: 1.5;
+}
+.contact-form__email-link {
+  color: var(--ckw-text-primary);
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration-color: var(--ckw-orange);
+  text-underline-offset: 3px;
+}
+:deep(.q-field__control) {
+  min-height: 54px;
 }
 :deep(.q-field__label),
 :deep(.q-field__native),

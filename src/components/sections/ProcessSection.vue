@@ -84,8 +84,8 @@ import SectionHeading from '@/components/ui/SectionHeading.vue'
 
 .process-step p {
   color: var(--ckw-text-muted);
-  font-size: 0.9rem;
-  line-height: 1.45;
+  font-size: 0.95rem;
+  line-height: 1.55;
 }
 
 @media (max-width: 900px) {
