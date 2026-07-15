@@ -91,7 +91,7 @@ import heroProductPreview from '@/assets/images/hero/margots-tap-scan-preview-re
 .hero-section__grid {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 0.82fr) minmax(540px, 1.18fr);
+  grid-template-columns: minmax(500px, 0.86fr) minmax(540px, 1.14fr);
   gap: 38px;
   align-items: center;
 }
@@ -183,7 +183,12 @@ import heroProductPreview from '@/assets/images/hero/margots-tap-scan-preview-re
   max-height: 570px;
   object-fit: contain;
 }
-@media (max-width: 880px) {
+@media (min-width: 1101px) {
+  .hero-section__title-line--desktop {
+    white-space: nowrap;
+  }
+}
+@media (max-width: 1100px) {
   .hero-section__grid {
     grid-template-columns: 1fr;
   }
