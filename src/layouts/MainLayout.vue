@@ -3,11 +3,15 @@
     <SiteHeader
       :theme="displayTheme"
       :show-theme-toggle="!isMargotsPage"
+      :show-navigation="!isContactCardPage"
+      :show-contact-cta="!isContactCardPage"
+      :show-menu="!isContactCardPage"
       @toggle-drawer="rightDrawerOpen = !rightDrawerOpen"
       @toggle-theme="toggleTheme"
     />
 
     <q-drawer
+      v-if="!isContactCardPage"
       v-model="rightDrawerOpen"
       side="right"
       overlay
@@ -49,6 +53,7 @@ const rightDrawerOpen = ref(false)
 const theme = ref(getInitialTheme())
 const route = useRoute()
 const isMargotsPage = computed(() => route.path === '/margots-pizza')
+const isContactCardPage = computed(() => route.path.startsWith('/card/'))
 const displayTheme = computed(() => (isMargotsPage.value ? 'dark' : theme.value))
 
 const drawerItems = [
