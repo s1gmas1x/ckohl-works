@@ -1,6 +1,7 @@
 <template>
   <q-layout view="lHh lpR fFf">
     <SiteHeader
+      v-if="!isMargotsPage"
       :theme="displayTheme"
       :show-theme-toggle="!isMargotsPage"
       :show-navigation="!isContactCardPage"
@@ -11,7 +12,7 @@
     />
 
     <q-drawer
-      v-if="!isContactCardPage"
+      v-if="!isMargotsPage && !isContactCardPage"
       v-model="rightDrawerOpen"
       side="right"
       overlay
