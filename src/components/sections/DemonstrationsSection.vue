@@ -77,9 +77,9 @@ import SectionHeading from '@/components/ui/SectionHeading.vue'
   grid-template-columns: minmax(0, 1fr) minmax(320px, 0.9fr);
   overflow: hidden;
   background: var(--ckw-surface-raised);
-  border: 1px solid var(--ckw-border);
+  border: 1px solid var(--ckw-border-strong);
   border-radius: 8px;
-  box-shadow: var(--ckw-card-shadow);
+  box-shadow: 0 18px 42px rgba(8, 12, 18, 0.14);
 }
 .demo-card + .demo-card {
   margin-top: 24px;
@@ -98,8 +98,8 @@ import SectionHeading from '@/components/ui/SectionHeading.vue'
   display: grid;
   align-content: center;
   justify-items: start;
-  gap: 18px;
-  padding: 42px;
+  gap: 16px;
+  padding: 44px;
 }
 
 .demo-card__content p,
@@ -108,10 +108,10 @@ import SectionHeading from '@/components/ui/SectionHeading.vue'
 }
 
 .demo-card__eyebrow {
-  color: var(--ckw-orange);
+  color: var(--ckw-text-muted);
   font-size: 0.76rem;
   font-weight: 800;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.09em;
   text-transform: uppercase;
 }
 
@@ -136,9 +136,7 @@ import SectionHeading from '@/components/ui/SectionHeading.vue'
   justify-items: center;
   min-height: 340px;
   padding: 34px;
-  background:
-    radial-gradient(circle at 78% 16%, rgba(249, 156, 30, 0.12), transparent 29%),
-    var(--ckw-surface-panel-gradient);
+  background: var(--ckw-surface-subtle);
   color: var(--ckw-text-primary);
   text-align: center;
 }
@@ -150,7 +148,7 @@ import SectionHeading from '@/components/ui/SectionHeading.vue'
 }
 
 .contact-preview__eyebrow {
-  color: var(--ckw-orange);
+  color: var(--ckw-text-muted);
   font-size: 0.72rem;
   font-weight: 800;
   letter-spacing: 0.09em;

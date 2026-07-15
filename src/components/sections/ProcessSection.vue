@@ -45,7 +45,10 @@ import SectionHeading from '@/components/ui/SectionHeading.vue'
 
 <style lang="scss" scoped>
 .process-section {
+  position: relative;
   background: var(--ckw-surface);
+  border-top: 1px solid var(--ckw-border);
+  border-bottom: 1px solid var(--ckw-border);
 }
 .process-section__steps {
   display: grid;
@@ -54,7 +57,7 @@ import SectionHeading from '@/components/ui/SectionHeading.vue'
 }
 .process-step {
   position: relative;
-  padding: 24px 18px;
+  padding: 20px 16px 22px;
   border-top: 2px solid var(--ckw-orange);
 }
 .process-step__number {
@@ -84,7 +87,7 @@ import SectionHeading from '@/components/ui/SectionHeading.vue'
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1px;
-  margin-top: 42px;
+  margin-top: 48px;
   overflow: hidden;
   background: var(--ckw-border-strong);
   border: 1px solid var(--ckw-border-strong);
@@ -96,7 +99,7 @@ import SectionHeading from '@/components/ui/SectionHeading.vue'
 }
 .destination-compare__managed {
   background:
-    linear-gradient(145deg, rgba(249, 156, 30, 0.14), transparent 60%), var(--ckw-surface-raised) !important;
+    linear-gradient(145deg, rgba(249, 156, 30, 0.09), transparent 60%), var(--ckw-surface-raised) !important;
 }
 .destination-compare__label,
 .destination-compare h3,
@@ -121,6 +124,9 @@ import SectionHeading from '@/components/ui/SectionHeading.vue'
   line-height: 1.6;
 }
 @media (max-width: 760px) {
+  .process-section {
+    padding-top: 18px;
+  }
   .process-section__steps,
   .destination-compare {
     grid-template-columns: 1fr;

@@ -28,7 +28,7 @@
 
 <style lang="scss" scoped>
 .cta-section {
-  padding-top: 40px;
+  padding-top: 54px;
 }
 
 .cta-section__panel {
@@ -37,12 +37,10 @@
   gap: 32px;
   align-items: center;
   padding: 34px 46px;
-  background:
-    radial-gradient(circle at 78% 82%, rgba(255, 138, 0, 0.36), transparent 28%),
-    var(--ckw-surface-panel-gradient), var(--ckw-surface-raised);
+  background: var(--ckw-surface-raised);
   border: 1px solid var(--ckw-border-strong);
   border-radius: 12px;
-  box-shadow: var(--ckw-card-shadow);
+  box-shadow: 0 16px 36px rgba(8, 12, 18, 0.1);
 }
 
 .cta-section__eyebrow,
@@ -53,7 +51,7 @@
 
 .cta-section__eyebrow {
   margin-bottom: 8px;
-  color: var(--ckw-orange);
+  color: var(--ckw-text-muted);
   font-size: 0.76rem;
   font-weight: 800;
   letter-spacing: 0.12em;

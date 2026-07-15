@@ -40,8 +40,8 @@ defineProps({
 .section-heading {
   display: grid;
   gap: 10px;
-  max-width: 760px;
-  margin: 0 auto 32px;
+  max-width: 700px;
+  margin: 0 auto 38px;
 }
 
 .section-heading--left {
@@ -56,24 +56,24 @@ defineProps({
 
 .section-heading__eyebrow {
   margin: 0;
-  color: var(--ckw-orange);
+  color: var(--ckw-text-muted);
   font-size: 0.74rem;
   font-weight: 800;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
 .section-heading__title {
   margin: 0;
   color: var(--ckw-text-strong);
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-size: clamp(1.9rem, 3.25vw, 2.6rem);
   font-weight: 800;
   letter-spacing: 0;
-  line-height: 1.08;
+  line-height: 1.12;
 }
 
 .section-heading__description {
-  max-width: 660px;
+  max-width: 620px;
   margin: 0 auto;
   color: var(--ckw-text-muted);
   font-size: 1rem;
@@ -86,11 +86,11 @@ defineProps({
 
 @media (max-width: 640px) {
   .section-heading {
-    margin-bottom: 24px;
+    margin-bottom: 28px;
   }
 
   .section-heading__title {
-    font-size: 1.9rem;
+    font-size: 1.78rem;
   }
 }
 </style>

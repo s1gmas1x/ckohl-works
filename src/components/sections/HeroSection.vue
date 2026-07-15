@@ -60,24 +60,38 @@
       </div>
 
       <div class="hero-showcase" aria-label="Ckohl Works physical-to-mobile destination preview">
-        <img
-          :src="heroProductPreview"
-          alt="A Margot's Pizza NFC and QR card beside the mobile menu destination it opens"
-          class="hero-showcase__image"
-        />
+        <p class="hero-showcase__direction" aria-hidden="true">Tap or scan</p>
+        <picture class="hero-showcase__card">
+          <source :srcset="contactCardFront" type="image/svg+xml" />
+          <img :src="contactCardFrontFallback" alt="Ckohl Works NFC and QR contact card" />
+        </picture>
+        <div class="hero-showcase__phone">
+          <div class="hero-showcase__phone-content">
+            <div class="hero-showcase__phone-mark" aria-hidden="true">CK</div>
+            <p>Chad Kohl</p>
+            <span>Full-Stack Developer at Ckohl Works</span>
+            <div aria-label="Example customer actions" class="hero-showcase__phone-actions">
+              <span>Call</span>
+              <span>Email</span>
+              <span>Portfolio</span>
+              <span>Save</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 </template>
 
 <script setup>
-import heroProductPreview from '@/assets/images/hero/margots-tap-scan-preview-refined.png'
+import contactCardFront from '@/assets/images/hero/ckohl-works-contact-card-front-nfc-paths.svg'
+import contactCardFrontFallback from '@/assets/images/hero/ckohl-works-contact-card-front-nfc-paths.png'
 </script>
 
 <style lang="scss" scoped>
 .hero-section {
   position: relative;
-  padding: 34px 0 40px;
+  padding: 34px 0 0;
   overflow: hidden;
 }
 .hero-section::before {
@@ -168,20 +182,114 @@ import heroProductPreview from '@/assets/images/hero/margots-tap-scan-preview-re
 }
 .hero-showcase {
   position: relative;
-  display: grid;
-  overflow: hidden;
-  padding: 1px;
-  border: 1px solid color-mix(in srgb, var(--ckw-border-strong) 72%, transparent);
-  border-radius: 10px;
-  background: var(--ckw-surface);
-  box-shadow: 0 18px 38px rgba(8, 12, 18, 0.16);
-  place-items: center;
+  min-height: 474px;
 }
-.hero-showcase__image {
+.hero-showcase__direction {
+  position: absolute;
+  z-index: 2;
+  top: 22px;
+  left: 3%;
+  margin: 0;
+  color: var(--ckw-text-muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.hero-showcase__card {
+  position: absolute;
+  z-index: 2;
+  top: 76px;
+  left: 0;
+  width: 52%;
+  max-width: 320px;
+  box-shadow: 0 20px 36px rgba(0, 0, 0, 0.36);
+  transform: rotate(-5deg);
+}
+.hero-showcase__card img {
   display: block;
   width: 100%;
-  max-height: 570px;
-  object-fit: contain;
+  border-radius: 5px;
+}
+.hero-showcase__phone {
+  position: absolute;
+  top: 42px;
+  right: 7%;
+  bottom: 0;
+  width: min(48%, 286px);
+  overflow: hidden;
+  border: 7px solid #151a20;
+  border-bottom: 0;
+  border-radius: 28px 28px 0 0;
+  background: #151a20;
+  box-shadow: 0 -2px 0 rgba(255, 255, 255, 0.08), 0 20px 38px rgba(0, 0, 0, 0.42);
+}
+.hero-showcase__phone::before {
+  position: absolute;
+  z-index: 2;
+  top: 8px;
+  left: 50%;
+  width: 34%;
+  height: 7px;
+  border-radius: 999px;
+  background: #151a20;
+  content: '';
+  transform: translateX(-50%);
+}
+.hero-showcase__phone-content {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 6px;
+  padding: 28px 12px 16px;
+  background:
+    radial-gradient(circle at 50% 26%, rgba(249, 156, 30, 0.16), transparent 28%),
+    #0a0e12;
+  color: #ffffff;
+  text-align: center;
+}
+.hero-showcase__phone-content p,
+.hero-showcase__phone-content > span {
+  margin: 0;
+}
+.hero-showcase__phone-content p {
+  color: #ffffff;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+.hero-showcase__phone-content > span {
+  color: #b8c1cb;
+  font-size: 0.6rem;
+}
+.hero-showcase__phone-mark {
+  display: grid;
+  width: 42px;
+  aspect-ratio: 1;
+  margin-bottom: 4px;
+  border: 1px solid rgba(249, 156, 30, 0.72);
+  border-radius: 50%;
+  color: var(--ckw-orange);
+  font-family: 'Orbitron', var(--ckw-font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  place-items: center;
+}
+.hero-showcase__phone-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 5px;
+  width: 100%;
+  margin-top: 12px;
+}
+.hero-showcase__phone-actions span {
+  padding: 6px 3px;
+  border: 1px solid rgba(249, 156, 30, 0.45);
+  color: #ffffff;
+  font-size: 0.58rem;
+  font-weight: 700;
+  text-align: center;
 }
 @media (min-width: 1101px) {
   .hero-section__title-line--desktop {
@@ -197,11 +305,12 @@ import heroProductPreview from '@/assets/images/hero/margots-tap-scan-preview-re
   }
   .hero-showcase {
     max-width: 620px;
+    width: 100%;
   }
 }
 @media (max-width: 560px) {
   .hero-section {
-    padding: 30px 0 38px;
+    padding: 30px 0 0;
   }
   .hero-section__copy {
     gap: 18px;
@@ -225,8 +334,24 @@ import heroProductPreview from '@/assets/images/hero/margots-tap-scan-preview-re
   .hero-section__actions {
     display: grid;
   }
-  .hero-showcase__image {
-    max-height: none;
+  .hero-showcase {
+    min-height: min(108vw, 420px);
+  }
+  .hero-showcase__direction {
+    top: 12px;
+    left: 2%;
+    font-size: 0.65rem;
+  }
+  .hero-showcase__card {
+    top: 88px;
+    left: 3%;
+    width: 49%;
+  }
+  .hero-showcase__phone {
+    top: 22px;
+    right: 4%;
+    bottom: 0;
+    width: 52%;
   }
 }
 </style>
