@@ -46,13 +46,11 @@ defineProps({
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 12px;
-  background:
-    linear-gradient(145deg, rgba(255, 138, 0, 0.11), rgba(255, 138, 0, 0) 36%),
-    var(--ckw-surface-raised);
+  padding: 10px;
+  background: var(--ckw-surface-raised);
   border-color: var(--ckw-border);
   border-radius: 8px;
-  box-shadow: var(--ckw-card-shadow);
+  box-shadow: 0 12px 28px rgba(8, 12, 18, 0.08);
   overflow: hidden;
 }
 
@@ -60,11 +58,9 @@ defineProps({
   position: relative;
   display: grid;
   place-items: center;
-  min-height: 148px;
-  background:
-    radial-gradient(circle at 50% 20%, rgba(255, 138, 0, 0.28), transparent 32%),
-    var(--ckw-surface-visual-gradient);
-  border: 1px solid var(--ckw-visual-border);
+  min-height: 122px;
+  background: var(--ckw-surface-subtle);
+  border: 0;
   border-radius: 7px;
   color: var(--ckw-orange);
   overflow: hidden;
@@ -73,25 +69,22 @@ defineProps({
 .solution-card__visual::before {
   content: '';
   position: absolute;
-  inset: 16px;
-  background-image:
-    linear-gradient(var(--ckw-grid-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--ckw-grid-line) 1px, transparent 1px);
-  background-size: 24px 24px;
-  mask-image: radial-gradient(circle, #000 0 48%, transparent 74%);
+  inset: 20px 28px;
+  border: 1px solid var(--ckw-grid-line);
+  border-radius: 6px;
 }
 
 .solution-card__visual :deep(.q-icon) {
   position: relative;
   z-index: 1;
-  filter: drop-shadow(0 0 18px var(--ckw-icon-shadow));
+  filter: none;
 }
 
 .solution-card :deep(.q-card__section) {
   display: grid;
   gap: 10px;
   flex: 1;
-  padding: 18px 4px 4px;
+  padding: 18px 6px 6px;
 }
 
 .solution-card h3,

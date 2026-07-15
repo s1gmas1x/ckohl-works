@@ -132,7 +132,7 @@ async function scrollToSection(sectionId) {
 
 .site-header__toolbar {
   min-height: 82px;
-  width: min(var(--ckw-container), calc(100% - 32px));
+  width: min(var(--ckw-header-container), calc(100% - 48px));
   margin: 0 auto;
   padding: 0;
 }
@@ -145,13 +145,13 @@ async function scrollToSection(sectionId) {
 .site-header__nav {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-right: 26px;
+  gap: 16px;
+  margin-right: 32px;
 }
 
 .site-header__link {
   min-height: 38px;
-  padding: 0 10px;
+  padding: 0 6px;
   color: var(--ckw-text-strong);
   font-family: var(--ckw-font-heading);
   font-size: 0.95rem;
@@ -202,6 +202,7 @@ async function scrollToSection(sectionId) {
 
 @media (max-width: 600px) {
   .site-header__toolbar {
+    width: min(var(--ckw-header-container), calc(100% - 28px));
     min-height: 70px;
   }
 }

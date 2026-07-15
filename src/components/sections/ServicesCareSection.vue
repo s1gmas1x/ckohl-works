@@ -81,12 +81,10 @@ import SectionHeading from '@/components/ui/SectionHeading.vue'
   align-content: start;
   gap: 20px;
   padding: 30px;
-  background:
-    linear-gradient(145deg, rgba(255, 138, 0, 0.08), rgba(255, 138, 0, 0) 38%),
-    var(--ckw-surface-raised);
+  background: var(--ckw-surface-raised);
   border: 1px solid var(--ckw-border);
   border-radius: 8px;
-  box-shadow: var(--ckw-card-shadow);
+  box-shadow: 0 12px 28px rgba(8, 12, 18, 0.08);
 }
 
 .services-care__panel-heading {
@@ -98,7 +96,7 @@ import SectionHeading from '@/components/ui/SectionHeading.vue'
 
 .services-care__panel-heading :deep(.q-icon) {
   color: var(--ckw-orange);
-  filter: drop-shadow(0 0 14px var(--ckw-icon-shadow));
+  filter: none;
 }
 
 .services-care__panel-heading p,
@@ -117,7 +115,7 @@ import SectionHeading from '@/components/ui/SectionHeading.vue'
 
 .services-care__panel-heading p {
   margin-bottom: 5px;
-  color: var(--ckw-orange);
+  color: var(--ckw-text-muted);
   font-size: 0.74rem;
   font-weight: 800;
   letter-spacing: 0.1em;
