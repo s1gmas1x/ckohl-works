@@ -1,9 +1,29 @@
 <template>
   <q-page class="margots-page">
+    <header class="margots-demo-shell">
+      <RouterLink to="/" class="margots-demo-shell__return">
+        <q-icon name="arrow_back" size="18px" />
+        <span>Ckohl Works</span>
+      </RouterLink>
+      <div
+        class="margots-demo-shell__ticker"
+        aria-label="Ckohl Works demonstration only. Ordering is not live."
+      >
+        <div class="margots-demo-shell__ticker-track" aria-hidden="true">
+          <span>Ckohl Works demonstration only</span>
+          <span>Restaurant destination example</span>
+          <span>Ordering is not live</span>
+          <span>Ckohl Works demonstration only</span>
+          <span>Restaurant destination example</span>
+          <span>Ordering is not live</span>
+        </div>
+      </div>
+    </header>
+
     <section class="margots-hero" :style="{ '--margots-hero-image': `url(${heroImage})` }">
       <div class="margots-container margots-hero__grid">
         <div class="margots-hero__copy">
-          <p class="margots-kicker">Ckohl Works demonstration</p>
+          <p class="margots-kicker">Colorado Springs</p>
           <p class="margots-brand">Margot's Pizza</p>
           <h1>A classic Colorado Springs pizza tradition, preserved.</h1>
           <p>
@@ -170,8 +190,59 @@ const pizzas = [
   width: min(1160px, calc(100% - 32px));
   margin: 0 auto;
 }
+.margots-demo-shell {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 22px;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 max(16px, calc((100% - 1160px) / 2));
+  background: #100304;
+  border-bottom: 1px solid rgba(217, 168, 59, 0.28);
+  overflow: hidden;
+}
+.margots-demo-shell__return {
+  display: inline-flex;
+  gap: 7px;
+  align-items: center;
+  color: #f5dfb0;
+  letter-spacing: 0;
+  text-decoration: none;
+  text-transform: none;
+}
+.margots-demo-shell__return:hover {
+  color: #d9a83b;
+}
+.margots-demo-shell__ticker {
+  overflow: hidden;
+  color: #c7a96c;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+.margots-demo-shell__ticker-track {
+  display: inline-flex;
+  gap: 34px;
+  width: max-content;
+  animation: margots-demo-ticker 24s linear infinite;
+}
+.margots-demo-shell__ticker-track span::before {
+  margin-right: 34px;
+  color: #d9a83b;
+  content: '*';
+}
+@keyframes margots-demo-ticker {
+  to {
+    transform: translateX(-50%);
+  }
+}
 .margots-hero {
-  padding: 110px 0 72px;
+  padding: 78px 0 72px;
   background:
     linear-gradient(90deg, rgba(25, 3, 5, 0.98), rgba(25, 3, 5, 0.93) 38%, rgba(25, 3, 5, 0.2) 74%),
     var(--margots-hero-image) center / cover no-repeat;
@@ -327,8 +398,15 @@ const pizzas = [
   }
 }
 @media (max-width: 560px) {
+  .margots-demo-shell {
+    min-height: 44px;
+    gap: 14px;
+  }
+  .margots-demo-shell__ticker {
+    font-size: 0.61rem;
+  }
   .margots-hero {
-    padding-top: 90px;
+    padding-top: 42px;
   }
   .margots-actions-grid,
   .margots-menu-grid {
@@ -343,6 +421,12 @@ const pizzas = [
   .margots-actions .q-btn,
   .margots-location__actions .q-btn {
     width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .margots-demo-shell__ticker-track {
+    animation: none;
   }
 }
 </style>
