@@ -1,0 +1,11 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Kohl;Chad;;;
+FN:Chad Kohl
+ORG:Ckohl Works
+TITLE:Full-Stack Developer
+TEL;TYPE=CELL,VOICE:+17194285039
+EMAIL;TYPE=INTERNET:chad_kohl@ckohl.com
+URL:https://ckohl.com
+URL:https://works.ckohl.com
+END:VCARD

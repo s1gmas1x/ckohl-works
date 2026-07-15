@@ -5,7 +5,7 @@
         <BrandMark />
       </q-toolbar-title>
 
-      <nav class="site-header__nav" aria-label="Primary navigation">
+      <nav v-if="showNavigation" class="site-header__nav" aria-label="Primary navigation">
         <q-btn
           v-for="item in navigationItems"
           :key="item.label"
@@ -19,6 +19,7 @@
       </nav>
 
       <q-btn
+        v-if="showContactCta"
         unelevated
         no-caps
         color="primary"
@@ -36,12 +37,14 @@
         :icon="theme === 'dark' ? 'light_mode' : 'dark_mode'"
         :aria-label="theme === 'dark' ? 'Use light mode' : 'Use dark mode'"
         class="site-header__theme"
+        :class="{ 'site-header__theme--standalone': !showNavigation && !showContactCta }"
         @click="$emit('toggle-theme')"
       >
         <q-tooltip>{{ theme === 'dark' ? 'Use light mode' : 'Use dark mode' }}</q-tooltip>
       </q-btn>
 
       <q-btn
+        v-if="showMenu"
         flat
         dense
         round
@@ -67,6 +70,18 @@ defineProps({
     required: true,
   },
   showThemeToggle: {
+    type: Boolean,
+    default: true,
+  },
+  showNavigation: {
+    type: Boolean,
+    default: true,
+  },
+  showContactCta: {
+    type: Boolean,
+    default: true,
+  },
+  showMenu: {
     type: Boolean,
     default: true,
   },
@@ -159,6 +174,10 @@ async function scrollToSection(sectionId) {
 .site-header__theme {
   margin-left: 14px;
   color: var(--ckw-text-strong);
+}
+
+.site-header__theme--standalone {
+  margin-left: auto;
 }
 
 .site-header__theme:hover {
