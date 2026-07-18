@@ -5,6 +5,7 @@ import { execFileSync } from 'node:child_process'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { generateStaticProfiles } from './static-profile-renderer.mjs'
+import { publishedProfiles } from '../src/data/publishedProfiles.js'
 
 const rootDir = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const distDir = join(rootDir, 'dist')
@@ -12,6 +13,8 @@ const stagingDir = join(distDir, '.static-profiles-next')
 const previousDir = join(distDir, '.static-profiles-previous')
 const publishedDir = join(distDir, 'static-profiles')
 const quasarBin = join(rootDir, 'node_modules', '@quasar', 'app-vite', 'bin', 'quasar.js')
+const profileSlugs = process.env.STATIC_PROFILE_SLUGS?.split(',').filter(Boolean)
+const publicBase = process.env.DEPLOY_TARGET === 'github-pages' ? '/ckohl-works/' : '/'
 
 function getBuildRevision() {
   if (process.env.GITHUB_SHA) return process.env.GITHUB_SHA
@@ -54,6 +57,17 @@ async function promoteBuild() {
   await rm(previousDir, { recursive: true, force: true })
 }
 
+async function removeUnselectedVcards() {
+  if (!profileSlugs) return
+
+  const selectedSlugs = new Set(profileSlugs)
+  const unselectedProfiles = publishedProfiles.filter((profile) => !selectedSlugs.has(profile.slug))
+
+  for (const profile of unselectedProfiles) {
+    await rm(join(stagingDir, 'contacts', profile.vCard.filename), { force: true })
+  }
+}
+
 async function main() {
   await mkdir(distDir, { recursive: true })
   await rm(stagingDir, { recursive: true, force: true })
@@ -66,7 +80,10 @@ async function main() {
     const manifest = await generateStaticProfiles({
       outputDir: stagingDir,
       buildRevision: getBuildRevision(),
+      profileSlugs,
+      publicBase,
     })
+    await removeUnselectedVcards()
     await promoteBuild()
     console.log(`Published ${manifest.profiles.length} static profiles to ${publishedDir}.`)
   } catch (error) {
