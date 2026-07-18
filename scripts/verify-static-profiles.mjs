@@ -8,10 +8,14 @@ import { publishedProfiles } from '../src/data/publishedProfiles.js'
 const rootDir = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const outputDir = join(rootDir, 'dist', 'static-profiles')
 const manifest = JSON.parse(await readFile(join(outputDir, 'static-profile-manifest.json'), 'utf8'))
+const expectedSlugs = process.env.STATIC_PROFILE_SLUGS?.split(',').filter(Boolean)
+const expectedProfiles = expectedSlugs
+  ? publishedProfiles.filter((profile) => expectedSlugs.includes(profile.slug))
+  : publishedProfiles
 
-assert.equal(manifest.profiles.length, 2, 'expected exactly two static profile fixtures')
+assert.equal(manifest.profiles.length, expectedProfiles.length, 'unexpected static profile fixture count')
 
-for (const profile of publishedProfiles) {
+for (const profile of expectedProfiles) {
   const documentPath = join(outputDir, 'card', 'ckohl-works', profile.slug, 'index.html')
   const document = await readFile(documentPath, 'utf8')
   const expectedHash = contentHash(profile)
@@ -22,8 +26,10 @@ for (const profile of publishedProfiles) {
   assert.ok(renderProfileDocument(profile, manifest.buildRevision).includes(expectedHash))
 }
 
-const chadVCard = await readFile(join(outputDir, 'contacts', 'chad-kohl.vcf'), 'utf8')
-assert.match(chadVCard, /^BEGIN:VCARD/m)
-assert.match(chadVCard, /FN:Chad Kohl/)
+for (const profile of expectedProfiles) {
+  const vCard = await readFile(join(outputDir, 'contacts', profile.vCard.filename), 'utf8')
+  assert.match(vCard, /^BEGIN:VCARD/m)
+  assert.match(vCard, new RegExp(`FN:${profile.identity.name}`))
+}
 
 console.log('Static profile output and deterministic content hashes verified.')

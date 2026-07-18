@@ -49,8 +49,9 @@ function escapeHtml(value) {
     .replaceAll("'", '&#39;')
 }
 
-function actionMarkup(action) {
-  const href = escapeHtml(getActionHref(action))
+function actionMarkup(action, publicBase) {
+  const actionHref = getActionHref(action)
+  const href = escapeHtml(action.type === 'vcard' ? `${publicBase}${actionHref.slice(1)}` : actionHref)
   const download = action.download ? ` download="${escapeHtml(action.download)}"` : ''
   const className = action.isPrimary ? 'button button--primary' : 'button'
 
@@ -61,7 +62,7 @@ function linkMarkup(link) {
   return `<a href="${escapeHtml(link.value)}" target="_blank" rel="noopener noreferrer">${escapeHtml(link.label)}</a>`
 }
 
-export function renderProfileDocument(profile, buildRevision) {
+export function renderProfileDocument(profile, buildRevision, publicBase = '/') {
   const hash = contentHash(profile)
   const title = `${profile.identity.name} | ${profile.identity.organization}`
   const jsonLd = {
@@ -96,7 +97,9 @@ export function renderProfileDocument(profile, buildRevision) {
         <h1 id="profile-title">${escapeHtml(profile.identity.name)}</h1>
         <p class="role">${escapeHtml(profile.identity.role)} at ${escapeHtml(profile.identity.organization)}</p>
         <p class="summary">${escapeHtml(profile.identity.summary)}</p>
-        <nav class="actions" aria-label="Contact actions">${profile.actions.map(actionMarkup).join('')}</nav>
+        <nav class="actions" aria-label="Contact actions">${profile.actions
+          .map((action) => actionMarkup(action, publicBase))
+          .join('')}</nav>
         <nav class="links" aria-label="Website links">${profile.links.map(linkMarkup).join('')}</nav>
         <p class="note">Save the contact now, then return whenever you need to connect.</p>
       </section>
@@ -106,23 +109,32 @@ export function renderProfileDocument(profile, buildRevision) {
 `
 }
 
-export async function generateStaticProfiles({ outputDir, buildRevision }) {
-  const profiles = publishedProfiles.map((profile) => ({
+export async function generateStaticProfiles({ outputDir, buildRevision, profileSlugs, publicBase = '/' }) {
+  const selectedProfiles = profileSlugs
+    ? publishedProfiles.filter((profile) => profileSlugs.includes(profile.slug))
+    : publishedProfiles
+
+  if (selectedProfiles.length === 0) throw new Error('No approved static profile fixtures were selected.')
+
+  const profiles = selectedProfiles.map((profile) => ({
     slug: profile.slug,
     contentHash: contentHash(profile),
-    path: `/card/ckohl-works/${profile.slug}/`,
+    path: `${publicBase}card/ckohl-works/${profile.slug}/`,
   }))
 
-  for (const profile of publishedProfiles) {
+  for (const profile of selectedProfiles) {
     const profileDir = join(outputDir, 'card', 'ckohl-works', profile.slug)
     await mkdir(profileDir, { recursive: true })
-    await writeFile(join(profileDir, 'index.html'), renderProfileDocument(profile, buildRevision))
+    await writeFile(
+      join(profileDir, 'index.html'),
+      renderProfileDocument(profile, buildRevision, publicBase),
+    )
   }
 
   const manifest = {
     schemaVersion: PROFILE_SCHEMA_VERSION,
     buildRevision,
-    profileSetHash: contentHash(publishedProfiles),
+    profileSetHash: contentHash(selectedProfiles),
     profiles,
   }
   await writeFile(join(outputDir, 'static-profile-manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`)

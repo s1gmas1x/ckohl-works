@@ -33,15 +33,21 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build
-        run: npm run build
+      - name: Build static profile artifact
+        run: npm run build:profiles
         env:
           DEPLOY_TARGET: github-pages
+          STATIC_PROFILE_SLUGS: pikes-peak-handyman
+
+      - name: Verify static profile artifact
+        run: npm run verify:profiles
+        env:
+          STATIC_PROFILE_SLUGS: pikes-peak-handyman
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist/spa
+          path: ./dist/static-profiles
 
   deploy:
     environment:

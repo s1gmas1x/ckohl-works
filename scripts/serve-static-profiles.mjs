@@ -7,6 +7,13 @@ import { fileURLToPath } from 'node:url'
 const rootDir = resolve(fileURLToPath(new URL('..', import.meta.url)))
 const outputDir = process.env.STATIC_PROFILE_DIR || join(rootDir, 'dist', 'static-profiles')
 const port = Number(process.env.PORT || 4173)
+const basePath = normalizeBasePath(process.env.STATIC_PROFILE_BASE_PATH || '/')
+
+function normalizeBasePath(value) {
+  const withLeadingSlash = value.startsWith('/') ? value : `/${value}`
+
+  return withLeadingSlash.endsWith('/') ? withLeadingSlash : `${withLeadingSlash}/`
+}
 
 function contentType(filePath) {
   if (filePath.endsWith('.html')) return 'text/html; charset=utf-8'
@@ -19,7 +26,13 @@ function contentType(filePath) {
 
 function resolveRequestPath(urlPath) {
   const requestPath = decodeURIComponent(urlPath.split('?')[0])
-  const relativePath = requestPath.endsWith('/') ? `${requestPath}index.html` : requestPath
+  if (basePath !== '/' && !requestPath.startsWith(basePath)) return null
+
+  const pathWithinBase = basePath === '/' ? requestPath : requestPath.slice(basePath.length - 1)
+
+  if (!pathWithinBase.startsWith('/')) return null
+
+  const relativePath = pathWithinBase.endsWith('/') ? `${pathWithinBase}index.html` : pathWithinBase
   const resolvedPath = normalize(join(outputDir, relativePath))
 
   return resolvedPath.startsWith(outputDir) ? resolvedPath : null
@@ -39,5 +52,5 @@ const server = createServer(async (request, response) => {
 })
 
 server.listen(port, () => {
-  console.log(`Static profile proof server listening on http://127.0.0.1:${port}`)
+  console.log(`Static profile proof server listening on http://127.0.0.1:${port}${basePath}`)
 })

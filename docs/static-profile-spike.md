@@ -30,6 +30,10 @@ failure removes the staging directory and leaves the last `dist/static-profiles`
 `STATIC_PROFILE_FORCE_FAILURE=1 node scripts/build-static-profiles.mjs` is a local-only failure
 injection check for this promotion guarantee.
 
+`STATIC_PROFILE_SLUGS` optionally limits a build to reviewed smoke fixtures. The GitHub Pages
+workflow uses `STATIC_PROFILE_SLUGS=pikes-peak-handyman` so the public hosting proof does not publish
+Chad's real contact profile or vCard through that candidate host.
+
 The output includes:
 
 - `/card/ckohl-works/chad/`
@@ -45,9 +49,12 @@ The candidate static host must serve directory index files for clean URLs and de
 `dist/static-profiles` directory atomically or through immutable/versioned releases. The local proof
 server provides the required direct-load behavior at `http://127.0.0.1:4173`.
 
-This spike does not select a production host. Before publishing a customer profile, verify the
-provider's clean-route behavior, atomic deployment or rollback capability, cache policy, custom
-domain support, and restrictive security headers. If a future Quasar SSG mode becomes supported and
-stable for this project, evaluate it against this fixture and output contract before replacing the
-renderer. Quasar SSR remains the presentation-system fallback if a static-host requirement cannot be
-met.
+GitHub Pages is the first production candidate because this repository already deploys there through
+the `actions/deploy-pages` workflow and enforces HTTPS. The workflow builds and deploys the complete
+staged profile artifact, including the marketing SPA and fictional smoke profile. After the candidate
+PR merges, validate its exact public clean route and vCard using the GitHub Pages deployment URL.
+
+Before publishing a customer profile, verify provider rollback behavior, cache policy, custom-domain
+support, and restrictive security headers. If a future Quasar SSG mode becomes supported and stable
+for this project, evaluate it against this fixture and output contract before replacing the renderer.
+Quasar SSR remains the presentation-system fallback if a static-host requirement cannot be met.
