@@ -1,0 +1,6 @@
+[build]
+  command = "STATIC_PROFILE_SLUGS=chad npm run build:profiles"
+  publish = "dist/static-profiles"
+
+[build.environment]
+  NODE_VERSION = "24"
