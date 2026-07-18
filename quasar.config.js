@@ -34,6 +34,9 @@ export default defineConfig((/* ctx */) => {
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#build
     build: {
+      ...(process.env.CKOH_STATIC_PROFILE_DIST_DIR
+        ? { distDir: process.env.CKOH_STATIC_PROFILE_DIST_DIR }
+        : {}),
       target: {
         // browser: 'baseline-widely-available',
         // node: 'node22'

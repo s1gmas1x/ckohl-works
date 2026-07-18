@@ -11,6 +11,9 @@
     "lint:check": "prettier \"**/*.{js,vue,css,scss,html,md,json}\" --ignore-path .gitignore && eslint -c ./eslint.config.js \"./src*/**/*.{js,cjs,mjs,vue}\"",
     "dev": "quasar dev",
     "build": "quasar build",
+    "build:profiles": "node scripts/build-static-profiles.mjs",
+    "serve:profiles": "node scripts/serve-static-profiles.mjs",
+    "verify:profiles": "node scripts/verify-static-profiles.mjs",
     "postinstall": "quasar prepare --silent"
   },
   "dependencies": {
