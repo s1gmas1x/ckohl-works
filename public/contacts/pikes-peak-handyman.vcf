@@ -1,0 +1,10 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Example;Pat;;;
+FN:Pat Example
+ORG:Pikes Peak Handyman
+TITLE:Owner
+TEL;TYPE=CELL,VOICE:+17195550182
+EMAIL;TYPE=INTERNET:hello@pikespeakhandyman.example
+URL:https://pikespeakhandyman.example
+END:VCARD
