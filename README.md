@@ -16,10 +16,10 @@ This repository includes the public marketing site, demonstrations, reusable sta
 rendering, and the production Chad contact profile. It proves one manually operated
 NFC/QR-to-contact-page path; it is not a finished customer platform.
 
-Publishing and administration, customer self-service, general redirect management, analytics
-persistence, customer accounts, and billing remain intentionally out of scope until customer
-validation justifies them. The durable product plan and delivery boundaries live in the private
-Ckohl Works workspace notes.
+The broader product direction includes publishing and administration, customer self-service,
+redirect management, analytics, customer accounts, and billing. Those capabilities are planned
+rather than available in the current demonstration. The durable product plan and delivery
+boundaries live in the private Ckohl Works workspace notes.
 
 Built with:
 
