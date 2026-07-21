@@ -1,0 +1,97 @@
+export const PROFILE_SCHEMA_VERSION = 1
+
+export const chadProfile = {
+  schemaVersion: PROFILE_SCHEMA_VERSION,
+  kind: 'contact_profile',
+  slug: 'chad',
+  themeKey: 'works',
+  identity: {
+    name: 'Chad Kohl',
+    organization: 'Ckohl Works',
+    role: 'Full-Stack Developer',
+    summary:
+      'Practical digital tools for local businesses: websites, smart QR and NFC experiences, and ongoing technical support.',
+  },
+  actions: [
+    { key: 'call', type: 'phone', label: 'Call Chad', value: '+17194285039', isPrimary: true },
+    { key: 'email', type: 'email', label: 'Email', value: 'chad_kohl@ckohl.com' },
+    {
+      key: 'vcard',
+      type: 'vcard',
+      label: 'Save Contact',
+      value: '/contacts/chad-kohl.vcf',
+      download: 'chad-kohl.vcf',
+    },
+  ],
+  links: [
+    { key: 'portfolio', label: 'Portfolio', value: 'https://ckohl.com', icon: 'account_circle' },
+    { key: 'works', label: 'Ckohl Works', value: 'https://works.ckohl.com', icon: 'language' },
+  ],
+  vCard: {
+    filename: 'chad-kohl.vcf',
+    content:
+      'BEGIN:VCARD\r\nVERSION:3.0\r\nN:Kohl;Chad;;;\r\nFN:Chad Kohl\r\nORG:Ckohl Works\r\nTITLE:Full-Stack Developer\r\nTEL;TYPE=CELL,VOICE:+17194285039\r\nEMAIL;TYPE=INTERNET:chad_kohl@ckohl.com\r\nURL:https://ckohl.com\r\nURL:https://works.ckohl.com\r\nEND:VCARD\r\n',
+  },
+}
+
+export const pikesPeakHandymanProfile = {
+  schemaVersion: PROFILE_SCHEMA_VERSION,
+  kind: 'contact_profile',
+  slug: 'pikes-peak-handyman',
+  themeKey: 'works',
+  identity: {
+    name: 'Pat Example',
+    organization: 'Pikes Peak Handyman',
+    role: 'Owner',
+    summary:
+      'A focused contact page for reliable home-repair requests, service details, and directions in Colorado Springs.',
+  },
+  actions: [
+    {
+      key: 'call',
+      type: 'phone',
+      label: 'Call for an estimate',
+      value: '+17195550182',
+      isPrimary: true,
+    },
+    { key: 'email', type: 'email', label: 'Email Pat', value: 'hello@pikespeakhandyman.example' },
+    {
+      key: 'vcard',
+      type: 'vcard',
+      label: 'Save Contact',
+      value: '/contacts/pikes-peak-handyman.vcf',
+      download: 'pikes-peak-handyman.vcf',
+    },
+  ],
+  links: [
+    {
+      key: 'directions',
+      label: 'Service area',
+      value: 'https://www.google.com/maps/search/?api=1&query=Colorado+Springs%2C+CO',
+      icon: 'location_on',
+    },
+    {
+      key: 'website',
+      label: 'Website',
+      value: 'https://pikespeakhandyman.example',
+      icon: 'language',
+    },
+  ],
+  vCard: {
+    filename: 'pikes-peak-handyman.vcf',
+    content:
+      'BEGIN:VCARD\r\nVERSION:3.0\r\nN:Example;Pat;;;\r\nFN:Pat Example\r\nORG:Pikes Peak Handyman\r\nTITLE:Owner\r\nTEL;TYPE=CELL,VOICE:+17195550182\r\nEMAIL;TYPE=INTERNET:hello@pikespeakhandyman.example\r\nURL:https://pikespeakhandyman.example\r\nEND:VCARD\r\n',
+  },
+}
+
+export const profileModuleExportNames = {
+  chad: 'chadProfile',
+  'pikes-peak-handyman': 'pikesPeakHandymanProfile',
+}
+
+export function getActionHref(action) {
+  if (action.type === 'phone') return `tel:${action.value.replace(/[^+\d]/g, '')}`
+  if (action.type === 'email') return `mailto:${action.value}`
+
+  return action.value
+}

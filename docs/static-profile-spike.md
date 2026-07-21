@@ -34,6 +34,11 @@ injection check for this promotion guarantee.
 workflow uses `STATIC_PROFILE_SLUGS=pikes-peak-handyman` so the public hosting proof does not publish
 Chad's real contact profile or vCard through that candidate host.
 
+For a selected build, the same allowlist now applies to the Quasar SPA bundle. The build generates a
+temporary client profile module that imports only the approved fixtures, then removes it after the
+build. This keeps an unselected profile unavailable through generated files, vCards, and hash SPA
+routes while ordinary development and test builds continue to include all reviewed fixtures.
+
 The output includes:
 
 - `/card/ckohl-works/chad/`

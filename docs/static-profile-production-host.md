@@ -23,6 +23,10 @@ profile proof only.
 - `contacts/chad-kohl.vcf`;
 - no Pikes Peak Handyman fixture or vCard.
 
+The selection applies to the root Quasar SPA as well as generated static profile files. An
+unselected fixture cannot be reached through a clean route, a hash route, or its vCard URL in the
+production-selected artifact.
+
 The build generates a complete artifact in a temporary directory and promotes it only after Quasar
 and profile generation succeed. Netlify publishes complete deploys and retains deploy history, so a
 failed build leaves the existing deploy online and a previous successful deploy can be restored from

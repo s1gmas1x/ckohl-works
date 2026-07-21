@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto'
 import { mkdir, writeFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import { getActionHref, PROFILE_SCHEMA_VERSION, publishedProfiles } from '../src/data/publishedProfiles.js'
+import { selectProfiles } from './profile-selection.mjs'
 
 const staticProfileStyle = `
 :root { color-scheme: dark; font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
@@ -110,11 +111,7 @@ export function renderProfileDocument(profile, buildRevision, publicBase = '/') 
 }
 
 export async function generateStaticProfiles({ outputDir, buildRevision, profileSlugs, publicBase = '/' }) {
-  const selectedProfiles = profileSlugs
-    ? publishedProfiles.filter((profile) => profileSlugs.includes(profile.slug))
-    : publishedProfiles
-
-  if (selectedProfiles.length === 0) throw new Error('No approved static profile fixtures were selected.')
+  const selectedProfiles = selectProfiles(publishedProfiles, profileSlugs)
 
   const profiles = selectedProfiles.map((profile) => ({
     slug: profile.slug,
