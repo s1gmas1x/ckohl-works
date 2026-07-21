@@ -1,19 +1,23 @@
 import { spawn } from 'node:child_process'
 import { existsSync } from 'node:fs'
-import { mkdir, rename, rm } from 'node:fs/promises'
+import { mkdir, rename, rm, writeFile } from 'node:fs/promises'
 import { execFileSync } from 'node:child_process'
 import { dirname, join, resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 import { generateStaticProfiles } from './static-profile-renderer.mjs'
 import { publishedProfiles } from '../src/data/publishedProfiles.js'
+import { profileModuleExportNames } from '../src/data/profileFixtures.js'
+import { parseProfileSlugs, selectProfiles } from './profile-selection.mjs'
 
 const rootDir = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const distDir = join(rootDir, 'dist')
 const stagingDir = join(distDir, '.static-profiles-next')
 const previousDir = join(distDir, '.static-profiles-previous')
 const publishedDir = join(distDir, 'static-profiles')
+const buildSupportDir = join(rootDir, '.ckohl-build')
+const selectedProfileModule = join(buildSupportDir, 'selected-profiles.mjs')
 const quasarBin = join(rootDir, 'node_modules', '@quasar', 'app-vite', 'bin', 'quasar.js')
-const profileSlugs = process.env.STATIC_PROFILE_SLUGS?.split(',').filter(Boolean)
+const profileSlugs = parseProfileSlugs(process.env.STATIC_PROFILE_SLUGS)
 const publicBase = process.env.DEPLOY_TARGET === 'github-pages' ? '/ckohl-works/' : '/'
 
 function getBuildRevision() {
@@ -26,11 +30,38 @@ function getBuildRevision() {
   }
 }
 
-function runQuasarBuild() {
+async function writeSelectedProfileModule() {
+  if (!profileSlugs) return undefined
+
+  const selectedProfiles = selectProfiles(publishedProfiles, profileSlugs)
+  const fixtureModuleUrl = pathToFileURL(join(rootDir, 'src', 'data', 'profileFixtures.js')).href
+  const importedProfiles = selectedProfiles.map((profile, index) => {
+    const exportName = profileModuleExportNames[profile.slug]
+
+    if (!exportName) throw new Error(`No client module export is configured for ${profile.slug}.`)
+    return { exportName, localName: `profile${index}` }
+  })
+  const imports = importedProfiles.map(({ exportName, localName }) => `${exportName} as ${localName}`)
+  const localNames = importedProfiles.map(({ localName }) => localName)
+  const moduleSource = `import { PROFILE_SCHEMA_VERSION, getActionHref, ${imports.join(', ')} } from ${JSON.stringify(
+    fixtureModuleUrl,
+  )}\n\nexport { PROFILE_SCHEMA_VERSION, getActionHref }\n\nexport const publishedProfiles = Object.freeze([${localNames.join(', ')}])\n\nexport function getPublishedProfile(slug) {\n  return publishedProfiles.find((profile) => profile.slug === slug)\n}\n`
+
+  await mkdir(buildSupportDir, { recursive: true })
+  await writeFile(selectedProfileModule, moduleSource)
+
+  return selectedProfileModule
+}
+
+function runQuasarBuild(profileModule) {
   return new Promise((resolveBuild, rejectBuild) => {
     const child = spawn(process.execPath, [quasarBin, 'build'], {
       cwd: rootDir,
-      env: { ...process.env, CKOH_STATIC_PROFILE_DIST_DIR: stagingDir },
+      env: {
+        ...process.env,
+        CKOH_STATIC_PROFILE_DIST_DIR: stagingDir,
+        ...(profileModule ? { CKOH_SELECTED_PROFILE_MODULE: profileModule } : {}),
+      },
       stdio: 'inherit',
     })
 
@@ -73,7 +104,8 @@ async function main() {
   await rm(stagingDir, { recursive: true, force: true })
 
   try {
-    await runQuasarBuild()
+    const profileModule = await writeSelectedProfileModule()
+    await runQuasarBuild(profileModule)
     if (process.env.STATIC_PROFILE_FORCE_FAILURE === '1') {
       throw new Error('Static profile failure injection requested.')
     }
@@ -89,6 +121,8 @@ async function main() {
   } catch (error) {
     await rm(stagingDir, { recursive: true, force: true })
     throw error
+  } finally {
+    await rm(buildSupportDir, { recursive: true, force: true })
   }
 }
 

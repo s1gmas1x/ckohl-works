@@ -5,6 +5,7 @@ import { defineConfig } from '#q-app'
 
 export default defineConfig((/* ctx */) => {
   const isGitHubPagesBuild = process.env.DEPLOY_TARGET === 'github-pages'
+  const selectedProfileModule = process.env.CKOH_SELECTED_PROFILE_MODULE
 
   return {
     // https://v2.quasar.dev/quasar-cli-vite/prefetch-feature
@@ -50,6 +51,7 @@ export default defineConfig((/* ctx */) => {
       // vueDevtools,
 
       publicPath: isGitHubPagesBuild ? '/ckohl-works/' : '/',
+      alias: selectedProfileModule ? { '@/data/publishedProfiles.js': selectedProfileModule } : {},
       // define: {},
       // defineEnv: {}
       // ignorePublicFolder: true,
