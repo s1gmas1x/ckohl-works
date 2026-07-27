@@ -27,7 +27,8 @@ watch(
     const title = activeProfile
       ? `${activeProfile.identity.name} | ${activeProfile.identity.organization}`
       : 'Profile not found | Ckohl Works'
-    const description = activeProfile?.identity.summary || 'This Ckohl Works profile is not available.'
+    const description =
+      activeProfile?.identity.summary || 'This Ckohl Works profile is not available.'
 
     document.title = title
     document.querySelector('meta[name="description"]')?.setAttribute('content', description)
@@ -38,22 +39,20 @@ watch(
 
 <style lang="scss" scoped>
 .contact-card-page {
+  width: 100vw;
   min-height: 100vh;
   background:
-    radial-gradient(circle at 78% 16%, rgba(249, 156, 30, 0.14), transparent 25%),
-    var(--ckw-page-overlay),
-    var(--ckw-page-bg);
-  color: var(--ckw-text-primary);
+    radial-gradient(ellipse at 50% -12%, rgba(255, 177, 43, 0.11), transparent 42%),
+    var(--ckw-crt-screen-deep);
+  color: var(--ckw-crt-amber-bright);
 }
 .contact-card-page__content {
-  width: min(620px, calc(100% - 32px));
-  margin: 0 auto;
-  padding: 58px 0 72px;
+  width: 100%;
+  min-height: 100vh;
 }
 @media (max-width: 560px) {
   .contact-card-page__content {
-    width: min(100% - 28px, 520px);
-    padding: 34px 0 48px;
+    min-height: 100vh;
   }
 }
 </style>
