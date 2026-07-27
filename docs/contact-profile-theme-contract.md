@@ -78,6 +78,11 @@ moving current colors/effects into theme-scoped semantic CSS. Do not make the No
 Vue SFC or accept raw styles from profile data. Any shared generated CSS asset must remain a
 build-owned artifact selected by the approved registry.
 
+The shared CRT source now lives in `src/css/_contact-profile-crt.scss`. It intentionally contains
+only browser-valid CSS: the Vue application includes it through `app.scss`, and the static renderer
+reads and inlines the same build-owned source. See `docs/contact-profile-crt-style-system.md` for
+token roles, contrast guarantees, and effect limits.
+
 ## Verification
 
 Run:
