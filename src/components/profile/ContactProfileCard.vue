@@ -1,5 +1,11 @@
 <template>
-  <section class="contact-card" :aria-labelledby="`${profile.slug}-profile-title`">
+  <section
+    class="contact-card"
+    :class="theme.className"
+    :data-contact-profile-theme="theme.key"
+    :data-contact-profile-theme-contract="theme.contractVersion"
+    :aria-labelledby="`${profile.slug}-profile-title`"
+  >
     <div class="contact-card__screen">
       <header class="contact-card__status" aria-label="Contact card status">
         <span>CKOHL WORKS // CONTACT NODE</span>
@@ -66,7 +72,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import { resolveContactProfileTheme } from '@/data/contactProfileThemes.js'
 import { getActionHref } from '@/data/publishedProfiles.js'
 
 const props = defineProps({
@@ -78,6 +85,7 @@ const props = defineProps({
 
 const actionLinks = ref([])
 const copiedActionKey = ref(null)
+const theme = computed(() => resolveContactProfileTheme(props.profile.themeKey))
 let copiedActionTimeout
 
 function actionTypeLabel(action) {

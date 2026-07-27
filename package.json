@@ -13,6 +13,7 @@
     "build": "quasar build",
     "build:profiles": "node scripts/build-static-profiles.mjs",
     "serve:profiles": "node scripts/serve-static-profiles.mjs",
+    "test:themes": "node --test tests/contact-profile-themes.test.mjs",
     "verify:profiles": "node scripts/verify-static-profiles.mjs",
     "postinstall": "quasar prepare --silent"
   },
