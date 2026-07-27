@@ -1,10 +1,12 @@
+import { CRT_AMBER_THEME_KEY } from './contactProfileThemes.js'
+
 export const PROFILE_SCHEMA_VERSION = 1
 
 export const chadProfile = {
   schemaVersion: PROFILE_SCHEMA_VERSION,
   kind: 'contact_profile',
   slug: 'chad',
-  themeKey: 'works',
+  themeKey: CRT_AMBER_THEME_KEY,
   identity: {
     name: 'Chad Kohl',
     organization: 'Ckohl Works',
@@ -43,7 +45,7 @@ export const pikesPeakHandymanProfile = {
   schemaVersion: PROFILE_SCHEMA_VERSION,
   kind: 'contact_profile',
   slug: 'pikes-peak-handyman',
-  themeKey: 'works',
+  themeKey: CRT_AMBER_THEME_KEY,
   identity: {
     name: 'Pat Example',
     organization: 'Pikes Peak Handyman',

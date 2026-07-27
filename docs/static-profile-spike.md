@@ -48,6 +48,10 @@ The output includes:
 - `/static-profile-manifest.json`, including schema version, build revision, profile paths, and
   deterministic content hashes
 
+Generated profile documents and manifest entries also record the approved contact-profile theme key
+and theme-contract version. Unknown theme keys fail the reviewed profile module/build instead of
+silently falling back.
+
 ## Hosting Constraints
 
 The candidate static host must serve directory index files for clean URLs and deploy the complete

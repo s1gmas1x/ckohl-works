@@ -6,6 +6,10 @@ import {
   PROFILE_SCHEMA_VERSION,
   publishedProfiles,
 } from '../src/data/publishedProfiles.js'
+import {
+  CONTACT_PROFILE_THEME_CONTRACT_VERSION,
+  resolveContactProfileTheme,
+} from '../src/data/contactProfileThemes.js'
 import { selectProfiles } from './profile-selection.mjs'
 
 const shareTechMonoWoff2 = await readFile(
@@ -133,6 +137,7 @@ function linkMarkup(link) {
 }
 
 export function renderProfileDocument(profile, buildRevision, publicBase = '/') {
+  const theme = resolveContactProfileTheme(profile.themeKey)
   const hash = contentHash(profile)
   const title = `${profile.identity.name} | ${profile.identity.organization}`
   const jsonLd = {
@@ -153,6 +158,8 @@ export function renderProfileDocument(profile, buildRevision, publicBase = '/') 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="${escapeHtml(profile.identity.summary)}">
     <meta name="profile-schema-version" content="${PROFILE_SCHEMA_VERSION}">
+    <meta name="profile-theme-key" content="${escapeHtml(theme.key)}">
+    <meta name="profile-theme-contract-version" content="${theme.contractVersion}">
     <meta name="profile-content-hash" content="${hash}">
     <meta name="build-revision" content="${escapeHtml(buildRevision)}">
     <title>${escapeHtml(title)}</title>
@@ -161,7 +168,7 @@ export function renderProfileDocument(profile, buildRevision, publicBase = '/') 
   </head>
   <body>
     <main>
-      <section class="profile" aria-labelledby="profile-title">
+      <section class="profile ${escapeHtml(theme.className)}" data-contact-profile-theme="${escapeHtml(theme.key)}" data-contact-profile-theme-contract="${theme.contractVersion}" aria-labelledby="profile-title">
         <div class="screen">
           <header class="status" aria-label="Contact card status"><span>CKOHL WORKS // CONTACT NODE</span><span class="status-ready">READY</span></header>
           <div class="profile-content">
@@ -194,6 +201,7 @@ export async function generateStaticProfiles({
 
   const profiles = selectedProfiles.map((profile) => ({
     slug: profile.slug,
+    themeKey: resolveContactProfileTheme(profile.themeKey).key,
     contentHash: contentHash(profile),
     path: `${publicBase}card/ckohl-works/${profile.slug}/`,
   }))
@@ -209,6 +217,7 @@ export async function generateStaticProfiles({
 
   const manifest = {
     schemaVersion: PROFILE_SCHEMA_VERSION,
+    themeContractVersion: CONTACT_PROFILE_THEME_CONTRACT_VERSION,
     buildRevision,
     profileSetHash: contentHash(selectedProfiles),
     profiles,
