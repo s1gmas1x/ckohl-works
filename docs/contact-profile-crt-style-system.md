@@ -13,16 +13,17 @@ width around the themed profile.
 ## Shared source
 
 `src/css/_contact-profile-crt.scss` is the single build-owned source for the approved `crt-amber`
-tokens and screen effects.
+tokens and screen effects. `src/css/_contact-profile-layout.scss` is the shared structural source
+for the terminal regions, panel geometry, responsive ordering, and touch-target sizes.
 
-- `ContactProfileCard.vue` includes it in the lazy Vue profile route.
-- `scripts/static-profile-renderer.mjs` reads and inlines the same file for the canonical generated
+- `ContactProfileCard.vue` includes both sources in the lazy Vue profile route.
+- `scripts/static-profile-renderer.mjs` reads and inlines both files for the canonical generated
   route.
-- The file must stay valid plain CSS even though its `.scss` extension lets the application include
-  it with Sass.
+- Both files must stay valid plain CSS even though their `.scss` extensions let the application
+  include them with Sass.
 - Profile data can select `crt-amber`; it cannot alter token values, fonts, effects, or selectors.
 
-Renderer-specific styles retain only structural layout rules and consume these shared tokens. The
+Renderer-specific styles retain only the document baseline and consume the shared sources. The
 static renderer keeps black and white declarations solely as a legible no-theme baseline if the
 approved CSS cannot be applied.
 

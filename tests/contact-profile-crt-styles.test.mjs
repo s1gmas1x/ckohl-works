@@ -8,6 +8,10 @@ const themeStyle = await readFile(
   new URL('../src/css/_contact-profile-crt.scss', import.meta.url),
   'utf8',
 )
+const layoutStyle = await readFile(
+  new URL('../src/css/_contact-profile-layout.scss', import.meta.url),
+  'utf8',
+)
 const componentSource = await readFile(
   new URL('../src/components/profile/ContactProfileCard.vue', import.meta.url),
   'utf8',
@@ -58,6 +62,9 @@ test('defines the complete semantic CRT token contract under the approved theme'
     '--crt-color-border-panel',
     '--crt-color-border-subtle',
     '--crt-color-border-hover',
+    '--crt-color-display-haze',
+    '--crt-color-display-orb-glow',
+    '--crt-color-display-orb-inset',
     '--crt-border-width',
     '--crt-radius-screen',
     '--crt-radius-panel',
@@ -137,8 +144,10 @@ test('Vue and generated profiles consume the same full-viewport theme source', (
   const document = renderProfileDocument(publishedProfiles[0], 'style-test')
 
   assert.ok(document.includes(themeStyle))
-  assert.match(document, /class="screen contact-profile-crt-screen"/)
-  assert.match(componentSource, /class="contact-card__screen contact-profile-crt-screen"/)
-  assert.match(componentSource, /\.contact-card \{[\s\S]*min-height: 100vh;/)
+  assert.ok(document.includes(layoutStyle))
+  assert.match(document, /class="contact-profile__screen contact-profile-crt-screen"/)
+  assert.match(componentSource, /class="contact-profile__screen contact-profile-crt-screen"/)
+  assert.match(componentSource, /@use '\.\.\/\.\.\/css\/contact-profile-layout';/)
+  assert.match(layoutStyle, /\.contact-profile \{[\s\S]*min-height: 100vh;/)
   assert.doesNotMatch(componentSource, /--ckw-crt-|#[\da-f]{3,8}|rgba?\(/i)
 })
