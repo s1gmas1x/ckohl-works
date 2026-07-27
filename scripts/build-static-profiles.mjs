@@ -35,17 +35,29 @@ async function writeSelectedProfileModule() {
 
   const selectedProfiles = selectProfiles(publishedProfiles, profileSlugs)
   const fixtureModuleUrl = pathToFileURL(join(rootDir, 'src', 'data', 'profileFixtures.js')).href
+  const contractModuleUrl = pathToFileURL(
+    join(rootDir, 'src', 'data', 'contactProfileContract.js'),
+  ).href
+  const themeModuleUrl = pathToFileURL(join(rootDir, 'src', 'data', 'contactProfileThemes.js')).href
   const importedProfiles = selectedProfiles.map((profile, index) => {
     const exportName = profileModuleExportNames[profile.slug]
 
     if (!exportName) throw new Error(`No client module export is configured for ${profile.slug}.`)
     return { exportName, localName: `profile${index}` }
   })
-  const imports = importedProfiles.map(({ exportName, localName }) => `${exportName} as ${localName}`)
+  const imports = importedProfiles.map(
+    ({ exportName, localName }) => `${exportName} as ${localName}`,
+  )
   const localNames = importedProfiles.map(({ localName }) => localName)
-  const moduleSource = `import { PROFILE_SCHEMA_VERSION, getActionHref, ${imports.join(', ')} } from ${JSON.stringify(
+  const moduleSource = `import { ${imports.join(', ')} } from ${JSON.stringify(
     fixtureModuleUrl,
-  )}\n\nexport { PROFILE_SCHEMA_VERSION, getActionHref }\n\nexport const publishedProfiles = Object.freeze([${localNames.join(', ')}])\n\nexport function getPublishedProfile(slug) {\n  return publishedProfiles.find((profile) => profile.slug === slug)\n}\n`
+  )}\nimport { getActionHref, getProfileAction, getProfileActionsByGroup, normalizeContactProfiles, PROFILE_SCHEMA_VERSION } from ${JSON.stringify(
+    contractModuleUrl,
+  )}\nimport { validateContactProfileThemes } from ${JSON.stringify(
+    themeModuleUrl,
+  )}\n\nexport { getActionHref, getProfileAction, getProfileActionsByGroup, PROFILE_SCHEMA_VERSION }\n\nexport const publishedProfiles = Object.freeze(validateContactProfileThemes(normalizeContactProfiles([${localNames.join(
+    ', ',
+  )}])))\n\nexport function getPublishedProfile(slug) {\n  return publishedProfiles.find((profile) => profile.slug === slug)\n}\n`
 
   await mkdir(buildSupportDir, { recursive: true })
   await writeFile(selectedProfileModule, moduleSource)
@@ -81,7 +93,8 @@ async function promoteBuild() {
   try {
     await rename(stagingDir, publishedDir)
   } catch (error) {
-    if (existsSync(previousDir) && !existsSync(publishedDir)) await rename(previousDir, publishedDir)
+    if (existsSync(previousDir) && !existsSync(publishedDir))
+      await rename(previousDir, publishedDir)
     throw error
   }
 
