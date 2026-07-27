@@ -10,7 +10,7 @@ export const chadProfile = {
     organization: 'Ckohl Works',
     role: 'Full-Stack Developer',
     summary:
-      'Practical digital tools for local businesses: websites, smart QR and NFC experiences, and ongoing technical support.',
+      'I build websites, business pages, and NFC/QR tools. When the technical side gets weird, I dig into what is actually happening instead of guessing.',
   },
   actions: [
     { key: 'call', type: 'phone', label: 'Call Chad', value: '+17194285039', isPrimary: true },
@@ -24,8 +24,13 @@ export const chadProfile = {
     },
   ],
   links: [
-    { key: 'portfolio', label: 'Portfolio', value: 'https://ckohl.com', icon: 'account_circle' },
-    { key: 'works', label: 'Ckohl Works', value: 'https://works.ckohl.com', icon: 'language' },
+    {
+      key: 'portfolio',
+      label: 'More about me',
+      value: 'https://ckohl.com',
+      icon: 'account_circle',
+    },
+    { key: 'works', label: 'Services', value: 'https://works.ckohl.com', icon: 'language' },
   ],
   vCard: {
     filename: 'chad-kohl.vcf',

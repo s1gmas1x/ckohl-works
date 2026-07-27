@@ -1,10 +1,14 @@
 const routes = [
   {
+    path: '/card/ckohl-works',
+    component: () => import('@/layouts/ProfileLayout.vue'),
+    children: [{ path: ':profileSlug', component: () => import('@/pages/ProfilePage.vue') }],
+  },
+  {
     path: '/',
     component: () => import('@/layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('@/pages/IndexPage.vue') },
-      { path: 'card/ckohl-works/:profileSlug', component: () => import('@/pages/ProfilePage.vue') },
       { path: 'margots-pizza', component: () => import('@/pages/MargotsPizzaPage.vue') },
       { path: 'second', component: () => import('@/pages/SecondPage.vue') },
     ],
