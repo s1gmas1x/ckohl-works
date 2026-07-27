@@ -1,0 +1,144 @@
+import assert from 'node:assert/strict'
+import { readFile } from 'node:fs/promises'
+import test from 'node:test'
+import { publishedProfiles } from '../src/data/publishedProfiles.js'
+import { renderProfileDocument } from '../scripts/static-profile-renderer.mjs'
+
+const themeStyle = await readFile(
+  new URL('../src/css/_contact-profile-crt.scss', import.meta.url),
+  'utf8',
+)
+const componentSource = await readFile(
+  new URL('../src/components/profile/ContactProfileCard.vue', import.meta.url),
+  'utf8',
+)
+
+function getToken(tokenName) {
+  const match = themeStyle.match(new RegExp(`${tokenName}:\\s*([^;]+);`))
+
+  assert.ok(match, `expected ${tokenName} to be defined`)
+  return match[1].trim()
+}
+
+function parseHexColor(value) {
+  assert.match(value, /^#[\da-f]{6}$/i, `expected a six-digit hex color, received ${value}`)
+  return [1, 3, 5].map((index) => Number.parseInt(value.slice(index, index + 2), 16) / 255)
+}
+
+function relativeLuminance(value) {
+  const [red, green, blue] = parseHexColor(value).map((channel) =>
+    channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4,
+  )
+
+  return red * 0.2126 + green * 0.7152 + blue * 0.0722
+}
+
+function contrastRatio(foreground, background) {
+  const luminances = [relativeLuminance(foreground), relativeLuminance(background)].sort(
+    (left, right) => right - left,
+  )
+
+  return (luminances[0] + 0.05) / (luminances[1] + 0.05)
+}
+
+test('defines the complete semantic CRT token contract under the approved theme', () => {
+  const requiredTokens = [
+    '--crt-color-surface-page',
+    '--crt-color-surface-screen',
+    '--crt-color-surface-panel',
+    '--crt-color-surface-raised',
+    '--crt-color-text-strong',
+    '--crt-color-text-body',
+    '--crt-color-text-action',
+    '--crt-color-text-muted',
+    '--crt-color-accent',
+    '--crt-color-status-ready',
+    '--crt-color-focus',
+    '--crt-color-border-screen',
+    '--crt-color-border-panel',
+    '--crt-color-border-subtle',
+    '--crt-color-border-hover',
+    '--crt-border-width',
+    '--crt-radius-screen',
+    '--crt-radius-panel',
+    '--crt-panel-gap',
+    '--crt-panel-padding-inline',
+    '--crt-type-terminal-family',
+    '--crt-type-identity-family',
+    '--crt-type-label-family',
+    '--crt-type-body-family',
+    '--crt-type-action-family',
+    '--crt-type-data-family',
+    '--crt-depth-screen',
+    '--crt-depth-panel',
+    '--crt-glow-identity',
+    '--crt-scanline-image',
+    '--crt-vignette-image',
+  ]
+
+  for (const tokenName of requiredTokens) getToken(tokenName)
+
+  assert.doesNotMatch(themeStyle, /^\s*(?::root|html|body)\s*[{,]/m)
+  assert.match(themeStyle, /^\.contact-profile-theme--crt-amber \{/m)
+})
+
+test('core text and control colors meet their contrast targets without glow', () => {
+  const surfaces = [getToken('--crt-color-surface-screen'), getToken('--crt-color-surface-panel')]
+  const meaningfulForegrounds = [
+    '--crt-color-text-strong',
+    '--crt-color-text-body',
+    '--crt-color-text-action',
+    '--crt-color-text-muted',
+    '--crt-color-accent',
+    '--crt-color-status-ready',
+  ]
+
+  for (const foregroundToken of meaningfulForegrounds) {
+    for (const surface of surfaces) {
+      const ratio = contrastRatio(getToken(foregroundToken), surface)
+
+      assert.ok(
+        ratio >= 4.5,
+        `${foregroundToken} contrast ${ratio.toFixed(2)} must be at least 4.5`,
+      )
+    }
+  }
+
+  for (const foregroundToken of ['--crt-color-border-screen', '--crt-color-focus']) {
+    for (const surface of surfaces) {
+      const ratio = contrastRatio(getToken(foregroundToken), surface)
+
+      assert.ok(ratio >= 3, `${foregroundToken} contrast ${ratio.toFixed(2)} must be at least 3`)
+    }
+  }
+})
+
+test('screen effects are static, non-interactive, and removable in contrast modes', () => {
+  assert.match(themeStyle, /contact-profile-crt-screen::before[\s\S]*pointer-events: none;/)
+  assert.match(themeStyle, /contact-profile-crt-screen::after[\s\S]*pointer-events: none;/)
+  assert.doesNotMatch(themeStyle, /@keyframes|animation(?:-name)?:|filter:|mix-blend-mode:/)
+  assert.match(themeStyle, /@media \(prefers-contrast: more\)/)
+  assert.match(themeStyle, /@media \(forced-colors: active\)/)
+})
+
+test('focus and font fallbacks remain functional without decorative effects', () => {
+  assert.match(
+    themeStyle,
+    /:where\(a, button, select, \[tabindex\]\):focus-visible[\s\S]*outline: 3px solid var\(--crt-color-focus\) !important;[\s\S]*outline-offset: 3px;/,
+  )
+  assert.notEqual(getToken('--crt-color-focus'), getToken('--crt-color-border-hover'))
+  assert.match(
+    getToken('--crt-type-terminal-family'),
+    /ui-monospace[\s\S]*Cascadia Code[\s\S]*SFMono-Regular[\s\S]*Consolas[\s\S]*monospace/,
+  )
+})
+
+test('Vue and generated profiles consume the same full-viewport theme source', () => {
+  const document = renderProfileDocument(publishedProfiles[0], 'style-test')
+
+  assert.ok(document.includes(themeStyle))
+  assert.match(document, /class="screen contact-profile-crt-screen"/)
+  assert.match(componentSource, /class="contact-card__screen contact-profile-crt-screen"/)
+  assert.match(componentSource, /\.contact-card \{[\s\S]*min-height: 100vh;/)
+  assert.doesNotMatch(componentSource, /--ckw-crt-|#[\da-f]{3,8}|rgba?\(/i)
+})

@@ -1,0 +1,203 @@
+/*
+ * Shared CRT theme source.
+ *
+ * Keep this file valid plain CSS: the static profile renderer reads and inlines it directly,
+ * while app.scss includes it through Sass. Profile data may select this code-owned theme but
+ * cannot override any value below.
+ */
+.contact-profile-theme--crt-amber {
+  /* Surfaces */
+  --crt-color-surface-page: #050402;
+  --crt-color-surface-screen: #0b0905;
+  --crt-color-surface-panel: #100d07;
+  --crt-color-surface-raised: #181106;
+  --crt-color-surface-control: rgba(255, 201, 106, 0.075);
+  --crt-color-surface-control-hover: rgba(255, 201, 106, 0.13);
+
+  /* Meaningful foregrounds: every text color is AA against the screen and panel surfaces. */
+  --crt-color-text-strong: #ffe1a5;
+  --crt-color-text-body: #f2d4a0;
+  --crt-color-text-action: #e6c486;
+  --crt-color-text-muted: #c9933d;
+  --crt-color-accent: #ffc96a;
+  --crt-color-status-ready: #ffd27a;
+  --crt-color-focus: #fff2c7;
+
+  /* Borders and modular panel geometry */
+  --crt-color-border-screen: #ad7c32;
+  --crt-color-border-panel: rgba(255, 201, 106, 0.34);
+  --crt-color-border-subtle: rgba(255, 201, 106, 0.24);
+  --crt-color-border-hover: #c9933d;
+  --crt-border-width: 1px;
+  --crt-radius-screen: 0;
+  --crt-radius-panel: 4px;
+  --crt-panel-gap: 9px;
+  --crt-panel-padding-inline: 16px;
+
+  /* Typography roles */
+  --crt-type-terminal-family:
+    'Share Tech Mono', ui-monospace, 'Cascadia Code', 'SFMono-Regular', Consolas, monospace;
+  --crt-type-identity-family: var(--crt-type-terminal-family);
+  --crt-type-identity-size: clamp(2.3rem, 5vw, 3.85rem);
+  --crt-type-identity-weight: 400;
+  --crt-type-identity-tracking: 0.02em;
+  --crt-type-identity-leading: 1.08;
+  --crt-type-label-family: var(--crt-type-terminal-family);
+  --crt-type-label-size: 0.72rem;
+  --crt-type-label-weight: 400;
+  --crt-type-label-tracking: 0.1em;
+  --crt-type-role-size: 0.82rem;
+  --crt-type-role-tracking: 0.045em;
+  --crt-type-body-family: var(--crt-type-terminal-family);
+  --crt-type-body-size: 1rem;
+  --crt-type-body-weight: 400;
+  --crt-type-body-leading: 1.65;
+  --crt-type-action-family: var(--crt-type-terminal-family);
+  --crt-type-action-size: 0.88rem;
+  --crt-type-action-weight: 400;
+  --crt-type-action-tracking: 0.035em;
+  --crt-type-data-family: var(--crt-type-terminal-family);
+  --crt-type-data-size: 0.72rem;
+  --crt-type-data-weight: 400;
+  --crt-type-data-tracking: 0.06em;
+
+  /* Depth and decorative effects stay static and deliberately restrained. */
+  --crt-depth-screen: inset 0 0 0 5px rgba(0, 0, 0, 0.28), inset 0 0 42px rgba(255, 171, 38, 0.065);
+  --crt-depth-panel: inset 0 0 18px rgba(255, 171, 38, 0.035);
+  --crt-glow-identity: 0 0 12px rgba(255, 198, 84, 0.2);
+  --crt-scanline-image: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 226, 166, 0.03) 0,
+    rgba(255, 226, 166, 0.03) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  --crt-vignette-image: radial-gradient(
+    ellipse at center,
+    transparent 58%,
+    rgba(0, 0, 0, 0.2) 100%
+  );
+  --ckw-focus-ring: var(--crt-color-focus);
+
+  color-scheme: dark;
+  background:
+    radial-gradient(ellipse at 50% -10%, rgba(255, 177, 43, 0.085), transparent 42%),
+    var(--crt-color-surface-page);
+  color: var(--crt-color-text-body);
+  font-family: var(--crt-type-body-family);
+}
+
+.contact-profile-theme--crt-amber .contact-profile-crt-screen {
+  isolation: isolate;
+  border-color: var(--crt-color-border-screen);
+  border-radius: var(--crt-radius-screen);
+  background:
+    radial-gradient(ellipse at 50% 12%, rgba(255, 199, 92, 0.075), transparent 48%),
+    linear-gradient(180deg, rgba(255, 214, 132, 0.025), transparent 26%),
+    var(--crt-color-surface-screen);
+  box-shadow: var(--crt-depth-screen);
+}
+
+.contact-profile-theme--crt-amber .contact-profile-crt-screen::before,
+.contact-profile-theme--crt-amber .contact-profile-crt-screen::after {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  content: '';
+  pointer-events: none;
+}
+
+.contact-profile-theme--crt-amber .contact-profile-crt-screen::before {
+  background: var(--crt-scanline-image);
+}
+
+.contact-profile-theme--crt-amber .contact-profile-crt-screen::after {
+  background: var(--crt-vignette-image);
+}
+
+.contact-profile-theme--crt-amber .contact-profile-crt-screen > * {
+  position: relative;
+  z-index: 1;
+}
+
+.contact-profile-theme--crt-amber .contact-profile-crt-control {
+  border-color: var(--crt-color-border-subtle);
+  background: transparent;
+  color: var(--crt-color-text-action);
+}
+
+.contact-profile-theme--crt-amber .contact-profile-crt-control--primary {
+  border-color: var(--crt-color-border-screen);
+  background: var(--crt-color-surface-control);
+  box-shadow: var(--crt-depth-panel);
+  color: var(--crt-color-text-strong);
+}
+
+.contact-profile-theme--crt-amber .contact-profile-crt-control:hover {
+  border-color: var(--crt-color-border-hover);
+  background: var(--crt-color-surface-control-hover);
+  color: var(--crt-color-text-strong);
+}
+
+.contact-profile-theme--crt-amber :where(a, button, select, [tabindex]):focus-visible {
+  outline: 3px solid var(--crt-color-focus) !important;
+  outline-offset: 3px;
+  box-shadow: none;
+}
+
+@media (max-width: 560px) {
+  .contact-profile-theme--crt-amber {
+    --crt-panel-padding-inline: 10px;
+    --crt-type-identity-size: clamp(2.15rem, 12vw, 3rem);
+    --crt-type-body-size: 0.95rem;
+    --crt-type-action-size: 0.82rem;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .contact-profile-theme--crt-amber {
+    --crt-color-border-panel: var(--crt-color-border-screen);
+    --crt-color-border-subtle: var(--crt-color-border-screen);
+    --crt-color-border-hover: var(--crt-color-focus);
+    --crt-glow-identity: none;
+  }
+
+  .contact-profile-theme--crt-amber .contact-profile-crt-screen::before,
+  .contact-profile-theme--crt-amber .contact-profile-crt-screen::after {
+    display: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .contact-profile-theme--crt-amber {
+    --crt-color-surface-page: Canvas;
+    --crt-color-surface-screen: Canvas;
+    --crt-color-surface-panel: Canvas;
+    --crt-color-surface-raised: Canvas;
+    --crt-color-surface-control: Canvas;
+    --crt-color-surface-control-hover: Canvas;
+    --crt-color-text-strong: CanvasText;
+    --crt-color-text-body: CanvasText;
+    --crt-color-text-action: LinkText;
+    --crt-color-text-muted: CanvasText;
+    --crt-color-accent: CanvasText;
+    --crt-color-status-ready: CanvasText;
+    --crt-color-focus: Highlight;
+    --crt-color-border-screen: CanvasText;
+    --crt-color-border-panel: CanvasText;
+    --crt-color-border-subtle: CanvasText;
+    --crt-color-border-hover: Highlight;
+    --crt-depth-screen: none;
+    --crt-depth-panel: none;
+    --crt-glow-identity: none;
+
+    forced-color-adjust: auto;
+    background: Canvas;
+    color: CanvasText;
+  }
+
+  .contact-profile-theme--crt-amber .contact-profile-crt-screen::before,
+  .contact-profile-theme--crt-amber .contact-profile-crt-screen::after {
+    display: none;
+  }
+}

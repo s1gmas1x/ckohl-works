@@ -52,6 +52,8 @@ The generated profile artifact is the production path for
 
 - Treat the CRT presentation as a code-owned theme selected by an approved key, not as Chad-specific
   markup or globally active site styling.
+- Preserve the contact profile as a full-viewport, full-bleed terminal on desktop. Do not wrap it in
+  a centered, floating card; express depth with restrained inset screen edges and internal panels.
 - Keep scanlines, glow, bloom, particles, pointer response, and Three.js content restrained and
   decorative.
 - Lazy-load substantial visual dependencies. Show a lightweight fallback immediately and keep it

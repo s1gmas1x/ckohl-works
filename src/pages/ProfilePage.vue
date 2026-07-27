@@ -41,10 +41,8 @@ watch(
 .contact-card-page {
   width: 100vw;
   min-height: 100vh;
-  background:
-    radial-gradient(ellipse at 50% -12%, rgba(255, 177, 43, 0.11), transparent 42%),
-    var(--ckw-crt-screen-deep);
-  color: var(--ckw-crt-amber-bright);
+  background: var(--ckw-page-bg);
+  color: var(--ckw-text-primary);
 }
 .contact-card-page__content {
   width: 100%;
