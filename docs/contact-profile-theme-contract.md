@@ -64,9 +64,10 @@ dynamic-link, analytics, or signal status.
 
 ## Versioning
 
-The theme contract begins at version 1. `PROFILE_SCHEMA_VERSION` remains at 1 because `themeKey`
-already existed and only its approved value/validation changed. The fixture content and deterministic
-profile hashes change naturally when the key changes.
+The theme contract remains at version 1. `PROFILE_SCHEMA_VERSION` is now 2 because the separately
+reviewed data/action work adds typed SMS, website, social, location, derived status, and footer
+fields. See `docs/contact-profile-data-contract.md`. Fixture content and deterministic profile
+hashes change naturally when their reviewed data changes.
 
 Increment the theme-contract version when renderer-visible theme semantics become incompatible.
 Increment the profile schema separately when the profile data shape or required content changes.
@@ -79,9 +80,9 @@ Vue SFC or accept raw styles from profile data. Any shared generated CSS asset m
 build-owned artifact selected by the approved registry.
 
 The shared CRT source now lives in `src/css/_contact-profile-crt.scss`. It intentionally contains
-only browser-valid CSS: the Vue application includes it through `app.scss`, and the static renderer
-reads and inlines the same build-owned source. See `docs/contact-profile-crt-style-system.md` for
-token roles, contrast guarantees, and effect limits.
+only browser-valid CSS: `ContactProfileCard.vue` includes it in the lazy profile route, and the static
+renderer reads and inlines the same build-owned source. See
+`docs/contact-profile-crt-style-system.md` for token roles, contrast guarantees, and effect limits.
 
 ## Verification
 

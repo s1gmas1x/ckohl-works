@@ -1,6 +1,7 @@
 import { CRT_AMBER_THEME_KEY } from './contactProfileThemes.js'
+import { PROFILE_SCHEMA_VERSION } from './contactProfileContract.js'
 
-export const PROFILE_SCHEMA_VERSION = 1
+export { PROFILE_SCHEMA_VERSION }
 
 export const chadProfile = {
   schemaVersion: PROFILE_SCHEMA_VERSION,
@@ -15,7 +16,8 @@ export const chadProfile = {
       'I build websites, business pages, and NFC/QR tools. When the technical side gets weird, I dig into what is actually happening instead of guessing.',
   },
   actions: [
-    { key: 'call', type: 'phone', label: 'Call Chad', value: '+17194285039', isPrimary: true },
+    { key: 'call', type: 'call', label: 'Call Chad', value: '+17194285039', isPrimary: true },
+    { key: 'text', type: 'sms', label: 'Text Chad', value: '+17194285039' },
     { key: 'email', type: 'email', label: 'Email', value: 'chad_kohl@ckohl.com' },
     {
       key: 'vcard',
@@ -24,16 +26,34 @@ export const chadProfile = {
       value: '/contacts/chad-kohl.vcf',
       download: 'chad-kohl.vcf',
     },
-  ],
-  links: [
     {
-      key: 'portfolio',
-      label: 'More about me',
+      key: 'website',
+      type: 'website',
+      label: 'Website',
       value: 'https://ckohl.com',
-      icon: 'account_circle',
     },
-    { key: 'works', label: 'Services', value: 'https://works.ckohl.com', icon: 'language' },
+    {
+      key: 'works',
+      type: 'website',
+      label: 'Ckohl Works',
+      value: 'https://works.ckohl.com',
+    },
+    {
+      key: 'github',
+      type: 'social',
+      platform: 'GitHub',
+      label: 'GitHub',
+      value: 'https://github.com/s1gmas1x',
+    },
+    {
+      key: 'location',
+      type: 'location',
+      label: 'Open location',
+      displayValue: 'Colorado Springs, CO',
+      value: 'https://www.google.com/maps/search/?api=1&query=Colorado+Springs%2C+CO',
+    },
   ],
+  footer: ['profile', 'schema'],
   vCard: {
     filename: 'chad-kohl.vcf',
     content:
@@ -56,11 +76,12 @@ export const pikesPeakHandymanProfile = {
   actions: [
     {
       key: 'call',
-      type: 'phone',
+      type: 'call',
       label: 'Call for an estimate',
       value: '+17195550182',
       isPrimary: true,
     },
+    { key: 'text', type: 'sms', label: 'Text for an estimate', value: '+17195550182' },
     { key: 'email', type: 'email', label: 'Email Pat', value: 'hello@pikespeakhandyman.example' },
     {
       key: 'vcard',
@@ -69,21 +90,21 @@ export const pikesPeakHandymanProfile = {
       value: '/contacts/pikes-peak-handyman.vcf',
       download: 'pikes-peak-handyman.vcf',
     },
-  ],
-  links: [
-    {
-      key: 'directions',
-      label: 'Service area',
-      value: 'https://www.google.com/maps/search/?api=1&query=Colorado+Springs%2C+CO',
-      icon: 'location_on',
-    },
     {
       key: 'website',
+      type: 'website',
       label: 'Website',
       value: 'https://pikespeakhandyman.example',
-      icon: 'language',
+    },
+    {
+      key: 'location',
+      type: 'location',
+      label: 'Open service area',
+      displayValue: 'Colorado Springs, CO',
+      value: 'https://www.google.com/maps/search/?api=1&query=Colorado+Springs%2C+CO',
     },
   ],
+  footer: ['profile', 'schema'],
   vCard: {
     filename: 'pikes-peak-handyman.vcf',
     content:
@@ -94,11 +115,4 @@ export const pikesPeakHandymanProfile = {
 export const profileModuleExportNames = {
   chad: 'chadProfile',
   'pikes-peak-handyman': 'pikesPeakHandymanProfile',
-}
-
-export function getActionHref(action) {
-  if (action.type === 'phone') return `tel:${action.value.replace(/[^+\d]/g, '')}`
-  if (action.type === 'email') return `mailto:${action.value}`
-
-  return action.value
 }

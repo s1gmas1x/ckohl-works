@@ -3,6 +3,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import {
   getActionHref,
+  getProfileActionsByGroup,
   PROFILE_SCHEMA_VERSION,
   publishedProfiles,
 } from '../src/data/publishedProfiles.js'
@@ -44,9 +45,16 @@ h1 { margin:0; color:var(--crt-color-text-strong,currentColor); font-family:var(
 .button--secondary { border-right-color:transparent; border-left-color:transparent; }
 .action-cursor { color:var(--crt-color-accent,currentColor); }.action-index,.action-type { color:var(--crt-color-text-muted,currentColor); font-family:var(--crt-type-data-family,inherit); font-size:var(--crt-type-data-size,.72rem); font-weight:var(--crt-type-data-weight,400); letter-spacing:var(--crt-type-data-tracking,.06em); }.action-type { text-align:right; }
 .links { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:var(--crt-panel-gap,9px); margin-top:18px; padding-top:18px; border-top:var(--crt-border-width,1px) solid var(--crt-color-border-panel,currentColor); }
-.links a { display:flex; align-items:center; min-height:44px; padding:0 11px; border-width:var(--crt-border-width,1px); border-style:solid; border-radius:var(--crt-radius-panel,4px); font-family:var(--crt-type-action-family,inherit); font-size:var(--crt-type-label-size,.72rem); font-weight:var(--crt-type-action-weight,400); letter-spacing:var(--crt-type-action-tracking,.035em); text-decoration:none; }
+.links a { display:flex; align-items:center; justify-content:space-between; gap:8px; min-height:44px; padding:0 11px; border-width:var(--crt-border-width,1px); border-style:solid; border-radius:var(--crt-radius-panel,4px); font-family:var(--crt-type-action-family,inherit); font-size:var(--crt-type-label-size,.72rem); font-weight:var(--crt-type-action-weight,400); letter-spacing:var(--crt-type-action-tracking,.035em); text-decoration:none; }
+.profile-status { display:grid; gap:0; margin:18px 0 0; border:var(--crt-border-width,1px) solid var(--crt-color-border-panel,currentColor); color:var(--crt-color-text-body,currentColor); font-family:var(--crt-type-data-family,inherit); font-size:var(--crt-type-data-size,.72rem); letter-spacing:var(--crt-type-data-tracking,.06em); }
+.profile-status > div { display:grid; grid-template-columns:minmax(7rem,.5fr) minmax(0,1fr); gap:var(--crt-panel-gap,9px); padding:11px var(--crt-panel-padding-inline,16px); }
+.profile-status > div + div { border-top:var(--crt-border-width,1px) solid var(--crt-color-border-subtle,currentColor); }
+.profile-status dt { color:var(--crt-color-text-muted,currentColor); text-transform:uppercase; }
+.profile-status dd { margin:0; color:var(--crt-color-status-ready,currentColor); text-align:right; overflow-wrap:anywhere; }
 .note { margin:20px 0 0; color:var(--crt-color-text-muted,currentColor); font-family:var(--crt-type-label-family,inherit); font-size:var(--crt-type-label-size,.72rem); font-weight:var(--crt-type-label-weight,400); line-height:1.5; text-align:left; }
-@media (max-width:560px) { .profile { padding:8px; } .screen { min-height:calc(100vh - 16px); padding:24px 18px; } .status { margin-bottom:24px; } .links { grid-template-columns:1fr; } .button { grid-template-columns:14px 36px minmax(0,1fr) auto; padding-inline:var(--crt-panel-padding-inline,10px); } }
+.profile-footer { display:flex; flex-wrap:wrap; gap:10px 24px; margin-top:18px; padding-top:12px; border-top:var(--crt-border-width,1px) solid var(--crt-color-border-subtle,currentColor); color:var(--crt-color-text-body,currentColor); font-family:var(--crt-type-data-family,inherit); font-size:var(--crt-type-data-size,.72rem); letter-spacing:var(--crt-type-data-tracking,.06em); text-transform:uppercase; }
+.profile-footer-label { margin-right:6px; color:var(--crt-color-text-muted,currentColor); }
+@media (max-width:560px) { .profile { padding:8px; } .screen { min-height:calc(100vh - 16px); padding:24px 18px; } .status { margin-bottom:24px; } .links { grid-template-columns:1fr; } .button { grid-template-columns:14px 36px minmax(0,1fr) auto; padding-inline:var(--crt-panel-padding-inline,10px); } .profile-status > div { grid-template-columns:1fr; } .profile-status dd { text-align:left; } }
 ${contactProfileThemeStyle}
 `
 
@@ -121,28 +129,46 @@ function escapeHtml(value) {
 }
 
 function actionMarkup(action, index, publicBase) {
-  const actionHref = getActionHref(action)
-  const href = escapeHtml(
-    action.type === 'vcard' ? `${publicBase}${actionHref.slice(1)}` : actionHref,
-  )
+  const href = escapeHtml(getActionHref(action, publicBase))
   const download = action.download ? ` download="${escapeHtml(action.download)}"` : ''
   const copyEmail = action.type === 'email' ? ` data-copy-email="${escapeHtml(action.value)}"` : ''
   const className = action.isPrimary
     ? 'button button--primary contact-profile-crt-control contact-profile-crt-control--primary'
     : 'button button--secondary contact-profile-crt-control'
-  const actionType = { phone: 'CALL', email: 'MAIL', vcard: 'SAVE' }[action.type]
 
-  return `<a class="${className}" href="${href}"${download}${copyEmail}><span class="action-cursor" aria-hidden="true">${action.isPrimary ? '>' : ' '}</span><span class="action-index" aria-hidden="true">[${index + 1}]</span><span>${escapeHtml(action.label)}</span><span class="action-type" aria-hidden="true">${actionType}</span></a>`
+  return `<a class="${className}" href="${href}"${download}${copyEmail}><span class="action-cursor" aria-hidden="true">${action.isPrimary ? '>' : ' '}</span><span class="action-index" aria-hidden="true">[${index + 1}]</span><span>${escapeHtml(action.label)}</span><span class="action-type" aria-hidden="true">${escapeHtml(action.typeLabel)}</span></a>`
 }
 
-function linkMarkup(link) {
-  return `<a class="contact-profile-crt-control" href="${escapeHtml(link.value)}" target="_blank" rel="noopener noreferrer">${escapeHtml(link.label)}</a>`
+function externalActionMarkup(action, publicBase) {
+  const accessibleName =
+    action.type === 'location'
+      ? `${action.label}: ${action.displayValue} (opens in new tab)`
+      : `${action.label} (opens in new tab)`
+
+  return `<a class="contact-profile-crt-control" href="${escapeHtml(getActionHref(action, publicBase))}" aria-label="${escapeHtml(accessibleName)}" target="_blank" rel="noopener noreferrer"><span>${escapeHtml(action.label)}</span><span aria-hidden="true">↗</span></a>`
+}
+
+function statusMarkup(item) {
+  return `<div><dt>${escapeHtml(item.label)}</dt><dd>${escapeHtml(item.value)}</dd></div>`
+}
+
+function footerMarkup(item) {
+  return `<span><span class="profile-footer-label">${escapeHtml(item.label)}</span>${escapeHtml(item.value)}</span>`
 }
 
 export function renderProfileDocument(profile, buildRevision, publicBase = '/') {
   const theme = resolveContactProfileTheme(profile.themeKey)
   const hash = contentHash(profile)
   const title = `${profile.identity.name} | ${profile.identity.organization}`
+  const contactActions = getProfileActionsByGroup(profile, 'contact')
+  const saveActions = getProfileActionsByGroup(profile, 'save')
+  const coreActions = [...contactActions, ...saveActions]
+  const externalActions = getProfileActionsByGroup(profile, 'external')
+  const emailAction = profile.actions.find((action) => action.type === 'email')
+  const callAction = profile.actions.find((action) => action.type === 'call')
+  const websiteAction = profile.actions.find((action) => action.type === 'website')
+  const socialActions = profile.actions.filter((action) => action.type === 'social')
+  const locationAction = profile.actions.find((action) => action.type === 'location')
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Person',
@@ -150,8 +176,11 @@ export function renderProfileDocument(profile, buildRevision, publicBase = '/') 
     jobTitle: profile.identity.role,
     worksFor: { '@type': 'Organization', name: profile.identity.organization },
     description: profile.identity.summary,
-    email: profile.actions.find((action) => action.type === 'email')?.value,
-    telephone: profile.actions.find((action) => action.type === 'phone')?.value,
+    email: emailAction?.value,
+    telephone: callAction?.value,
+    url: websiteAction?.value,
+    sameAs: socialActions.length > 0 ? socialActions.map((action) => action.value) : undefined,
+    address: locationAction?.displayValue,
   }
 
   return `<!doctype html>
@@ -179,11 +208,31 @@ export function renderProfileDocument(profile, buildRevision, publicBase = '/') 
             <h1 id="profile-title">${escapeHtml(profile.identity.name)}</h1>
             <p class="role">${escapeHtml(profile.identity.role)} / ${escapeHtml(profile.identity.organization)}</p>
             <p class="summary">${escapeHtml(profile.identity.summary)}</p>
-            <nav class="actions" aria-label="Contact actions">${profile.actions
+            <nav class="actions" aria-label="Contact actions">${coreActions
               .map((action, index) => actionMarkup(action, index, publicBase))
               .join('')}</nav>
-            <nav class="links" aria-label="Website links">${profile.links.map(linkMarkup).join('')}</nav>
+            ${
+              externalActions.length > 0
+                ? `<nav class="links" aria-label="Web, social, and location links">${externalActions
+                    .map((action) => externalActionMarkup(action, publicBase))
+                    .join('')}</nav>`
+                : ''
+            }
+            ${
+              profile.status.length > 0
+                ? `<dl class="profile-status" aria-label="Profile details">${profile.status
+                    .map(statusMarkup)
+                    .join('')}</dl>`
+                : ''
+            }
             <p class="note">Tap a row to connect, or save these details for later.</p>
+            ${
+              profile.footer.length > 0
+                ? `<footer class="profile-footer" aria-label="Profile status">${profile.footer
+                    .map(footerMarkup)
+                    .join('')}</footer>`
+                : ''
+            }
           </div>
         </div>
       </section>

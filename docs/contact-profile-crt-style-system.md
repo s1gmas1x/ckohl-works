@@ -15,7 +15,7 @@ width around the themed profile.
 `src/css/_contact-profile-crt.scss` is the single build-owned source for the approved `crt-amber`
 tokens and screen effects.
 
-- `src/css/app.scss` includes it for the Vue route.
+- `ContactProfileCard.vue` includes it in the lazy Vue profile route.
 - `scripts/static-profile-renderer.mjs` reads and inlines the same file for the canonical generated
   route.
 - The file must stay valid plain CSS even though its `.scss` extension lets the application include

@@ -15,7 +15,9 @@ The generated profile artifact is the production path for
 ## Important locations
 
 - `src/data/profileFixtures.js`: versioned profile schema, reviewed fixtures, vCard data, and action
-  URL handling.
+  configuration.
+- `src/data/contactProfileContract.js`: required fields, typed action normalization, safe URLs,
+  derived statuses, and footer sources.
 - `src/data/publishedProfiles.js`: published-profile allowlist and lookup.
 - `src/components/profile/`: shared contact-profile UI.
 - `src/pages/ProfilePage.vue`: route lookup and profile metadata.

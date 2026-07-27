@@ -23,16 +23,16 @@
 
         <nav class="contact-card-actions" aria-label="Contact actions">
           <a
-            v-for="(action, index) in profile.actions"
+            v-for="(action, index) in coreActions"
             :key="action.key"
-            :href="getActionHref(action)"
+            :href="getActionHref(action, publicBase)"
             :download="action.download || undefined"
             :ref="(element) => setActionLink(element, index)"
             @click="handleActionClick(action)"
             @keydown.up.prevent="focusAction(index - 1)"
             @keydown.down.prevent="focusAction(index + 1)"
             @keydown.home.prevent="focusAction(0)"
-            @keydown.end.prevent="focusAction(profile.actions.length - 1)"
+            @keydown.end.prevent="focusAction(coreActions.length - 1)"
             class="contact-card__action contact-profile-crt-control"
             :class="
               action.isPrimary
@@ -51,33 +51,56 @@
           </a>
         </nav>
 
-        <div class="contact-card-links" aria-label="Website links">
+        <nav
+          v-if="externalActions.length"
+          class="contact-card-links"
+          aria-label="Web, social, and location links"
+        >
           <a
-            v-for="link in profile.links"
-            :key="link.key"
-            :href="link.value"
+            v-for="action in externalActions"
+            :key="action.key"
+            :href="getActionHref(action, publicBase)"
+            :aria-label="externalActionAccessibleName(action)"
             target="_blank"
             rel="noopener noreferrer"
             class="contact-profile-crt-control"
           >
-            <q-icon :name="link.icon" size="18px" />
-            <span>{{ link.label }}</span>
-            <q-icon name="open_in_new" size="16px" />
+            <q-icon :name="actionIcon(action)" size="18px" aria-hidden="true" />
+            <span>{{ action.label }}</span>
+            <q-icon name="open_in_new" size="16px" aria-hidden="true" />
           </a>
-        </div>
+        </nav>
+
+        <dl v-if="profile.status.length" class="contact-card-status" aria-label="Profile details">
+          <div v-for="item in profile.status" :key="item.key">
+            <dt>{{ item.label }}</dt>
+            <dd>{{ item.value }}</dd>
+          </div>
+        </dl>
 
         <p class="contact-card__note">
           Tap a row, or use Tab and the arrow keys to select an action.
         </p>
+
+        <footer
+          v-if="profile.footer.length"
+          class="contact-card-footer"
+          aria-label="Profile status"
+        >
+          <span v-for="item in profile.footer" :key="item.key">
+            <span class="contact-card-footer__label">{{ item.label }}</span>
+            {{ item.value }}
+          </span>
+        </footer>
       </div>
     </div>
   </section>
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, onBeforeUnmount, ref } from 'vue'
 import { resolveContactProfileTheme } from '@/data/contactProfileThemes.js'
-import { getActionHref } from '@/data/publishedProfiles.js'
+import { getActionHref, getProfileActionsByGroup } from '@/data/publishedProfiles.js'
 
 const props = defineProps({
   profile: {
@@ -89,16 +112,31 @@ const props = defineProps({
 const actionLinks = ref([])
 const copiedActionKey = ref(null)
 const theme = computed(() => resolveContactProfileTheme(props.profile.themeKey))
+const contactActions = computed(() => getProfileActionsByGroup(props.profile, 'contact'))
+const saveActions = computed(() => getProfileActionsByGroup(props.profile, 'save'))
+const coreActions = computed(() => [...contactActions.value, ...saveActions.value])
+const externalActions = computed(() => getProfileActionsByGroup(props.profile, 'external'))
+const publicBase = import.meta.env.BASE_URL
 let copiedActionTimeout
 
 function actionTypeLabel(action) {
   if (copiedActionKey.value === action.key) return 'COPIED'
 
-  return {
-    phone: 'CALL',
-    email: 'MAIL',
-    vcard: 'SAVE',
-  }[action.type]
+  return action.typeLabel
+}
+
+function actionIcon(action) {
+  if (action.type === 'location') return 'location_on'
+  if (action.type === 'social') return action.platform === 'GitHub' ? 'code' : 'groups'
+
+  return 'language'
+}
+
+function externalActionAccessibleName(action) {
+  if (action.type === 'location')
+    return `${action.label}: ${action.displayValue} (opens in new tab)`
+
+  return `${action.label} (opens in new tab)`
 }
 
 function setActionLink(element, index) {
@@ -106,7 +144,7 @@ function setActionLink(element, index) {
 }
 
 function focusAction(index) {
-  const actionCount = props.profile.actions.length
+  const actionCount = coreActions.value.length
   const wrappedIndex = (index + actionCount) % actionCount
   actionLinks.value[wrappedIndex]?.focus()
 }
@@ -125,6 +163,10 @@ async function handleActionClick(action) {
     // The mailto link remains usable when clipboard access is unavailable.
   }
 }
+
+onBeforeUnmount(() => {
+  window.clearTimeout(copiedActionTimeout)
+})
 </script>
 
 <style lang="scss" scoped>
@@ -283,6 +325,35 @@ async function handleActionClick(action) {
   margin-left: auto;
   color: var(--crt-color-text-muted);
 }
+.contact-card-status {
+  display: grid;
+  gap: 0;
+  margin: 18px 0 0;
+  border: var(--crt-border-width) solid var(--crt-color-border-panel);
+  color: var(--crt-color-text-body);
+  font-family: var(--crt-type-data-family);
+  font-size: var(--crt-type-data-size);
+  letter-spacing: var(--crt-type-data-tracking);
+}
+.contact-card-status > div {
+  display: grid;
+  grid-template-columns: minmax(7rem, 0.5fr) minmax(0, 1fr);
+  gap: var(--crt-panel-gap);
+  padding: 11px var(--crt-panel-padding-inline);
+}
+.contact-card-status > div + div {
+  border-top: var(--crt-border-width) solid var(--crt-color-border-subtle);
+}
+.contact-card-status dt {
+  color: var(--crt-color-text-muted);
+  text-transform: uppercase;
+}
+.contact-card-status dd {
+  margin: 0;
+  color: var(--crt-color-status-ready);
+  text-align: right;
+  overflow-wrap: anywhere;
+}
 .contact-card__note {
   margin: 20px 0 0;
   color: var(--crt-color-text-muted);
@@ -291,6 +362,23 @@ async function handleActionClick(action) {
   font-weight: var(--crt-type-label-weight);
   line-height: 1.5;
   text-align: left;
+}
+.contact-card-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 24px;
+  margin-top: 18px;
+  padding-top: 12px;
+  border-top: var(--crt-border-width) solid var(--crt-color-border-subtle);
+  color: var(--crt-color-text-body);
+  font-family: var(--crt-type-data-family);
+  font-size: var(--crt-type-data-size);
+  letter-spacing: var(--crt-type-data-tracking);
+  text-transform: uppercase;
+}
+.contact-card-footer__label {
+  margin-right: 6px;
+  color: var(--crt-color-text-muted);
 }
 @media (max-width: 560px) {
   .contact-card {
@@ -309,6 +397,12 @@ async function handleActionClick(action) {
   .contact-card__action {
     grid-template-columns: 14px 36px minmax(0, 1fr) auto;
     padding-inline: var(--crt-panel-padding-inline);
+  }
+  .contact-card-status > div {
+    grid-template-columns: 1fr;
+  }
+  .contact-card-status dd {
+    text-align: left;
   }
 }
 @media (prefers-reduced-motion: reduce) {
