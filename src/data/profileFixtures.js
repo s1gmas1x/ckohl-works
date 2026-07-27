@@ -45,13 +45,6 @@ export const chadProfile = {
       label: 'GitHub',
       value: 'https://github.com/s1gmas1x',
     },
-    {
-      key: 'location',
-      type: 'location',
-      label: 'Open location',
-      displayValue: 'Colorado Springs, CO',
-      value: 'https://www.google.com/maps/search/?api=1&query=Colorado+Springs%2C+CO',
-    },
   ],
   footer: ['profile', 'schema'],
   vCard: {

@@ -28,6 +28,9 @@
   --crt-color-border-panel: rgba(255, 201, 106, 0.34);
   --crt-color-border-subtle: rgba(255, 201, 106, 0.24);
   --crt-color-border-hover: #c9933d;
+  --crt-color-display-haze: rgba(255, 201, 106, 0.08);
+  --crt-color-display-orb-glow: rgba(255, 201, 106, 0.28);
+  --crt-color-display-orb-inset: rgba(255, 201, 106, 0.18);
   --crt-border-width: 1px;
   --crt-radius-screen: 0;
   --crt-radius-panel: 4px;
@@ -187,6 +190,9 @@
     --crt-color-border-panel: CanvasText;
     --crt-color-border-subtle: CanvasText;
     --crt-color-border-hover: Highlight;
+    --crt-color-display-haze: Canvas;
+    --crt-color-display-orb-glow: transparent;
+    --crt-color-display-orb-inset: transparent;
     --crt-depth-screen: none;
     --crt-depth-panel: none;
     --crt-glow-identity: none;

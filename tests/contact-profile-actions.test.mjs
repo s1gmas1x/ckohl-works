@@ -19,12 +19,11 @@ test('normalizes reviewed fixtures into ordered typed actions and truthful deriv
   assert.equal(PROFILE_SCHEMA_VERSION, 2)
   assert.deepEqual(
     chad.actions.map((action) => action.type),
-    ['call', 'sms', 'email', 'vcard', 'website', 'website', 'social', 'location'],
+    ['call', 'sms', 'email', 'vcard', 'website', 'website', 'social'],
   )
   assert.deepEqual(
     chad.status.map(({ key, value }) => [key, value]),
     [
-      ['location', 'Colorado Springs, CO'],
       ['vcard', 'READY'],
       ['link-mode', 'DIRECT'],
     ],
@@ -111,9 +110,9 @@ test('omits optional external, status, and footer regions without weakening requ
   assert.deepEqual(normalized.footer, [])
 
   const document = renderProfileDocument(normalized, 'minimal-test')
-  assert.doesNotMatch(document, /class="links"/)
+  assert.doesNotMatch(document, /class="contact-profile-external-actions"/)
   assert.doesNotMatch(document, /Link mode/)
-  assert.doesNotMatch(document, /class="profile-footer"/)
+  assert.doesNotMatch(document, /class="contact-profile-footer/)
   assert.doesNotMatch(document, /"sameAs"|"address"|"url"/)
 })
 
@@ -156,5 +155,5 @@ test('generated HTML exposes working actions, honest statuses, and available str
   assert.doesNotMatch(document, /DYNAMIC LINK|>ACTIVE<|analytics/i)
   assert.match(document, /"url":"https:\/\/ckohl\.com\/"/)
   assert.match(document, /"sameAs":\["https:\/\/github\.com\/s1gmas1x"\]/)
-  assert.match(document, /"address":"Colorado Springs, CO"/)
+  assert.doesNotMatch(document, /"address"/)
 })

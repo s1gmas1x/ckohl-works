@@ -19,7 +19,11 @@ The generated profile artifact is the production path for
 - `src/data/contactProfileContract.js`: required fields, typed action normalization, safe URLs,
   derived statuses, and footer sources.
 - `src/data/publishedProfiles.js`: published-profile allowlist and lookup.
-- `src/components/profile/`: shared contact-profile UI.
+- `src/components/profile/`: small semantic profile regions for identity, actions, display, details,
+  and the terminal header.
+- `src/css/_contact-profile-crt.scss`: code-owned amber theme tokens and static CRT effects.
+- `src/css/_contact-profile-layout.scss`: shared mobile-first layout and internal panel geometry for
+  both renderers.
 - `src/pages/ProfilePage.vue`: route lookup and profile metadata.
 - `src/layouts/ProfileLayout.vue`: isolated profile route shell.
 - `src/css/app.scss`: global semantic tokens and site-wide accessibility styles.
@@ -70,8 +74,9 @@ The generated profile artifact is the production path for
 - Use Vue single-file components with `<script setup>` and the Composition API.
 - Use the `@/` alias for imports from `src`.
 - Prefer small profile components and framework-neutral helpers over expanding one monolithic card.
-- Use scoped SCSS for component layout and semantic CSS custom properties for approved theme
-  tokens.
+- Keep profile layout in the shared, profile-prefixed layout source so Vue and static output do not
+  drift. Use scoped SCSS for component-only layout elsewhere and semantic CSS custom properties for
+  approved theme tokens.
 - Follow `.prettierrc.json`: no semicolons, single quotes, and a 100-character print width.
 - Reuse existing Quasar components when they preserve native semantics; plain HTML controls are
   preferred when they make contact behavior or static-renderer parity clearer.
