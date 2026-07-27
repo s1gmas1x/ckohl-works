@@ -128,6 +128,8 @@ async function handleActionClick(action) {
 </script>
 
 <style lang="scss" scoped>
+@use '../../css/contact-profile-crt';
+
 .contact-card {
   position: relative;
   display: grid;
