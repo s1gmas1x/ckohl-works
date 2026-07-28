@@ -77,6 +77,8 @@ test('selects restrained desktop and mobile scene budgets', () => {
   )
   assert.equal(CRT_WIREFRAME_TIERS.desktop.devicePixelRatioCap, 1.5)
   assert.equal(CRT_WIREFRAME_TIERS.mobile.devicePixelRatioCap, 1)
+  assert.equal(CRT_WIREFRAME_TIERS.desktop.groundObjectCount, 3)
+  assert.equal(CRT_WIREFRAME_TIERS.mobile.groundObjectCount, 0)
   assert.ok(CRT_WIREFRAME_TIERS.mobile.particleCount < CRT_WIREFRAME_TIERS.desktop.particleCount)
   assert.ok(
     CRT_WIREFRAME_TIERS.mobile.maxFramesPerSecond < CRT_WIREFRAME_TIERS.desktop.maxFramesPerSecond,

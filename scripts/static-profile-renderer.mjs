@@ -162,8 +162,8 @@ export function renderProfileDocument(
     sameAs: socialActions.length > 0 ? socialActions.map((action) => action.value) : undefined,
     address: locationAction?.displayValue,
   }
-  const fallbackMobilePath = `${publicBase}images/contact-profile/crt-wireframe-fallback-mobile.png`
-  const fallbackWidePath = `${publicBase}images/contact-profile/crt-wireframe-fallback-wide.png`
+  const fallbackMobilePath = `${publicBase}images/contact-profile/crt-wireframe-fallback-mobile.webp`
+  const fallbackWidePath = `${publicBase}images/contact-profile/crt-wireframe-fallback-wide.webp`
 
   return `<!doctype html>
 <html lang="en" data-contact-profile-renderer="canonical">

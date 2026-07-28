@@ -61,8 +61,8 @@ assert.match(
 await readFile(join(outputDir, enhancementAssetPath))
 await readFile(join(outputDir, 'assets', displayHostAssetName))
 await readFile(join(outputDir, 'assets', sceneAssetName))
-await readFile(join(outputDir, 'images', 'contact-profile', 'crt-wireframe-fallback-mobile.png'))
-await readFile(join(outputDir, 'images', 'contact-profile', 'crt-wireframe-fallback-wide.png'))
+await readFile(join(outputDir, 'images', 'contact-profile', 'crt-wireframe-fallback-mobile.webp'))
+await readFile(join(outputDir, 'images', 'contact-profile', 'crt-wireframe-fallback-wide.webp'))
 
 for (const profile of expectedProfiles) {
   const documentPath = join(outputDir, 'card', 'ckohl-works', profile.slug, 'index.html')
@@ -105,8 +105,8 @@ for (const profile of expectedProfiles) {
     document.includes(`data-display-host-module="${manifest.displayHostModulePath}"`),
     `generated profile ${profile.slug} must expose the lightweight display host to enhancement`,
   )
-  assert.match(document, /crt-wireframe-fallback-mobile\.png/)
-  assert.match(document, /crt-wireframe-fallback-wide\.png/)
+  assert.match(document, /crt-wireframe-fallback-mobile\.webp/)
+  assert.match(document, /crt-wireframe-fallback-wide\.webp/)
   assert.match(document, /<dt>View mode<\/dt><dd>CANONICAL<\/dd>/)
   assert.match(document, /class="[^"]*contact-profile-icon/)
   assert.match(document, /application\/ld\+json/)

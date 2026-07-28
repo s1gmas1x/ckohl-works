@@ -122,7 +122,7 @@ const profileCss = {
   gzipBytes: gzipSync(profileCssSource).byteLength,
   rawBytes: profileCssSource.byteLength,
 }
-const fallbackNames = ['crt-wireframe-fallback-mobile.png', 'crt-wireframe-fallback-wide.png']
+const fallbackNames = ['crt-wireframe-fallback-mobile.webp', 'crt-wireframe-fallback-wide.webp']
 const fallbackAssets = Object.fromEntries(
   await Promise.all(
     fallbackNames.map(async (assetName) => {

@@ -39,8 +39,31 @@ const HORIZON_Y = -1.38
 const TERRAIN_DEPTH = 16
 const TERRAIN_NEAR_Z = HORIZON_Z + TERRAIN_DEPTH
 const TERRAIN_HALF_WIDTH = GRID_SIZE / 2
-const SUN_RADIUS = 1.22
-const SUN_BASE_Y = HORIZON_Y + 0.58
+const GROUND_OBJECT_HORIZON_CLEARANCE = 1.35
+const GROUND_OBJECT_FADE_DISTANCE = 1.6
+const SHOOTING_STAR_CYCLE_SECONDS = 18
+const SHOOTING_STAR_DURATION_SECONDS = 0.8
+const SHOOTING_STAR_START_SECONDS = 12
+const SUN_RADIUS = 4.25
+const SUN_BASE_Y = HORIZON_Y + 1.55
+const GROUND_OBJECT_LAYOUT = Object.freeze([
+  Object.freeze({ depth: 5.7, height: 1.7, size: 1.3, x: -7.4 }),
+  Object.freeze({ depth: 9.8, height: 1.15, size: 0.86, x: 7.8 }),
+  Object.freeze({ depth: 13.2, height: 0.72, size: 0.56, x: -12 }),
+])
+const MOUNTAIN_RIDGE = Object.freeze([
+  Object.freeze({ x: -17, y: 0.12 }),
+  Object.freeze({ x: -13.2, y: 0.34 }),
+  Object.freeze({ x: -9.6, y: 0.92 }),
+  Object.freeze({ x: -6.8, y: 0.3 }),
+  Object.freeze({ x: -3.4, y: 0.7 }),
+  Object.freeze({ x: 0, y: 0.22 }),
+  Object.freeze({ x: 3.7, y: 0.58 }),
+  Object.freeze({ x: 7.2, y: 0.25 }),
+  Object.freeze({ x: 10.8, y: 0.98 }),
+  Object.freeze({ x: 14.1, y: 0.36 }),
+  Object.freeze({ x: 17, y: 0.18 }),
+])
 const THREE = Object.freeze({
   BufferGeometry,
   CircleGeometry,
@@ -87,11 +110,13 @@ function createHorizon(three, accentColor) {
   ])
   const material = new LineBasicMaterial({
     color: accentColor,
-    opacity: 0.72,
+    opacity: 0.82,
     transparent: true,
   })
 
-  return new Line(geometry, material)
+  const horizon = new Line(geometry, material)
+  horizon.position.z = 0.14
+  return horizon
 }
 
 function createSun(three, accentColor, mobile) {
@@ -181,6 +206,66 @@ function createHorizonMask(three, surfaceColor) {
   return mask
 }
 
+function createMountainSilhouette(three, { gridColor, mobile, surfaceColor }) {
+  const {
+    BufferGeometry,
+    Float32BufferAttribute,
+    Group,
+    Line,
+    LineBasicMaterial,
+    Mesh,
+    MeshBasicMaterial,
+  } = three
+  const group = new Group()
+  const scale = mobile ? 0.72 : 1
+  const ridge = MOUNTAIN_RIDGE.map(({ x, y }) => ({ x, y: y * scale }))
+  const fillPositions = []
+
+  for (let index = 0; index < ridge.length - 1; index += 1) {
+    const current = ridge[index]
+    const next = ridge[index + 1]
+
+    fillPositions.push(
+      current.x,
+      0,
+      0,
+      current.x,
+      current.y,
+      0,
+      next.x,
+      next.y,
+      0,
+      current.x,
+      0,
+      0,
+      next.x,
+      next.y,
+      0,
+      next.x,
+      0,
+      0,
+    )
+  }
+
+  const fillGeometry = new BufferGeometry()
+  fillGeometry.setAttribute('position', new Float32BufferAttribute(fillPositions, 3))
+  const ridgeGeometry = new BufferGeometry().setFromPoints(
+    ridge.map(({ x, y }) => new Vector3(x, y, 0)),
+  )
+  const fill = new Mesh(
+    fillGeometry,
+    new MeshBasicMaterial({ color: surfaceColor, side: DoubleSide }),
+  )
+  const outline = new Line(
+    ridgeGeometry,
+    new LineBasicMaterial({ color: gridColor, opacity: 0.4, transparent: true }),
+  )
+
+  group.add(fill, outline)
+  group.position.set(0, HORIZON_Y, HORIZON_Z + 0.07)
+  return group
+}
+
 function createTerrainGrid(three, { accentColor, divisions, gridColor }) {
   const { BufferGeometry, Float32BufferAttribute, Group, LineBasicMaterial, LineSegments } = three
   const group = new Group()
@@ -245,19 +330,124 @@ function createTerrainGrid(three, { accentColor, divisions, gridColor }) {
 function createParticles(three, { accentColor, count, mobile }) {
   const { BufferGeometry, Float32BufferAttribute, Points, PointsMaterial } = three
   const geometry = new BufferGeometry()
-  geometry.setAttribute(
-    'position',
-    new Float32BufferAttribute(createDeterministicParticlePositions(count), 3),
-  )
+  const positions = createDeterministicParticlePositions(count)
+  const sunTop = SUN_BASE_Y + SUN_RADIUS
+
+  for (let index = 0; index < count; index += 1) {
+    const offset = index * 3
+    const x = positions[offset] * 2.2
+    const y = positions[offset + 1]
+
+    positions[offset] = x
+
+    if (Math.abs(x) < SUN_RADIUS + 1 && y > HORIZON_Y && y < sunTop + 0.3) {
+      const direction = x === 0 ? (index % 2 === 0 ? -1 : 1) : Math.sign(x)
+      positions[offset] = direction * (SUN_RADIUS + 1.15 + (index % 3) * 0.85)
+    }
+  }
+
+  geometry.setAttribute('position', new Float32BufferAttribute(positions, 3))
   const material = new PointsMaterial({
     color: accentColor,
-    opacity: 0.72,
-    size: mobile ? 0.055 : 0.045,
+    opacity: 0.54,
+    size: mobile ? 0.045 : 0.038,
     sizeAttenuation: true,
     transparent: true,
   })
 
   return new Points(geometry, material)
+}
+
+function createShootingStar(three, { accentColor, enabled }) {
+  const { BufferGeometry, Float32BufferAttribute, Line, LineBasicMaterial } = three
+  const geometry = new BufferGeometry()
+  const positions = new Float32Array(6)
+  const positionAttribute = new Float32BufferAttribute(positions, 3)
+  geometry.setAttribute('position', positionAttribute)
+  const material = new LineBasicMaterial({
+    color: accentColor,
+    opacity: 0,
+    transparent: true,
+  })
+  const object = new Line(geometry, material)
+  object.visible = false
+
+  function update(elapsedSeconds) {
+    const cycleOffset = elapsedSeconds % SHOOTING_STAR_CYCLE_SECONDS
+    const visible =
+      enabled &&
+      cycleOffset >= SHOOTING_STAR_START_SECONDS &&
+      cycleOffset < SHOOTING_STAR_START_SECONDS + SHOOTING_STAR_DURATION_SECONDS
+
+    object.visible = visible
+    if (!visible) return
+
+    const progress = (cycleOffset - SHOOTING_STAR_START_SECONDS) / SHOOTING_STAR_DURATION_SECONDS
+    const headX = 9.2 - progress * 4.4
+    const headY = 4.9 - progress * 1.25
+    const tailLength = 0.72
+    const fade = Math.sin(progress * Math.PI)
+
+    positions.set([headX + tailLength, headY + tailLength * 0.22, -4, headX, headY, -4])
+    positionAttribute.needsUpdate = true
+    material.opacity = 0.68 * fade
+  }
+
+  return Object.freeze({ object, update })
+}
+
+function createWireframePyramid(three, { accentColor, height, size }) {
+  const { BufferGeometry, Float32BufferAttribute, LineBasicMaterial, LineSegments } = three
+  const halfSize = size / 2
+  const apex = [0, height, 0]
+  const corners = [
+    [-halfSize, 0, -halfSize],
+    [halfSize, 0, -halfSize],
+    [halfSize, 0, halfSize],
+    [-halfSize, 0, halfSize],
+  ]
+  const positions = []
+
+  for (let index = 0; index < corners.length; index += 1) {
+    const current = corners[index]
+    const next = corners[(index + 1) % corners.length]
+    positions.push(...current, ...next, ...current, ...apex)
+  }
+
+  const geometry = new BufferGeometry()
+  geometry.setAttribute('position', new Float32BufferAttribute(positions, 3))
+  const material = new LineBasicMaterial({ color: accentColor, opacity: 0.36, transparent: true })
+  return new LineSegments(geometry, material)
+}
+
+function createGroundObjects(three, { accentColor, count }) {
+  const { Group } = three
+  const group = new Group()
+  const entries = GROUND_OBJECT_LAYOUT.slice(0, count).map((layout) => {
+    const object = createWireframePyramid(three, { accentColor, ...layout })
+    group.add(object)
+    return { ...layout, object }
+  })
+
+  function update(offset) {
+    for (const entry of entries) {
+      const visibleTerrainDepth = TERRAIN_DEPTH - GROUND_OBJECT_HORIZON_CLEARANCE
+      const depth = GROUND_OBJECT_HORIZON_CLEARANCE + ((entry.depth + offset) % visibleTerrainDepth)
+      const horizonFade = Math.min(
+        1,
+        (depth - GROUND_OBJECT_HORIZON_CLEARANCE) / GROUND_OBJECT_FADE_DISTANCE,
+      )
+      const nearFade = Math.min(1, (TERRAIN_DEPTH - depth) / GROUND_OBJECT_FADE_DISTANCE)
+      const opacity = 0.36 * Math.min(horizonFade, nearFade)
+
+      entry.object.position.set(entry.x, HORIZON_Y, HORIZON_Z + depth)
+      entry.object.material.opacity = opacity
+      entry.object.visible = opacity > 0.01
+    }
+  }
+
+  update(0)
+  return Object.freeze({ object: group, update })
 }
 
 export async function initializeCrtWireframeScene({
@@ -311,11 +501,30 @@ export async function initializeCrtWireframeScene({
     count: tier.particleCount,
     mobile,
   })
+  const mountains = createMountainSilhouette(three, {
+    gridColor,
+    mobile,
+    surfaceColor,
+  })
+  const groundObjects = createGroundObjects(three, {
+    accentColor,
+    count: tier.groundObjectCount,
+  })
+  const shootingStar = createShootingStar(three, { accentColor, enabled: !mobile })
   const horizon = createHorizon(three, accentColor)
 
   camera.position.set(0, 2.75, 6.8)
   camera.lookAt(cameraTarget)
-  scene.add(terrain.object, horizon, sun, horizonMask, particles)
+  scene.add(
+    terrain.object,
+    horizon,
+    sun,
+    mountains,
+    horizonMask,
+    particles,
+    shootingStar.object,
+    groundObjects.object,
+  )
 
   renderer.setClearColor(surfaceColor, 1)
   const pixelRatio = capDevicePixelRatio(globalThis.devicePixelRatio, tier.devicePixelRatioCap)
@@ -348,9 +557,11 @@ export async function initializeCrtWireframeScene({
     camera.lookAt(cameraTarget)
 
     terrain.update((elapsedSeconds * 0.22) % terrain.spacing)
+    groundObjects.update((elapsedSeconds * 0.22) % TERRAIN_DEPTH)
     sun.position.y = SUN_BASE_Y + Math.sin(elapsedSeconds * 0.5) * 0.02
     particles.rotation.y = Math.sin(elapsedSeconds * 0.08) * 0.025
     particles.position.y = Math.sin(elapsedSeconds * 0.17) * 0.025
+    shootingStar.update(elapsedSeconds)
     renderer.render(scene, camera)
   }
 
