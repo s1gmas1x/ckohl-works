@@ -222,7 +222,9 @@ import contactCardFrontFallback from '@/assets/images/hero/ckohl-works-contact-c
   border-bottom: 0;
   border-radius: 28px 28px 0 0;
   background: #151a20;
-  box-shadow: 0 -2px 0 rgba(255, 255, 255, 0.08), 0 20px 38px rgba(0, 0, 0, 0.42);
+  box-shadow:
+    0 -2px 0 rgba(255, 255, 255, 0.08),
+    0 20px 38px rgba(0, 0, 0, 0.42);
 }
 .hero-showcase__phone::before {
   position: absolute;
@@ -245,8 +247,7 @@ import contactCardFrontFallback from '@/assets/images/hero/ckohl-works-contact-c
   gap: 6px;
   padding: 28px 12px 16px;
   background:
-    radial-gradient(circle at 50% 26%, rgba(249, 156, 30, 0.16), transparent 28%),
-    #0a0e12;
+    radial-gradient(circle at 50% 26%, rgba(249, 156, 30, 0.16), transparent 28%), #0a0e12;
   color: #ffffff;
   text-align: center;
 }

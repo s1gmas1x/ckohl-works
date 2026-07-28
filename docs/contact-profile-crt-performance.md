@@ -51,6 +51,8 @@ both the canonical page and the Vue hash route for:
 
 - usable identity and at least six contact actions within 1,500 ms;
 - no core-path long task above 150 ms before the scene is released;
+- a decoded fallback image before the scene is released, plus aligned fallback/canvas bounds after
+  the reveal completes;
 - first successful scene frame within 4,000 ms after the request is released;
 - profile CLS at or below 0.05;
 - no unrelated marketing/profile resource request;
@@ -97,10 +99,9 @@ route rather than improve a direct profile visit.
 
 ## Release evidence and limits
 
-The bundle measurement is a hard gate. The browser audit is a repeatable local release check; it is
-not yet attached to a hosted CI workflow because it requires an available Chromium binary and a
-local profile proof server. Record a real mid-range phone/browser/network pass before a public
-release, especially after Three.js, font, fallback, or full-site CSS changes.
+The bundle measurement and Chromium audits run in the `Contact Profile Quality` GitHub workflow on
+pull requests and pushes to `main`. Record a real mid-range phone/browser/network pass before a
+public release, especially after Three.js, font, fallback, or full-site CSS changes.
 
 Use the latest report values rather than treating the representative timings above as field data.
 The contact actions and fallback remain the release-critical experience if WebGL is slow or absent.

@@ -1,0 +1,70 @@
+name: Contact Profile Quality
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: contact-profile-quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Contact profile release checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check formatting and lint
+        run: npm run lint:check
+
+      - name: Run deterministic contact-profile tests
+        run: npm run test:themes
+
+      - name: Build SPA
+        run: npm run build
+
+      - name: Enforce CRT bundle budgets
+        run: npm run measure:crt-display
+
+      - name: Build all static profiles
+        run: npm run build:profiles
+
+      - name: Verify all static profiles
+        run: npm run verify:profiles
+
+      - name: Install Chromium for browser audits
+        run: npx playwright install --with-deps chromium
+
+      - name: Audit display performance and lifecycle
+        run: npm run audit:profiles:performance
+
+      - name: Audit accessibility and interaction contracts
+        run: npm run audit:profiles:a11y
+
+      - name: Build the selected Pages profile
+        run: npm run build:profiles
+        env:
+          STATIC_PROFILE_SLUGS: pikes-peak-handyman
+
+      - name: Verify selected-profile isolation
+        run: npm run verify:profiles
+        env:
+          STATIC_PROFILE_SLUGS: pikes-peak-handyman
