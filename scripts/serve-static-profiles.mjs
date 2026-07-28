@@ -19,6 +19,7 @@ function contentType(filePath) {
   if (filePath.endsWith('.html')) return 'text/html; charset=utf-8'
   if (filePath.endsWith('.css')) return 'text/css; charset=utf-8'
   if (filePath.endsWith('.js')) return 'text/javascript; charset=utf-8'
+  if (filePath.endsWith('.webp')) return 'image/webp'
   if (filePath.endsWith('.vcf')) return 'text/vcard; charset=utf-8'
   if (filePath.endsWith('.json')) return 'application/json; charset=utf-8'
   return 'application/octet-stream'

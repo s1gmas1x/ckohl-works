@@ -6,9 +6,13 @@ not depend on WebGL.
 
 ## Composition
 
-The scene uses a near-black background, an amber perspective terrain grid, a fixed horizon, sparse
-particles, and a striped synthwave sun partially hidden behind the horizon. Transverse grid bands
-move slowly toward the viewer while the camera, particles, and sun use restrained ambient motion.
+The scene uses a near-black background, amber perspective terrain grid, a distinct fixed horizon,
+and sparse stars distributed around a large striped synthwave sun. The sun is approximately 3.5
+times its original diameter, sits partly behind a low mountain ridge, and is followed by three
+subtle wireframe pyramids on fine-pointer desktop displays. Transverse grid bands and pyramids move
+slowly toward the viewer while the camera, stars, and sun use restrained ambient motion. The
+pyramids begin beyond the ridge clearance, so their entrance never intersects the mountain mask.
+One short shooting star crosses the clear desktop sky every 18 seconds; it is absent on mobile.
 
 The scene is deterministic and contains no models, textures, lights, shadows, physics,
 postprocessing, audio, or sensor input.
@@ -16,7 +20,7 @@ postprocessing, audio, or sensor input.
 ## Loading and lifecycle
 
 The Vue route and canonical generated route use the same framework-neutral display host. A
-responsive PNG fallback is present in the initial HTML and stays underneath the canvas for the
+responsive WebP fallback is present in the initial HTML and stays underneath the canvas for the
 entire display lifetime. The host checks reduced-motion preferences, displays `INITIALIZING
 DISPLAY`, waits for idle time (with a 600 ms maximum wait), and only then imports the exact Three.js
 scene module. The canvas crossfades over the fallback after the first successful render.
@@ -57,8 +61,8 @@ The canvas is decorative, unfocusable, and hidden from assistive technology. Red
 skips Three.js and leaves the static fallback visible. No scene input changes content, navigation,
 or focus order.
 
-Rendering pauses while the display is off-screen or the document is hidden. Pointer response is
-subtle, clamped, and limited to fine-pointer desktop devices.
+Rendering pauses while the display is off-screen or the document is hidden. Pointer response,
+pyramids, and the occasional shooting star are limited to fine-pointer desktop devices.
 
 With JavaScript disabled, WebGL unavailable, the scene chunk unavailable, or the context lost, the
 fallback remains visible and all important controls remain ordinary HTML links.
@@ -67,8 +71,8 @@ fallback remains visible and all important controls remain ordinary HTML links.
 
 | Tier          | DPR cap | Grid divisions | Particles | Maximum FPS | Pointer           |
 | ------------- | ------: | -------------: | --------: | ----------: | ----------------- |
-| Desktop       |     1.5 |             28 |        22 |          30 | Fine pointer only |
-| Mobile/coarse |     1.0 |             16 |        10 |          20 | Disabled          |
+| Desktop       |     1.5 |             28 |        16 |          30 | Fine pointer only |
+| Mobile/coarse |     1.0 |             16 |         6 |          20 | Disabled          |
 
 Run `npm run build && npm run measure:crt-display` to enforce the 140 KiB gzip ceiling for the
 incremental, tree-shaken Three.js scene payload. It also enforces the 10 KiB profile/display-loader,
@@ -82,9 +86,6 @@ initialization tradeoff.
 
 ## Future visual exploration
 
-A later visual-only pass may test a larger partially-set sun and a restrained skyline silhouette.
-Mountains are the leading option because they suit the synthwave landscape without adding detailed
-geometry or distracting from contact actions. Sparse pooled wireframe pyramids or cubes could also
-move with the terrain and pass the viewer to reinforce depth; that layer should avoid the central
-sightline, use a lower mobile count, and remain absent under reduced motion. This is intentionally
-separate from the loading and fallback contract.
+A later visual-only pass may explore a more varied mountain silhouette or additional sparse ground
+objects. Those additions should remain absent on mobile and under reduced motion, avoid the central
+sightline, and preserve the current loading and fallback contract.

@@ -18,11 +18,11 @@ exceeded.
 
 | Asset boundary                                      |       Budget | Current measured value |
 | --------------------------------------------------- | -----------: | ---------------------: |
-| Async Three.js scene and scene dependencies         | 140 KiB gzip |         130.8 KiB gzip |
-| Initial profile route plus lightweight display host |  10 KiB gzip |          9.04 KiB gzip |
-| Canonical enhancement plus display-host import path |   3 KiB gzip |               2.07 KiB |
+| Async Three.js scene and scene dependencies         | 140 KiB gzip |         131.7 KiB gzip |
+| Initial profile route plus lightweight display host |  10 KiB gzip |          9.05 KiB gzip |
+| Canonical enhancement plus display-host import path |   3 KiB gzip |               2.08 KiB |
 | Profile route CSS                                   |   4 KiB gzip |          3.59 KiB gzip |
-| Responsive fallback images combined                 |   12 KiB raw |          11.39 KiB raw |
+| Responsive fallback images combined                 |   12 KiB raw |          10.04 KiB raw |
 
 The initial-profile figure deliberately contains the `ProfilePage` route and `displayHost` module.
 It excludes shared application chunks that existed before the display feature and excludes the
@@ -31,8 +31,8 @@ static import graph.
 
 The only runtime fallback images are:
 
-- `crt-wireframe-fallback-mobile.png` — 2,704 bytes;
-- `crt-wireframe-fallback-wide.png` — 8,958 bytes.
+- `crt-wireframe-fallback-mobile.webp` — 2,522 bytes;
+- `crt-wireframe-fallback-wide.webp` — 7,756 bytes.
 
 The 1.6 MB source mockup remains a development reference only and is never emitted as a profile
 fallback.
@@ -76,8 +76,8 @@ does not materially reduce module parse cost.
 
 | Tier                  | DPR cap | Grid divisions | Particles | Maximum FPS | Pointer response |
 | --------------------- | ------: | -------------: | --------: | ----------: | ---------------- |
-| Desktop fine pointer  |     1.5 |             28 |        22 |          30 | Enabled, clamped |
-| Mobile/coarse pointer |     1.0 |             16 |        10 |          20 | Disabled         |
+| Desktop fine pointer  |     1.5 |             28 |        16 |          30 | Enabled, clamped |
+| Mobile/coarse pointer |     1.0 |             16 |         6 |          20 | Disabled         |
 
 There is no antialiasing, shadow map, texture, model, postprocessing, audio, sensor access, or
 continuous rendering when the display is hidden, off-screen, context-lost, reduced-motion, failed,

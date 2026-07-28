@@ -40,8 +40,8 @@ const viewportElement = ref(null)
 const displayState = ref('fallback')
 const displayStatus = computed(() => getCrtDisplayStatus(displayState.value))
 const publicBase = import.meta.env.BASE_URL
-const mobileFallbackSource = `${publicBase}images/contact-profile/crt-wireframe-fallback-mobile.png`
-const wideFallbackSource = `${publicBase}images/contact-profile/crt-wireframe-fallback-wide.png`
+const mobileFallbackSource = `${publicBase}images/contact-profile/crt-wireframe-fallback-mobile.webp`
+const wideFallbackSource = `${publicBase}images/contact-profile/crt-wireframe-fallback-wide.webp`
 let displayHost
 
 function handleStateChange(event) {
