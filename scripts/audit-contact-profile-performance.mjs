@@ -137,15 +137,98 @@ async function installPerformanceObservers(page) {
 async function getCoreReadiness(page) {
   return page.evaluate(() => {
     const actions = document.querySelectorAll('.contact-profile a')
+    const fallbackImage = document.querySelector('.contact-profile-display__fallback img')
     const title = document.querySelector('.contact-profile h1')
 
     return {
       actionCount: actions.length,
       canvasCount: document.querySelectorAll('.contact-profile-display__canvas').length,
+      fallbackImageReady: Boolean(fallbackImage?.complete && fallbackImage.naturalWidth > 0),
       readyAt: performance.now(),
       title: title?.textContent?.trim() || '',
     }
   })
+}
+
+async function auditReadyDisplayPresentation(page, label) {
+  await page.waitForFunction(
+    () => {
+      const canvas = document.querySelector('.contact-profile-display__canvas')
+      return Boolean(canvas) && getComputedStyle(canvas).opacity === '1'
+    },
+    { timeout: 1000 },
+  )
+  const presentation = await page.evaluate(() => {
+    const canvas = document.querySelector('.contact-profile-display__canvas')
+    const fallback = document.querySelector('.contact-profile-display__fallback')
+    const viewport = document.querySelector('[data-display-preset="crt-wireframe"]')
+    const bounds = (element) => {
+      const { height, left, top, width } = element.getBoundingClientRect()
+      return { height, left, top, width }
+    }
+    return {
+      canvas: canvas ? bounds(canvas) : undefined,
+      canvasOpacity: canvas ? Number.parseFloat(getComputedStyle(canvas).opacity) : 0,
+      canvasTransition: canvas ? getComputedStyle(canvas).transition : '',
+      fallback: fallback ? bounds(fallback) : undefined,
+      fallbackOpacity: fallback ? Number.parseFloat(getComputedStyle(fallback).opacity) : 0,
+      state: viewport?.dataset.displayState,
+      viewport: viewport
+        ? {
+            ...bounds(viewport),
+            clientHeight: viewport.clientHeight,
+            clientLeft: viewport.clientLeft,
+            clientTop: viewport.clientTop,
+            clientWidth: viewport.clientWidth,
+          }
+        : undefined,
+    }
+  })
+
+  assert.ok(presentation.viewport, `${label} must retain the display viewport after the first render`)
+  assert.equal(presentation.state, 'ready', `${label} display must stay ready after its reveal`)
+  assert.ok(presentation.canvas, `${label} must retain a display canvas after the first render`)
+  assert.ok(presentation.fallback, `${label} must retain the fallback below the canvas`)
+  assert.equal(
+    presentation.canvasOpacity,
+    1,
+    `${label} canvas must complete its reveal: ${JSON.stringify(presentation)}`,
+  )
+  assert.equal(
+    presentation.fallbackOpacity,
+    1,
+    `${label} fallback must remain available below canvas`,
+  )
+  assert.match(
+    presentation.canvasTransition,
+    /opacity/,
+    `${label} canvas must preserve the fallback-to-canvas crossfade`,
+  )
+
+  for (const boundary of ['height', 'left', 'top', 'width']) {
+    assert.ok(
+      Math.abs(presentation.canvas[boundary] - presentation.fallback[boundary]) <= 1,
+      `${label} canvas and fallback must stay aligned at ${boundary}`,
+    )
+  }
+
+  assert.ok(
+    Math.abs(presentation.canvas.height - presentation.viewport.clientHeight) <= 1,
+    `${label} canvas must fill the viewport content height`,
+  )
+  assert.ok(
+    Math.abs(presentation.canvas.width - presentation.viewport.clientWidth) <= 1,
+    `${label} canvas must fill the viewport content width`,
+  )
+  assert.ok(
+    Math.abs(presentation.canvas.left - presentation.viewport.left - presentation.viewport.clientLeft) <=
+      1,
+    `${label} canvas must start inside the viewport border`,
+  )
+  assert.ok(
+    Math.abs(presentation.canvas.top - presentation.viewport.top - presentation.viewport.clientTop) <= 1,
+    `${label} canvas must start inside the viewport border`,
+  )
 }
 
 async function getRecordedMetrics(page) {
@@ -318,6 +401,11 @@ async function auditNormalDisplay(browser, { key, path }) {
       `${label} must keep the fallback visible while the scene is delayed`,
     )
     assert.equal(
+      core.fallbackImageReady,
+      true,
+      `${label} must render the fallback before the scene`,
+    )
+    assert.equal(
       sceneCoreReady,
       true,
       `${label} must not request the scene before core actions exist`,
@@ -349,6 +437,7 @@ async function auditNormalDisplay(browser, { key, path }) {
         document.querySelector('[data-display-preset="crt-wireframe"]')?.dataset.displayState ===
         'ready',
     )
+    await auditReadyDisplayPresentation(page, label)
     const metrics = await getRecordedMetrics(page)
     const sceneReadyAfterRequestMs = (metrics.readyAt || releasedAt) - releasedAt
     const maxDeferredDisplayLongTaskMs = Math.max(

@@ -7,8 +7,9 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "lint": "prettier --write \"**/*.{js,vue,css,scss,html,md,json}\" --ignore-path .gitignore && eslint --fix -c ./eslint.config.js \"./src*/**/*.{js,cjs,mjs,vue}\"",
-    "lint:check": "prettier \"**/*.{js,vue,css,scss,html,md,json}\" --ignore-path .gitignore && eslint -c ./eslint.config.js \"./src*/**/*.{js,cjs,mjs,vue}\"",
+    "lint": "prettier --write \"**/*.{js,vue,css,scss,html,md,json,yml,yaml}\" --ignore-path .gitignore && eslint --fix -c ./eslint.config.js \"./src*/**/*.{js,cjs,mjs,vue}\"",
+    "format:check": "prettier --check \"**/*.{js,vue,css,scss,html,md,json,yml,yaml}\" --ignore-path .gitignore",
+    "lint:check": "npm run format:check && eslint -c ./eslint.config.js \"./src*/**/*.{js,cjs,mjs,vue}\"",
     "dev": "quasar dev",
     "build": "quasar build",
     "audit:profiles:a11y": "node scripts/audit-contact-profile-accessibility.mjs",

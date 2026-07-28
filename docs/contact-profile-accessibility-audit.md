@@ -69,6 +69,10 @@ The 320 px scenario also represents the layout width available when a 1280 px vi
 400 percent. The long-content pass applies the WCAG text-spacing overrides before checking for
 two-dimensional scrolling.
 
+The `Contact Profile Quality` workflow runs this audit, the companion display-performance audit,
+the deterministic Node tests, production build budgets, and both full and selected static-profile
+builds on pull requests and pushes to `main`.
+
 ## Browser matrix
 
 | Scenario                 | Canonical | Vue app        | Automated contract                                                         |
