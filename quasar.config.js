@@ -2,14 +2,10 @@
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file
 
 import { defineConfig } from '#q-app'
-import { fileURLToPath } from 'node:url'
 
 export default defineConfig((/* ctx */) => {
   const isGitHubPagesBuild = process.env.DEPLOY_TARGET === 'github-pages'
   const selectedProfileModule = process.env.CKOH_SELECTED_PROFILE_MODULE
-  const threeMinifiedModule = fileURLToPath(
-    new URL('./node_modules/three/build/three.module.min.js', import.meta.url),
-  )
 
   return {
     // https://v2.quasar.dev/quasar-cli-vite/prefetch-feature
@@ -55,23 +51,14 @@ export default defineConfig((/* ctx */) => {
       // vueDevtools,
 
       publicPath: isGitHubPagesBuild ? '/ckohl-works/' : '/',
-      alias: {
-        ...(selectedProfileModule ? { '@/data/publishedProfiles.js': selectedProfileModule } : {}),
-        'three-module-url': `${threeMinifiedModule}?url`,
-      },
+      alias: selectedProfileModule ? { '@/data/publishedProfiles.js': selectedProfileModule } : {},
       // define: {},
       // defineEnv: {}
       // ignorePublicFolder: true,
       // minify: false,
       // distDir
 
-      extendViteConf(viteConf) {
-        viteConf.optimizeDeps ??= {}
-        viteConf.optimizeDeps.exclude = [
-          ...(viteConf.optimizeDeps.exclude || []),
-          'three-module-url',
-        ]
-      },
+      // extendViteConf (viteConf) {},
       // viteVuePluginOptions: {},
 
       vitePlugins: [

@@ -29,21 +29,15 @@ async function measureAsset(assetName) {
 
   const text = source.toString('utf8')
   for (const match of text.matchAll(staticImportPattern)) {
-    if (assetNames.includes(match[1])) await measureAsset(match[1])
+    if (!assetNames.includes(match[1])) {
+      throw new Error(`${assetName} imports missing runtime asset ${match[1]}.`)
+    }
+
+    await measureAsset(match[1])
   }
 }
 
 await measureAsset(entryNames[0])
-
-const threeAssetNames = assetNames.filter(
-  (name) => name.startsWith('three.module.min-') && name.endsWith('.js'),
-)
-if (threeAssetNames.length !== 1) {
-  throw new Error(
-    `Expected exactly one emitted Three.js module asset in ${assetsDir}; found ${threeAssetNames.length}.`,
-  )
-}
-await measureAsset(threeAssetNames[0])
 
 const profileEntryNames = assetNames.filter(
   (name) => name.startsWith('ProfilePage-') && name.endsWith('.js'),
@@ -61,7 +55,11 @@ async function collectInitialAssets(assetName) {
 
   const source = await readFile(join(assetsDir, assetName), 'utf8')
   for (const match of source.matchAll(staticImportPattern)) {
-    if (assetNames.includes(match[1])) await collectInitialAssets(match[1])
+    if (!assetNames.includes(match[1])) {
+      throw new Error(`${assetName} imports missing runtime asset ${match[1]}.`)
+    }
+
+    await collectInitialAssets(match[1])
   }
 }
 await collectInitialAssets(profileEntryNames[0])

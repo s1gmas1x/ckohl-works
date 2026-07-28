@@ -42,11 +42,11 @@ subtle, clamped, and limited to fine-pointer desktop devices.
 
 ## Performance budgets
 
-| Tier | DPR cap | Grid divisions | Particles | Maximum FPS | Pointer |
-| --- | ---: | ---: | ---: | ---: | --- |
-| Desktop | 1.5 | 28 | 22 | 30 | Fine pointer only |
-| Mobile/coarse | 1.0 | 16 | 10 | 20 | Disabled |
+| Tier          | DPR cap | Grid divisions | Particles | Maximum FPS | Pointer           |
+| ------------- | ------: | -------------: | --------: | ----------: | ----------------- |
+| Desktop       |     1.5 |             28 |        22 |          30 | Fine pointer only |
+| Mobile/coarse |     1.0 |             16 |        10 |          20 | Disabled          |
 
-Run `npm run build && npm run measure:crt-display` to enforce the 100 KiB gzip ceiling for the
-incremental Three.js scene payload. Three.js is emitted as a separate lazy asset and is absent from
-the initial marketing/profile dependency graph.
+Run `npm run build && npm run measure:crt-display` to enforce the 140 KiB gzip ceiling for the
+incremental, tree-shaken Three.js scene payload. The scene remains absent from the initial
+marketing/profile dependency graph.
