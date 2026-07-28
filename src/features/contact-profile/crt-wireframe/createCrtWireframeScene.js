@@ -42,8 +42,15 @@ const TERRAIN_HALF_WIDTH = GRID_SIZE / 2
 const GROUND_OBJECT_HORIZON_CLEARANCE = 1.35
 const GROUND_OBJECT_FADE_DISTANCE = 1.6
 const SHOOTING_STAR_CYCLE_SECONDS = 18
-const SHOOTING_STAR_DURATION_SECONDS = 0.8
+const SHOOTING_STAR_DURATION_SECONDS = 1.2
+const SHOOTING_STAR_HEAD_START_X = 3.6
+const SHOOTING_STAR_HEAD_START_Y = 4.05
+const SHOOTING_STAR_HEAD_TRAVEL_X = 2.4
+const SHOOTING_STAR_HEAD_TRAVEL_Y = 0.8
 const SHOOTING_STAR_START_SECONDS = 12
+const SHOOTING_STAR_TAIL_LENGTH = 0.9
+const SHOOTING_STAR_TAIL_RISE_RATIO = 0.22
+const SHOOTING_STAR_Z = -4
 const SUN_RADIUS = 4.25
 const SUN_BASE_Y = HORIZON_Y + 1.55
 const GROUND_OBJECT_LAYOUT = Object.freeze([
@@ -383,12 +390,18 @@ function createShootingStar(three, { accentColor, enabled }) {
     if (!visible) return
 
     const progress = (cycleOffset - SHOOTING_STAR_START_SECONDS) / SHOOTING_STAR_DURATION_SECONDS
-    const headX = 9.2 - progress * 4.4
-    const headY = 4.9 - progress * 1.25
-    const tailLength = 0.72
+    const headX = SHOOTING_STAR_HEAD_START_X - progress * SHOOTING_STAR_HEAD_TRAVEL_X
+    const headY = SHOOTING_STAR_HEAD_START_Y - progress * SHOOTING_STAR_HEAD_TRAVEL_Y
     const fade = Math.sin(progress * Math.PI)
 
-    positions.set([headX + tailLength, headY + tailLength * 0.22, -4, headX, headY, -4])
+    positions.set([
+      headX + SHOOTING_STAR_TAIL_LENGTH,
+      headY + SHOOTING_STAR_TAIL_LENGTH * SHOOTING_STAR_TAIL_RISE_RATIO,
+      SHOOTING_STAR_Z,
+      headX,
+      headY,
+      SHOOTING_STAR_Z,
+    ])
     positionAttribute.needsUpdate = true
     material.opacity = 0.68 * fade
   }

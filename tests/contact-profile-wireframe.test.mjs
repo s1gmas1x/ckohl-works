@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 import test from 'node:test'
+import { PerspectiveCamera, Vector3 } from 'three'
 import {
   capDevicePixelRatio,
   createDeterministicParticlePositions,
@@ -42,6 +43,12 @@ const staticRendererSource = await readFile(
   new URL('../scripts/static-profile-renderer.mjs', import.meta.url),
   'utf8',
 )
+
+function readSceneNumericConstant(name) {
+  const match = sceneSource.match(new RegExp(`const ${name} = (-?\\d+(?:\\.\\d+)?)`))
+  assert.ok(match, `Expected ${name} in the CRT wireframe scene.`)
+  return Number(match[1])
+}
 
 function createFrameHarness() {
   const callbacks = new Map()
@@ -120,6 +127,40 @@ test('keeps ground-object motion on its faded visible-terrain period', () => {
     sceneSource,
     /groundObjects\.update\(\(elapsedSeconds \* 0\.22\) % TERRAIN_DEPTH\)/,
   )
+})
+
+test('keeps the longer shooting-star pass inside the minimum desktop display frame', () => {
+  const durationSeconds = readSceneNumericConstant('SHOOTING_STAR_DURATION_SECONDS')
+  const headStartX = readSceneNumericConstant('SHOOTING_STAR_HEAD_START_X')
+  const headStartY = readSceneNumericConstant('SHOOTING_STAR_HEAD_START_Y')
+  const headTravelX = readSceneNumericConstant('SHOOTING_STAR_HEAD_TRAVEL_X')
+  const headTravelY = readSceneNumericConstant('SHOOTING_STAR_HEAD_TRAVEL_Y')
+  const tailLength = readSceneNumericConstant('SHOOTING_STAR_TAIL_LENGTH')
+  const tailRiseRatio = readSceneNumericConstant('SHOOTING_STAR_TAIL_RISE_RATIO')
+  const z = readSceneNumericConstant('SHOOTING_STAR_Z')
+  const camera = new PerspectiveCamera(48, 1.05, 0.1, 80)
+  camera.position.set(0, 2.75, 6.8)
+  camera.lookAt(new Vector3(0, -0.28, -5.4))
+  camera.updateMatrixWorld()
+
+  assert.equal(durationSeconds, 1.2)
+
+  const endpoints = [
+    new Vector3(headStartX + tailLength, headStartY + tailLength * tailRiseRatio, z),
+    new Vector3(headStartX, headStartY, z),
+    new Vector3(
+      headStartX - headTravelX + tailLength,
+      headStartY - headTravelY + tailLength * tailRiseRatio,
+      z,
+    ),
+    new Vector3(headStartX - headTravelX, headStartY - headTravelY, z),
+  ]
+
+  for (const endpoint of endpoints) {
+    const projected = endpoint.project(camera)
+    assert.ok(Math.abs(projected.x) < 1)
+    assert.ok(Math.abs(projected.y) < 1)
+  }
 })
 
 test('reports first render, throttles animation, and fully pauses and disposes', () => {
