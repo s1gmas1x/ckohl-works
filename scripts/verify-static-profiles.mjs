@@ -19,7 +19,11 @@ const outputDir = join(rootDir, 'dist', 'static-profiles')
 const manifest = JSON.parse(await readFile(join(outputDir, 'static-profile-manifest.json'), 'utf8'))
 const expectedSlugs = parseProfileSlugs(process.env.STATIC_PROFILE_SLUGS)
 const expectedProfiles = selectProfiles(publishedProfiles, expectedSlugs)
-const enhancementAssetName = manifest.enhancementModulePath?.split('/').at(-1)
+const enhancementAssetPath = manifest.enhancementModulePath?.slice(
+  manifest.enhancementModulePath.indexOf('contact-profile/'),
+)
+const displayHostAssetName = manifest.displayHostModulePath?.split('/').at(-1)
+const sceneAssetName = manifest.sceneModulePath?.split('/').at(-1)
 
 function escapeHtmlAttribute(value) {
   return String(value)
@@ -41,10 +45,22 @@ assert.equal(
 )
 assert.match(
   manifest.enhancementModulePath,
-  /\/assets\/enhanceStaticProfile-[\w-]+\.js$/,
-  'manifest must identify the generated canonical-profile enhancement module',
+  /\/contact-profile\/crt-wireframe-static-enhancement\.js$/,
+  'manifest must identify the standalone canonical-profile enhancement module',
 )
-await readFile(join(outputDir, 'assets', enhancementAssetName))
+assert.match(
+  manifest.displayHostModulePath,
+  /\/assets\/staticDisplayHost-[\w-]+\.js$/,
+  'manifest must identify the lightweight display-host module',
+)
+assert.match(
+  manifest.sceneModulePath,
+  /\/assets\/createCrtWireframeScene-[\w-]+\.js$/,
+  'manifest must identify the generated lazy CRT scene module',
+)
+await readFile(join(outputDir, enhancementAssetPath))
+await readFile(join(outputDir, 'assets', displayHostAssetName))
+await readFile(join(outputDir, 'assets', sceneAssetName))
 await readFile(join(outputDir, 'images', 'contact-profile', 'crt-wireframe-fallback-mobile.png'))
 await readFile(join(outputDir, 'images', 'contact-profile', 'crt-wireframe-fallback-wide.png'))
 
@@ -80,6 +96,14 @@ for (const profile of expectedProfiles) {
   assert.ok(
     document.includes(`<script type="module" src="${manifest.enhancementModulePath}"></script>`),
     `generated profile ${profile.slug} must load the canonical-profile enhancement module`,
+  )
+  assert.ok(
+    document.includes(`data-display-scene-module="${manifest.sceneModulePath}"`),
+    `generated profile ${profile.slug} must expose the lazy scene module path to enhancement`,
+  )
+  assert.ok(
+    document.includes(`data-display-host-module="${manifest.displayHostModulePath}"`),
+    `generated profile ${profile.slug} must expose the lightweight display host to enhancement`,
   )
   assert.match(document, /crt-wireframe-fallback-mobile\.png/)
   assert.match(document, /crt-wireframe-fallback-wide\.png/)

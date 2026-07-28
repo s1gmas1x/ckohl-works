@@ -1,5 +1,17 @@
 export const CRT_WIREFRAME_SCENE_VERSION = 'crt-wireframe-scene-v1'
 export const CRT_WIREFRAME_ASYNC_GZIP_BUDGET_BYTES = 140 * 1024
+export const CRT_WIREFRAME_PROFILE_INITIAL_GZIP_BUDGET_BYTES = 10 * 1024
+export const CRT_WIREFRAME_CANONICAL_LOADER_GZIP_BUDGET_BYTES = 3 * 1024
+export const CRT_WIREFRAME_PROFILE_CSS_GZIP_BUDGET_BYTES = 4 * 1024
+export const CRT_WIREFRAME_FALLBACK_BUDGET_BYTES = 12 * 1024
+
+export const CRT_WIREFRAME_RUNTIME_BUDGETS = Object.freeze({
+  firstUsableContactActionsMs: 1500,
+  maxCumulativeLayoutShift: 0.05,
+  maxCoreLongTaskMs: 150,
+  maxDeferredDisplayLongTaskMs: 600,
+  sceneReadyAfterRequestMs: 4000,
+})
 
 export const CRT_WIREFRAME_TIERS = Object.freeze({
   desktop: Object.freeze({

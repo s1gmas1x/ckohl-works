@@ -12,6 +12,7 @@
     "dev": "quasar dev",
     "build": "quasar build",
     "audit:profiles:a11y": "node scripts/audit-contact-profile-accessibility.mjs",
+    "audit:profiles:performance": "node scripts/audit-contact-profile-performance.mjs",
     "measure:crt-display": "node scripts/measure-crt-wireframe-bundle.mjs",
     "build:profiles": "node scripts/build-static-profiles.mjs",
     "serve:profiles": "node scripts/serve-static-profiles.mjs",

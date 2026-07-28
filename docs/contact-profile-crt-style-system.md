@@ -85,10 +85,10 @@ readability, increase paint cost, or make focus harder to identify.
 
 ## Performance observation
 
-A local headless Chromium trace at 375 × 812 with effects enabled recorded 10 initial `Paint`
-events totaling 1.763 ms during load and no active document animations. This is a development
-baseline rather than a cross-device performance guarantee. Later layout and Three.js work should
-repeat the trace and preserve the static CSS-only fallback.
+The static CRT effects stay behind semantic content and do not introduce document animations. The
+profile's complete asset and runtime budget, including a CSS-only core measurement before the lazy
+scene is released, lives in `docs/contact-profile-crt-performance.md`. That lab check is a
+development baseline, not a substitute for a real-device release pass.
 
 ## Verification
 
