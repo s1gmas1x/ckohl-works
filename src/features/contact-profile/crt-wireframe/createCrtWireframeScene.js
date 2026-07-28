@@ -556,8 +556,9 @@ export async function initializeCrtWireframeScene({
     camera.position.y = 2.75 - pointer.currentY * 0.1
     camera.lookAt(cameraTarget)
 
-    terrain.update((elapsedSeconds * 0.22) % terrain.spacing)
-    groundObjects.update((elapsedSeconds * 0.22) % TERRAIN_DEPTH)
+    const terrainOffset = elapsedSeconds * 0.22
+    terrain.update(terrainOffset % terrain.spacing)
+    groundObjects.update(terrainOffset)
     sun.position.y = SUN_BASE_Y + Math.sin(elapsedSeconds * 0.5) * 0.02
     particles.rotation.y = Math.sin(elapsedSeconds * 0.08) * 0.025
     particles.position.y = Math.sin(elapsedSeconds * 0.17) * 0.025
