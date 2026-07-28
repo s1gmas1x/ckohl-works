@@ -41,15 +41,20 @@ const TERRAIN_NEAR_Z = HORIZON_Z + TERRAIN_DEPTH
 const TERRAIN_HALF_WIDTH = GRID_SIZE / 2
 const GROUND_OBJECT_HORIZON_CLEARANCE = 1.35
 const GROUND_OBJECT_FADE_DISTANCE = 1.6
-const SHOOTING_STAR_CYCLE_SECONDS = 18
-const SHOOTING_STAR_DURATION_SECONDS = 1.2
-const SHOOTING_STAR_HEAD_START_X = 3.6
-const SHOOTING_STAR_HEAD_START_Y = 4.05
-const SHOOTING_STAR_HEAD_TRAVEL_X = 2.4
-const SHOOTING_STAR_HEAD_TRAVEL_Y = 0.8
-const SHOOTING_STAR_START_SECONDS = 12
-const SHOOTING_STAR_TAIL_LENGTH = 0.9
+const SHOOTING_STAR_CYCLE_SECONDS = 12
+const SHOOTING_STAR_DURATION_SECONDS = 1.6
+const SHOOTING_STAR_HEAD_START_X = 3.8
+const SHOOTING_STAR_HEAD_START_Y = 3.9
+const SHOOTING_STAR_HEAD_TRAVEL_X = 0.6
+const SHOOTING_STAR_HEAD_TRAVEL_Y = 3
+const SHOOTING_STAR_START_SECONDS = 4
+const SHOOTING_STAR_STREAK_LINE_COUNT = 5
+const SHOOTING_STAR_STREAK_LINE_SPACING = 0.018
+const SHOOTING_STAR_TAIL_LENGTH = 0.75
 const SHOOTING_STAR_TAIL_RISE_RATIO = 0.22
+const SHOOTING_STAR_HEAD_MIN_SIZE = 0.11
+const SHOOTING_STAR_HEAD_SIZE_GROWTH = 0.13
+const SHOOTING_STAR_GLOW_SIZE_MULTIPLIER = 2.4
 const SHOOTING_STAR_Z = -4
 const SUN_RADIUS = 4.25
 const SUN_BASE_Y = HORIZON_Y + 1.55
@@ -366,17 +371,56 @@ function createParticles(three, { accentColor, count, mobile }) {
 }
 
 function createShootingStar(three, { accentColor, enabled }) {
-  const { BufferGeometry, Float32BufferAttribute, Line, LineBasicMaterial } = three
-  const geometry = new BufferGeometry()
-  const positions = new Float32Array(6)
-  const positionAttribute = new Float32BufferAttribute(positions, 3)
-  geometry.setAttribute('position', positionAttribute)
-  const material = new LineBasicMaterial({
+  const {
+    BufferGeometry,
+    Float32BufferAttribute,
+    Group,
+    LineBasicMaterial,
+    LineSegments,
+    Points,
+    PointsMaterial,
+  } = three
+  const object = new Group()
+  const trailGeometry = new BufferGeometry()
+  const positionAttribute = new Float32BufferAttribute(
+    new Float32Array(SHOOTING_STAR_STREAK_LINE_COUNT * 6),
+    3,
+  )
+  trailGeometry.setAttribute('position', positionAttribute)
+  const trailMaterial = new LineBasicMaterial({
     color: accentColor,
+    depthTest: false,
+    depthWrite: false,
     opacity: 0,
     transparent: true,
   })
-  const object = new Line(geometry, material)
+  const trail = new LineSegments(trailGeometry, trailMaterial)
+  const headGeometry = new BufferGeometry()
+  const headPositionAttribute = new Float32BufferAttribute(new Float32Array(3), 3)
+  headGeometry.setAttribute('position', headPositionAttribute)
+  const glowMaterial = new PointsMaterial({
+    color: accentColor,
+    depthTest: false,
+    depthWrite: false,
+    opacity: 0,
+    size: SHOOTING_STAR_HEAD_MIN_SIZE * SHOOTING_STAR_GLOW_SIZE_MULTIPLIER,
+    sizeAttenuation: true,
+    transparent: true,
+  })
+  const headMaterial = new PointsMaterial({
+    color: accentColor,
+    depthTest: false,
+    depthWrite: false,
+    opacity: 0,
+    size: SHOOTING_STAR_HEAD_MIN_SIZE,
+    sizeAttenuation: true,
+    transparent: true,
+  })
+  const glow = new Points(headGeometry, glowMaterial)
+  const head = new Points(headGeometry, headMaterial)
+
+  object.add(trail, glow, head)
+  object.frustumCulled = false
   object.visible = false
 
   function update(elapsedSeconds) {
@@ -392,18 +436,48 @@ function createShootingStar(three, { accentColor, enabled }) {
     const progress = (cycleOffset - SHOOTING_STAR_START_SECONDS) / SHOOTING_STAR_DURATION_SECONDS
     const headX = SHOOTING_STAR_HEAD_START_X - progress * SHOOTING_STAR_HEAD_TRAVEL_X
     const headY = SHOOTING_STAR_HEAD_START_Y - progress * SHOOTING_STAR_HEAD_TRAVEL_Y
-    const fade = Math.sin(progress * Math.PI)
+    const tailX = headX + SHOOTING_STAR_TAIL_LENGTH
+    const tailY = headY + SHOOTING_STAR_TAIL_LENGTH * SHOOTING_STAR_TAIL_RISE_RATIO
+    const tailVectorX = tailX - headX
+    const tailVectorY = tailY - headY
+    const tailVectorLength = Math.hypot(tailVectorX, tailVectorY)
+    const normalX = -tailVectorY / tailVectorLength
+    const normalY = tailVectorX / tailVectorLength
+    const currentLineSpacing = SHOOTING_STAR_STREAK_LINE_SPACING * (0.7 + progress * 0.8)
+    const fadeIn = Math.min(1, progress / 0.15)
+    const fadeOut = Math.min(1, (1 - progress) / 0.08)
+    const groundApproachBrightness = 0.55 + progress * 0.45
+    const positions = positionAttribute.array
 
-    positions.set([
-      headX + SHOOTING_STAR_TAIL_LENGTH,
-      headY + SHOOTING_STAR_TAIL_LENGTH * SHOOTING_STAR_TAIL_RISE_RATIO,
-      SHOOTING_STAR_Z,
-      headX,
-      headY,
-      SHOOTING_STAR_Z,
-    ])
+    for (let index = 0; index < SHOOTING_STAR_STREAK_LINE_COUNT; index += 1) {
+      const positionOffset = index * 6
+      const lineOffset = (index - (SHOOTING_STAR_STREAK_LINE_COUNT - 1) / 2) * currentLineSpacing
+      const offsetX = normalX * lineOffset
+      const offsetY = normalY * lineOffset
+
+      positions.set(
+        [
+          tailX + offsetX,
+          tailY + offsetY,
+          SHOOTING_STAR_Z,
+          headX + offsetX,
+          headY + offsetY,
+          SHOOTING_STAR_Z,
+        ],
+        positionOffset,
+      )
+    }
     positionAttribute.needsUpdate = true
-    material.opacity = 0.68 * fade
+    headPositionAttribute.setXYZ(0, headX, headY, SHOOTING_STAR_Z)
+    headPositionAttribute.needsUpdate = true
+
+    const visibility = fadeIn * fadeOut
+    const headSize = SHOOTING_STAR_HEAD_MIN_SIZE + progress * SHOOTING_STAR_HEAD_SIZE_GROWTH
+    trailMaterial.opacity = visibility * groundApproachBrightness
+    glowMaterial.opacity = visibility * (0.18 + progress * 0.28)
+    glowMaterial.size = headSize * SHOOTING_STAR_GLOW_SIZE_MULTIPLIER
+    headMaterial.opacity = visibility * (0.82 + progress * 0.18)
+    headMaterial.size = headSize
   }
 
   return Object.freeze({ object, update })
