@@ -130,11 +130,16 @@ test('keeps ground-object motion on its faded visible-terrain period', () => {
 })
 
 test('keeps the longer shooting-star pass inside the minimum desktop display frame', () => {
+  const cycleSeconds = readSceneNumericConstant('SHOOTING_STAR_CYCLE_SECONDS')
   const durationSeconds = readSceneNumericConstant('SHOOTING_STAR_DURATION_SECONDS')
   const headStartX = readSceneNumericConstant('SHOOTING_STAR_HEAD_START_X')
   const headStartY = readSceneNumericConstant('SHOOTING_STAR_HEAD_START_Y')
   const headTravelX = readSceneNumericConstant('SHOOTING_STAR_HEAD_TRAVEL_X')
   const headTravelY = readSceneNumericConstant('SHOOTING_STAR_HEAD_TRAVEL_Y')
+  const headMinSize = readSceneNumericConstant('SHOOTING_STAR_HEAD_MIN_SIZE')
+  const headSizeGrowth = readSceneNumericConstant('SHOOTING_STAR_HEAD_SIZE_GROWTH')
+  const startSeconds = readSceneNumericConstant('SHOOTING_STAR_START_SECONDS')
+  const streakLineCount = readSceneNumericConstant('SHOOTING_STAR_STREAK_LINE_COUNT')
   const tailLength = readSceneNumericConstant('SHOOTING_STAR_TAIL_LENGTH')
   const tailRiseRatio = readSceneNumericConstant('SHOOTING_STAR_TAIL_RISE_RATIO')
   const z = readSceneNumericConstant('SHOOTING_STAR_Z')
@@ -143,7 +148,12 @@ test('keeps the longer shooting-star pass inside the minimum desktop display fra
   camera.lookAt(new Vector3(0, -0.28, -5.4))
   camera.updateMatrixWorld()
 
-  assert.equal(durationSeconds, 1.2)
+  assert.equal(cycleSeconds, 12)
+  assert.equal(durationSeconds, 1.6)
+  assert.equal(headMinSize, 0.11)
+  assert.equal(headSizeGrowth, 0.13)
+  assert.equal(startSeconds, 4)
+  assert.equal(streakLineCount, 5)
 
   const endpoints = [
     new Vector3(headStartX + tailLength, headStartY + tailLength * tailRiseRatio, z),
@@ -161,6 +171,21 @@ test('keeps the longer shooting-star pass inside the minimum desktop display fra
     assert.ok(Math.abs(projected.x) < 1)
     assert.ok(Math.abs(projected.y) < 1)
   }
+
+  const shootingStarSource = sceneSource.slice(
+    sceneSource.indexOf('function createShootingStar'),
+    sceneSource.indexOf('function createWireframePyramid'),
+  )
+  assert.match(shootingStarSource, /new LineSegments\(trailGeometry, trailMaterial\)/)
+  assert.match(shootingStarSource, /new Points\(headGeometry, glowMaterial\)/)
+  assert.match(shootingStarSource, /new Points\(headGeometry, headMaterial\)/)
+  assert.match(shootingStarSource, /object\.frustumCulled = false/)
+  assert.match(shootingStarSource, /currentLineSpacing = SHOOTING_STAR_STREAK_LINE_SPACING/)
+  assert.match(shootingStarSource, /groundApproachBrightness = 0\.55 \+ progress \* 0\.45/)
+  assert.match(shootingStarSource, /const positions = positionAttribute\.array/)
+  assert.match(shootingStarSource, /headPositionAttribute\.setXYZ\(0, headX, headY/)
+  assert.match(shootingStarSource, /headSize =\s+SHOOTING_STAR_HEAD_MIN_SIZE \+ progress/)
+  assert.match(shootingStarSource, /headMaterial\.opacity = visibility \* \(0\.82 \+ progress/)
 })
 
 test('reports first render, throttles animation, and fully pauses and disposes', () => {
