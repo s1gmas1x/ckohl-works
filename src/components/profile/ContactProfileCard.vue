@@ -4,6 +4,7 @@
     :class="theme.className"
     :data-contact-profile-theme="theme.key"
     :data-contact-profile-theme-contract="theme.contractVersion"
+    data-contact-profile-renderer="app"
     :aria-labelledby="titleId"
   >
     <div class="contact-profile__screen contact-profile-crt-screen">

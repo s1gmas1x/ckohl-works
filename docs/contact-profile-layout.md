@@ -31,7 +31,7 @@ the supported 320 px viewport.
 At 900 px and wider, identity and primary actions occupy the left column while the display spans
 the larger right column. Save Contact and the remaining modules continue at full internal width
 below that pair. Neither the profile root nor the internal layout has a maximum width, so the
-desktop route retains the approved full-screen presentation and gives the future fallback/canvas
+desktop route retains the approved full-screen presentation and gives the fallback/canvas
 substantially more room.
 
 Long names, roles, organizations, summaries, action labels, status values, and footer values use
@@ -51,13 +51,13 @@ JavaScript breakpoints.
 
 ## Display boundary
 
-`ContactProfileDisplayPanel.vue` establishes the stable display slot and a static CSS wireframe
-placeholder only. It intentionally contains no Three.js dependency, canvas lifecycle, loading
-state, or fallback-image policy.
+`ContactProfileDisplayPanel.vue` establishes the stable display slot with a responsive fallback
+image. A shared display host lazy-loads the isolated Three.js scene for both Vue and canonical
+routes. The fallback stays underneath the canvas, the canvas appears only after its first
+successful render, and any enhancement failure leaves the layout and actions untouched.
 
-The later display work can replace the viewport internals without reordering or blocking identity
-and actions. Its fallback and canvas must remain decorative, preserve the host dimensions, and
-follow the motion and lifecycle constraints in `AGENTS.md`.
+The viewport internals remain decorative, preserve the host dimensions, and follow the motion and
+lifecycle constraints in `AGENTS.md`.
 
 ## Profile-specific content
 

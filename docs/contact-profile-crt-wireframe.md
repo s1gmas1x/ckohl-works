@@ -15,9 +15,17 @@ postprocessing, audio, or sensor input.
 
 ## Loading and lifecycle
 
-`ContactProfileDisplayPanel.vue` checks reduced-motion preferences before importing the scene
-controller. The controller then loads the exact Three.js module asynchronously and reports these
-events through its `onEvent` callback:
+The Vue route and canonical generated route use the same framework-neutral display host. A
+responsive PNG fallback is present in the initial HTML and stays underneath the canvas for the
+entire display lifetime. The host checks reduced-motion preferences, displays `INITIALIZING
+DISPLAY`, waits for idle time (with a 600 ms maximum wait), and only then imports the exact Three.js
+scene module. The canvas crossfades over the fallback after the first successful render.
+
+Initialization has an 8 second timeout. Import, initialization, render, and WebGL failures are
+contained inside the decorative display: the host removes or hides the canvas and silently retains
+the fallback while the rest of the profile stays usable.
+
+The scene controller reports these events through its `onEvent` callback:
 
 - `ready` after the first successful render
 - `error` when rendering fails
@@ -28,8 +36,18 @@ The returned controller exposes `start()`, `pause()`, `renderOnce()`, `resize()`
 `dispose()`. Disposal cancels animation, disconnects observers, removes listeners and the canvas,
 disposes scene resources, and releases the WebGL context.
 
-The generated static profile deliberately keeps the CSS fallback only. The final fallback image,
-loading copy, and canvas crossfade are owned by issue #59.
+`ContactProfileDisplayPanel.vue` owns the Vue integration.
+`enhanceStaticProfile.js` progressively enhances only pages marked as the canonical renderer.
+`displayHost.js` owns the shared state machine and failure policy, while
+`createCrtWireframeScene.js` remains isolated from routing, contact data, and controls.
+
+Generated clean URLs and hash routes expose a neighboring status field so test and support work can
+identify the active renderer without overloading link behavior:
+
+- `VIEW MODE: CANONICAL` for generated clean-route HTML;
+- `VIEW MODE: APP` for the Vue hash route.
+
+`LINK MODE` remains reserved for the contact link delivery model (`DIRECT` today).
 
 ## Accessibility and motion
 
@@ -40,6 +58,9 @@ or focus order.
 Rendering pauses while the display is off-screen or the document is hidden. Pointer response is
 subtle, clamped, and limited to fine-pointer desktop devices.
 
+With JavaScript disabled, WebGL unavailable, the scene chunk unavailable, or the context lost, the
+fallback remains visible and all important controls remain ordinary HTML links.
+
 ## Performance budgets
 
 | Tier          | DPR cap | Grid divisions | Particles | Maximum FPS | Pointer           |
@@ -49,4 +70,15 @@ subtle, clamped, and limited to fine-pointer desktop devices.
 
 Run `npm run build && npm run measure:crt-display` to enforce the 140 KiB gzip ceiling for the
 incremental, tree-shaken Three.js scene payload. The scene remains absent from the initial
-marketing/profile dependency graph.
+marketing/profile dependency graph. The two fallback images are responsive public assets and add
+only 2,704 bytes on mobile and 8,958 bytes on wider displays. The measurement report includes both
+fallback sizes alongside the asynchronous scene payload.
+
+## Future visual exploration
+
+A later visual-only pass may test a larger partially-set sun and a restrained skyline silhouette.
+Mountains are the leading option because they suit the synthwave landscape without adding detailed
+geometry or distracting from contact actions. Sparse pooled wireframe pyramids or cubes could also
+move with the terrain and pass the viewer to reinforce depth; that layer should avoid the central
+sightline, use a lower mobile count, and remain absent under reduced motion. This is intentionally
+separate from the loading and fallback contract.

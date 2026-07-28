@@ -1,0 +1,46 @@
+export const CONTACT_PROFILE_ICON_PATHS = Object.freeze({
+  phone: Object.freeze([
+    'M6.62 10.79a15.46 15.46 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2Z',
+  ]),
+  message: Object.freeze([
+    'M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2Zm0 14H5.17L4 17.17V4h16v12Z',
+  ]),
+  email: Object.freeze([
+    'M20 4H4a2 2 0 0 0-1.99 2L2 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 4-8 5-8-5V6l8 5 8-5v2Z',
+  ]),
+  'person-add': Object.freeze([
+    'M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4Zm0-6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2ZM7 10V7H5v3H2v2h3v3h2v-3h3v-2H7Zm8 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4Zm-5.33 4c.73-1 3.29-2 5.33-2 2.05 0 4.61 1 5.34 2H9.67Z',
+  ]),
+  globe: Object.freeze([
+    'M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm6.92 6h-2.95a15.7 15.7 0 0 0-1.38-3.56A8.03 8.03 0 0 1 18.92 8ZM12 4c.83 1.2 1.48 2.53 1.86 4h-3.72A13.7 13.7 0 0 1 12 4ZM4.26 14a7.8 7.8 0 0 1 0-4h3.38a16.5 16.5 0 0 0 0 4H4.26Zm.82 2h2.95c.3 1.25.77 2.45 1.38 3.56A8.03 8.03 0 0 1 5.08 16Zm2.95-8H5.08a8.03 8.03 0 0 1 4.33-3.56A15.7 15.7 0 0 0 8.03 8ZM12 20a13.7 13.7 0 0 1-1.86-4h3.72A13.7 13.7 0 0 1 12 20Zm2.27-6H9.73a14.4 14.4 0 0 1 0-4h4.54a14.4 14.4 0 0 1 0 4Zm.32 5.56A15.7 15.7 0 0 0 15.97 16h2.95a8.03 8.03 0 0 1-4.33 3.56ZM16.36 14a16.5 16.5 0 0 0 0-4h3.38a7.8 7.8 0 0 1 0 4h-3.38Z',
+  ]),
+  code: Object.freeze([
+    'm8.59 16.59-4.58-4.6 4.58-4.58L7.17 6l-6 6 6 6 1.42-1.41Zm6.82 0 4.58-4.6-4.58-4.58L16.83 6l6 6-6 6-1.42-1.41Z',
+  ]),
+  people: Object.freeze([
+    'M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-.32 0-.63.05-.91.14.57.8.91 1.79.91 2.86s-.34 2.06-.91 2.86c.28.09.59.14.91.14Zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3Zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5C15 14.17 10.33 13 8 13Zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5Z',
+  ]),
+  location: Object.freeze([
+    'M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 10.5A3.5 3.5 0 1 1 12 5a3.5 3.5 0 0 1 0 7.5Z',
+  ]),
+  'chevron-right': Object.freeze([
+    'm9.29 6.71 1.42-1.42L17.41 12l-6.7 6.71-1.42-1.42L14.59 12 9.29 6.71Z',
+  ]),
+})
+
+export function getContactProfileActionIcon(action) {
+  if (action.type === 'call') return 'phone'
+  if (action.type === 'sms') return 'message'
+  if (action.type === 'email') return 'email'
+  if (action.type === 'location') return 'location'
+  if (action.type === 'social') return action.platform === 'GitHub' ? 'code' : 'people'
+
+  return 'globe'
+}
+
+export function getContactProfileIconPaths(name) {
+  const paths = CONTACT_PROFILE_ICON_PATHS[name]
+  if (!paths) throw new TypeError(`Unsupported contact profile icon "${name}".`)
+
+  return paths
+}

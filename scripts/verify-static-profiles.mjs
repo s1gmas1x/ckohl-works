@@ -19,6 +19,7 @@ const outputDir = join(rootDir, 'dist', 'static-profiles')
 const manifest = JSON.parse(await readFile(join(outputDir, 'static-profile-manifest.json'), 'utf8'))
 const expectedSlugs = parseProfileSlugs(process.env.STATIC_PROFILE_SLUGS)
 const expectedProfiles = selectProfiles(publishedProfiles, expectedSlugs)
+const enhancementAssetName = manifest.enhancementModulePath?.split('/').at(-1)
 
 function escapeHtmlAttribute(value) {
   return String(value)
@@ -38,6 +39,14 @@ assert.equal(
   CONTACT_PROFILE_THEME_CONTRACT_VERSION,
   'unexpected contact profile theme contract version',
 )
+assert.match(
+  manifest.enhancementModulePath,
+  /\/assets\/enhanceStaticProfile-[\w-]+\.js$/,
+  'manifest must identify the generated canonical-profile enhancement module',
+)
+await readFile(join(outputDir, 'assets', enhancementAssetName))
+await readFile(join(outputDir, 'images', 'contact-profile', 'crt-wireframe-fallback-mobile.png'))
+await readFile(join(outputDir, 'images', 'contact-profile', 'crt-wireframe-fallback-wide.png'))
 
 for (const profile of expectedProfiles) {
   const documentPath = join(outputDir, 'card', 'ckohl-works', profile.slug, 'index.html')
@@ -55,6 +64,16 @@ for (const profile of expectedProfiles) {
   assert.match(document, new RegExp(`profile-content-hash" content="${expectedHash}"`))
   assert.match(document, new RegExp(`profile-theme-key" content="${expectedTheme.key}"`))
   assert.match(document, new RegExp(`data-contact-profile-theme="${expectedTheme.key}"`))
+  assert.match(document, /profile-renderer" content="canonical"/)
+  assert.match(document, /data-contact-profile-renderer="canonical"/)
+  assert.ok(
+    document.includes(`<script type="module" src="${manifest.enhancementModulePath}"></script>`),
+    `generated profile ${profile.slug} must load the canonical-profile enhancement module`,
+  )
+  assert.match(document, /crt-wireframe-fallback-mobile\.png/)
+  assert.match(document, /crt-wireframe-fallback-wide\.png/)
+  assert.match(document, /<dt>View mode<\/dt><dd>CANONICAL<\/dd>/)
+  assert.match(document, /class="[^"]*contact-profile-icon/)
   assert.match(document, /application\/ld\+json/)
   assert.match(document, new RegExp(profile.identity.name))
   assert.ok(renderProfileDocument(profile, manifest.buildRevision).includes(expectedHash))

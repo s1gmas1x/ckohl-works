@@ -4,6 +4,7 @@ import { join, resolve } from 'node:path'
 import { CRT_WIREFRAME_ASYNC_GZIP_BUDGET_BYTES } from '../src/features/contact-profile/crt-wireframe/config.js'
 
 const assetsDir = resolve(process.env.CKOH_SPA_ASSETS_DIR || 'dist/spa/assets')
+const fallbackDir = resolve(process.env.CKOH_CRT_FALLBACK_DIR || 'public/images/contact-profile')
 const assetNames = await readdir(assetsDir)
 const entryNames = assetNames.filter(
   (name) => name.startsWith('createCrtWireframeScene-') && name.endsWith('.js'),
@@ -74,6 +75,20 @@ const totals = incrementalAssets.reduce(
   }),
   { gzipBytes: 0, rawBytes: 0 },
 )
+const fallbackNames = ['crt-wireframe-fallback-mobile.png', 'crt-wireframe-fallback-wide.png']
+const fallbackAssets = Object.fromEntries(
+  await Promise.all(
+    fallbackNames.map(async (assetName) => {
+      const source = await readFile(join(fallbackDir, assetName))
+
+      return [assetName, { rawBytes: source.byteLength }]
+    }),
+  ),
+)
+const fallbackTotalBytes = Object.values(fallbackAssets).reduce(
+  (total, asset) => total + asset.rawBytes,
+  0,
+)
 const report = {
   assets: Object.fromEntries(incrementalAssets),
   budgetBytesGzip: CRT_WIREFRAME_ASYNC_GZIP_BUDGET_BYTES,
@@ -81,6 +96,8 @@ const report = {
   excludedInitialAssets: [...measuredAssets.keys()].filter((assetName) =>
     initialAssetNames.has(assetName),
   ),
+  fallbackAssets,
+  fallbackTotalBytes,
   passes: totals.gzipBytes <= CRT_WIREFRAME_ASYNC_GZIP_BUDGET_BYTES,
   totals,
 }

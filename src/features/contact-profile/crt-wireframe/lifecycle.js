@@ -139,3 +139,76 @@ export function createRenderLifecycle({
     start,
   })
 }
+
+export function createRenderVisibilityController({
+  lifecycle,
+  mount,
+  documentTarget = globalThis.document,
+  IntersectionObserverClass = globalThis.IntersectionObserver,
+}) {
+  if (
+    !lifecycle ||
+    typeof lifecycle.start !== 'function' ||
+    typeof lifecycle.pause !== 'function'
+  ) {
+    throw new TypeError('CRT render visibility controller requires a render lifecycle.')
+  }
+  if (!mount) throw new TypeError('CRT render visibility controller requires a mount element.')
+
+  let documentVisible = documentTarget?.visibilityState !== 'hidden'
+  let intersecting = true
+  let disposed = false
+
+  function sync() {
+    if (disposed) return false
+
+    if (documentVisible && intersecting) return lifecycle.start()
+
+    return lifecycle.pause()
+  }
+
+  function handleVisibilityChange() {
+    if (disposed) return
+
+    documentVisible = documentTarget.visibilityState !== 'hidden'
+    sync()
+  }
+
+  const intersectionObserver = IntersectionObserverClass
+    ? new IntersectionObserverClass(
+        (entries) => {
+          if (disposed) return
+
+          intersecting = entries.at(-1)?.isIntersecting ?? true
+          sync()
+        },
+        { threshold: 0.01 },
+      )
+    : undefined
+
+  intersectionObserver?.observe(mount)
+  documentTarget?.addEventListener('visibilitychange', handleVisibilityChange)
+
+  function dispose() {
+    if (disposed) return
+
+    disposed = true
+    intersectionObserver?.disconnect()
+    documentTarget?.removeEventListener('visibilitychange', handleVisibilityChange)
+    lifecycle.pause()
+  }
+
+  function getState() {
+    return Object.freeze({
+      disposed,
+      documentVisible,
+      intersecting,
+    })
+  }
+
+  return Object.freeze({
+    dispose,
+    getState,
+    sync,
+  })
+}

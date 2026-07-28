@@ -45,10 +45,14 @@ same:
 Generated pages additionally record the theme key and contract version in metadata and
 `static-profile-manifest.json`.
 
-The canonical generated route is expected to receive the same lazy progressive enhancement as the
-Vue route when the Three.js display and lifecycle issues are implemented. Until then, generated
-HTML remains a complete static contact page. The future canvas cannot own identity, layout,
-navigation, or contact actions.
+The canonical generated route and Vue route receive the same lazy progressive enhancement through
+the framework-neutral display host. Generated HTML remains a complete static contact page before
+the enhancement module runs or when it fails. The canvas does not own identity, layout, navigation,
+or contact actions.
+
+The renderers expose `VIEW MODE: CANONICAL` and `VIEW MODE: APP` respectively. This runtime marker is
+separate from the data-owned `LINK MODE`, which describes direct versus future managed link
+delivery.
 
 ## Fallback and motion policy
 

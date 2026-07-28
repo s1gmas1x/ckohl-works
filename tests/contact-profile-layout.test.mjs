@@ -20,6 +20,10 @@ const displaySource = await readFile(
   new URL('../src/components/profile/ContactProfileDisplayPanel.vue', import.meta.url),
   'utf8',
 )
+const detailsSource = await readFile(
+  new URL('../src/components/profile/ContactProfileDetails.vue', import.meta.url),
+  'utf8',
+)
 
 test('composes the Vue profile from focused semantic regions', () => {
   for (const component of [
@@ -36,7 +40,12 @@ test('composes the Vue profile from focused semantic regions', () => {
   assert.match(actionSource, /<nav v-if="saveAction"[\s\S]*aria-label="Save contact"/)
   assert.match(actionSource, /<a[\s\S]*:href="getActionHref\(action, publicBase\)"/)
   assert.match(displaySource, /<section class="contact-profile-display[^"]*" aria-hidden="true">/)
+  assert.match(displaySource, /<picture class="contact-profile-display__fallback"/)
+  assert.match(displaySource, /crt-wireframe-fallback-mobile\.png/)
+  assert.match(displaySource, /crt-wireframe-fallback-wide\.png/)
   assert.doesNotMatch(displaySource, /<a|<button|<canvas|@click|router/)
+  assert.match(cardSource, /data-contact-profile-renderer="app"/)
+  assert.match(detailsSource, /<dt>View mode<\/dt>[\s\S]*<dd>APP<\/dd>/)
 })
 
 test('uses mobile-first source order and a larger wide-screen display host', () => {
@@ -107,5 +116,7 @@ test('generated profiles use the same panel contract as the Vue route', () => {
   }
 
   assert.match(document, /class="contact-profile-display contact-profile-panel" aria-hidden="true"/)
+  assert.match(document, /data-contact-profile-renderer="canonical"/)
+  assert.match(document, /<picture class="contact-profile-display__fallback"/)
   assert.doesNotMatch(document, /<canvas/)
 })

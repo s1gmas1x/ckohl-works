@@ -9,6 +9,10 @@
         <dt>{{ item.label }}</dt>
         <dd>{{ item.value }}</dd>
       </div>
+      <div>
+        <dt>View mode</dt>
+        <dd>APP</dd>
+      </div>
     </dl>
 
     <footer

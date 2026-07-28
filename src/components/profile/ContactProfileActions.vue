@@ -20,12 +20,7 @@
         <span class="contact-profile-action-tile__index" aria-hidden="true"
           >[{{ formatActionIndex(index) }}]</span
         >
-        <q-icon
-          class="contact-profile-action-tile__icon"
-          :name="actionIcon(action)"
-          size="clamp(28px, 5vw, 42px)"
-          aria-hidden="true"
-        />
+        <ContactProfileIcon class="contact-profile-action-tile__icon" :name="actionIcon(action)" />
         <span class="contact-profile-action-tile__type" aria-hidden="true">{{
           actionTypeLabel(action)
         }}</span>
@@ -47,22 +42,12 @@
         @keydown.end.prevent="focusAction(coreActions.length - 1)"
         class="contact-profile-save__link contact-profile-crt-control contact-profile-crt-control--primary"
       >
-        <q-icon
-          class="contact-profile-save__icon"
-          name="person_add_alt_1"
-          size="clamp(32px, 6vw, 48px)"
-          aria-hidden="true"
-        />
+        <ContactProfileIcon class="contact-profile-save__icon" name="person-add" />
         <span class="contact-profile-save__copy">
           <span class="contact-profile-save__title">{{ saveAction.label }}</span>
           <span class="contact-profile-save__subtitle">Add to your address book</span>
         </span>
-        <q-icon
-          class="contact-profile-save__arrow"
-          name="chevron_right"
-          size="30px"
-          aria-hidden="true"
-        />
+        <ContactProfileIcon class="contact-profile-save__arrow" name="chevron-right" />
       </a>
     </nav>
 
@@ -80,19 +65,12 @@
         rel="noopener noreferrer"
         class="contact-profile-external-action contact-profile-crt-control"
       >
-        <q-icon
+        <ContactProfileIcon
           class="contact-profile-external-action__icon"
           :name="actionIcon(action)"
-          size="26px"
-          aria-hidden="true"
         />
         <span>{{ action.label }}</span>
-        <q-icon
-          class="contact-profile-external-action__arrow"
-          name="chevron_right"
-          size="24px"
-          aria-hidden="true"
-        />
+        <ContactProfileIcon class="contact-profile-external-action__arrow" name="chevron-right" />
       </a>
     </nav>
   </div>
@@ -100,6 +78,8 @@
 
 <script setup>
 import { computed, onBeforeUnmount, ref } from 'vue'
+import ContactProfileIcon from '@/components/profile/ContactProfileIcon.vue'
+import { getContactProfileActionIcon } from '@/features/contact-profile/actionIcons.js'
 import { getActionHref, getProfileActionsByGroup } from '@/data/publishedProfiles.js'
 
 const props = defineProps({
@@ -131,13 +111,7 @@ function formatActionIndex(index) {
 }
 
 function actionIcon(action) {
-  if (action.type === 'call') return 'phone'
-  if (action.type === 'sms') return 'chat_bubble_outline'
-  if (action.type === 'email') return 'mail_outline'
-  if (action.type === 'location') return 'location_on'
-  if (action.type === 'social') return action.platform === 'GitHub' ? 'code' : 'groups'
-
-  return 'language'
+  return getContactProfileActionIcon(action)
 }
 
 function externalActionAccessibleName(action) {
