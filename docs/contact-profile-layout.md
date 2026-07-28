@@ -42,8 +42,8 @@ JavaScript breakpoints.
 
 - Identity has the page's single `h1`.
 - Contact, Save Contact, website, social, and optional location controls are ordinary links.
-- Primary and save links share arrow-key, Home, and End keyboard navigation as a convenience; Tab
-  order remains the document order.
+- All actions use the browser's standard Tab and Shift+Tab navigation in document order. Ordinary
+  links do not override arrow, Home, or End keys.
 - Contact tiles are at least 112 px tall on mobile. Save, external, and detail rows exceed the
   44 px target minimum.
 - Optional external, status, and footer regions are omitted when their normalized data is absent.
@@ -79,5 +79,8 @@ Automated layout contracts cover:
 - decorative display isolation.
 
 Run `npm run test:themes`, `npm run build`, `npm run build:profiles`, and
-`npm run verify:profiles` after profile layout changes. Browser checks should include 320, 375, 430,
-768, 1024, and 1440 px widths, keyboard focus, long content, and zoom/reflow.
+`npm run verify:profiles` after profile layout changes. Run `npm run audit:profiles:a11y` after
+building the profiles for the shared browser accessibility matrix. Browser checks should include
+320, 375, 430, 768, 1024, and 1440 px widths, keyboard focus, long content, and zoom/reflow. See
+`docs/contact-profile-accessibility-audit.md` for the complete audit contract and manual release
+checks.

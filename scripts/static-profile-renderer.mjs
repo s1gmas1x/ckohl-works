@@ -43,45 +43,12 @@ ${contactProfileThemeStyle}
 ${contactProfileLayoutStyle}
 `
 
-const staticProfileKeyboardScript = `
-  const actionLinks = Array.from(document.querySelectorAll('.contact-profile-contact-actions a, .contact-profile-save a'));
+const staticProfileActionScript = `
   async function copyEmail(value) {
     if (!navigator.clipboard?.writeText) return false;
     await navigator.clipboard.writeText(value);
     return true;
   }
-  function focusAction(index) {
-    const wrappedIndex = (index + actionLinks.length) % actionLinks.length;
-    actionLinks[wrappedIndex]?.focus();
-  }
-  actionLinks.forEach((link, index) => {
-    link.addEventListener('keydown', (event) => {
-      if (event.key === 'ArrowUp' || event.key === 'Up') {
-        event.preventDefault();
-        focusAction(index - 1);
-      }
-      if (event.key === 'ArrowDown' || event.key === 'Down') {
-        event.preventDefault();
-        focusAction(index + 1);
-      }
-      if (event.key === 'ArrowLeft' || event.key === 'Left') {
-        event.preventDefault();
-        focusAction(index - 1);
-      }
-      if (event.key === 'ArrowRight' || event.key === 'Right') {
-        event.preventDefault();
-        focusAction(index + 1);
-      }
-      if (event.key === 'Home') {
-        event.preventDefault();
-        focusAction(0);
-      }
-      if (event.key === 'End') {
-        event.preventDefault();
-        focusAction(actionLinks.length - 1);
-      }
-    });
-  });
   document.querySelectorAll('[data-copy-email]').forEach((link) => {
     link.addEventListener('click', async () => {
       try {
@@ -218,7 +185,7 @@ export function renderProfileDocument(
     <main>
       <section class="contact-profile ${escapeHtml(theme.className)}" data-contact-profile-theme="${escapeHtml(theme.key)}" data-contact-profile-theme-contract="${theme.contractVersion}" data-contact-profile-renderer="canonical" aria-labelledby="profile-title">
         <div class="contact-profile__screen contact-profile-crt-screen">
-          <header class="contact-profile-header contact-profile-panel" aria-label="Contact profile header">
+          <header class="contact-profile-header contact-profile-panel">
             <span class="contact-profile-header__brand">
               <span class="contact-profile-header__mark" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></span>
               <span>CK-CONTACT // TERMINAL 01</span>
@@ -226,7 +193,7 @@ export function renderProfileDocument(
             <span class="contact-profile-header__state"><span class="contact-profile-header__state-dot" aria-hidden="true"></span>PROFILE READY</span>
           </header>
           <div class="contact-profile-layout">
-            <section class="contact-profile-identity contact-profile-panel" aria-labelledby="profile-title">
+            <section class="contact-profile-identity contact-profile-panel">
               <p class="contact-profile-identity__eyebrow">Profile // ${escapeHtml(profile.slug)}</p>
               <h1 id="profile-title">${escapeHtml(profile.identity.name)}</h1>
               <p class="contact-profile-identity__role">${escapeHtml(profile.identity.role)}</p>
@@ -275,7 +242,7 @@ export function renderProfileDocument(
             }
             ${
               profile.footer.length > 0
-                ? `<footer class="contact-profile-footer contact-profile-panel" aria-label="Profile status">${profile.footer
+                ? `<footer class="contact-profile-footer contact-profile-panel">${profile.footer
                     .map(footerMarkup)
                     .join('')}</footer>`
                 : ''
@@ -285,7 +252,7 @@ export function renderProfileDocument(
         </div>
       </section>
     </main>
-    <script>${staticProfileKeyboardScript}</script>
+    <script>${staticProfileActionScript}</script>
     ${enhancementModulePath ? `<script type="module" src="${escapeHtml(enhancementModulePath)}"></script>` : ''}
   </body>
 </html>
