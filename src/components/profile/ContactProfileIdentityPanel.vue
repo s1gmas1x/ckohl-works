@@ -1,5 +1,5 @@
 <template>
-  <section class="contact-profile-identity contact-profile-panel" :aria-labelledby="titleId">
+  <section class="contact-profile-identity contact-profile-panel">
     <p class="contact-profile-identity__eyebrow">Profile // {{ slug }}</p>
     <h1 :id="titleId">{{ identity.name }}</h1>
     <p class="contact-profile-identity__role">{{ identity.role }}</p>

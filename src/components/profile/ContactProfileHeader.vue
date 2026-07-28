@@ -1,5 +1,5 @@
 <template>
-  <header class="contact-profile-header contact-profile-panel" aria-label="Contact profile header">
+  <header class="contact-profile-header contact-profile-panel">
     <span class="contact-profile-header__brand">
       <span class="contact-profile-header__mark" aria-hidden="true">
         <span></span><span></span><span></span><span></span><span></span>

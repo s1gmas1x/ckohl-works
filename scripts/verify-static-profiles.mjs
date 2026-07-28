@@ -66,6 +66,17 @@ for (const profile of expectedProfiles) {
   assert.match(document, new RegExp(`data-contact-profile-theme="${expectedTheme.key}"`))
   assert.match(document, /profile-renderer" content="canonical"/)
   assert.match(document, /data-contact-profile-renderer="canonical"/)
+  assert.match(document, /<meta name="viewport" content="width=device-width, initial-scale=1">/)
+  assert.ok(!document.includes('user-scalable=no'))
+  assert.ok(!document.includes('maximum-scale=1'))
+  assert.equal(document.match(/<main(?:\s|>)/g)?.length, 1)
+  assert.equal(document.match(/<h1(?:\s|>)/g)?.length, 1)
+  assert.ok(!/<(?:header|footer)[^>]+aria-label=/.test(document))
+  assert.ok(!/<section class="contact-profile-identity[^"]*"[^>]+aria-labelledby=/.test(document))
+  assert.doesNotMatch(
+    document,
+    /ArrowLeft|ArrowRight|ArrowUp|ArrowDown|event\.key === 'Home'|event\.key === 'End'/,
+  )
   assert.ok(
     document.includes(`<script type="module" src="${manifest.enhancementModulePath}"></script>`),
     `generated profile ${profile.slug} must load the canonical-profile enhancement module`,

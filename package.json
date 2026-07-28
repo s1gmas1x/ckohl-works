@@ -11,6 +11,7 @@
     "lint:check": "prettier \"**/*.{js,vue,css,scss,html,md,json}\" --ignore-path .gitignore && eslint -c ./eslint.config.js \"./src*/**/*.{js,cjs,mjs,vue}\"",
     "dev": "quasar dev",
     "build": "quasar build",
+    "audit:profiles:a11y": "node scripts/audit-contact-profile-accessibility.mjs",
     "measure:crt-display": "node scripts/measure-crt-wireframe-bundle.mjs",
     "build:profiles": "node scripts/build-static-profiles.mjs",
     "serve:profiles": "node scripts/serve-static-profiles.mjs",
@@ -30,6 +31,7 @@
     "vue-router": "^5.0.6"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.12.1",
     "@eslint/js": "^9.39.4",
     "@playwright/test": "^1.61.1",
     "@quasar/app-vite": "^3.0.0-rc.3",

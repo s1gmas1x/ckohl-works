@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict'
+import { readFile } from 'node:fs/promises'
 import test from 'node:test'
 import {
   getActionHref,
@@ -12,6 +13,15 @@ import {
   getContactProfileIconPaths,
 } from '../src/features/contact-profile/actionIcons.js'
 import { renderProfileDocument } from '../scripts/static-profile-renderer.mjs'
+
+const actionComponentSource = await readFile(
+  new URL('../src/components/profile/ContactProfileActions.vue', import.meta.url),
+  'utf8',
+)
+const staticRendererSource = await readFile(
+  new URL('../scripts/static-profile-renderer.mjs', import.meta.url),
+  'utf8',
+)
 
 function cloneChadProfile() {
   return structuredClone(chadProfile)
@@ -174,4 +184,16 @@ test('generated HTML exposes working actions, honest statuses, and available str
   assert.match(document, /"url":"https:\/\/ckohl\.com\/"/)
   assert.match(document, /"sameAs":\["https:\/\/github\.com\/s1gmas1x"\]/)
   assert.doesNotMatch(document, /"address"/)
+})
+
+test('uses native link keyboard behavior in both renderers', () => {
+  assert.match(actionComponentSource, /<a[\s\S]*:href="getActionHref\(action, publicBase\)"/)
+  assert.doesNotMatch(actionComponentSource, /@keydown(?:\.|=)/)
+  assert.doesNotMatch(actionComponentSource, /focusAction|actionLinks|setActionLink/)
+
+  assert.match(staticRendererSource, /document\.querySelectorAll\('\[data-copy-email\]'\)/)
+  assert.doesNotMatch(
+    staticRendererSource,
+    /ArrowLeft|ArrowRight|ArrowUp|ArrowDown|event\.key === 'Home'|event\.key === 'End'/,
+  )
 })

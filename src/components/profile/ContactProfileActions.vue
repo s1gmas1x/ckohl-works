@@ -6,14 +6,7 @@
         :key="action.key"
         :href="getActionHref(action, publicBase)"
         :aria-label="action.label"
-        :ref="(element) => setActionLink(element, index)"
         @click="handleActionClick(action)"
-        @keydown.left.prevent="focusAction(index - 1)"
-        @keydown.right.prevent="focusAction(index + 1)"
-        @keydown.up.prevent="focusAction(index - 1)"
-        @keydown.down.prevent="focusAction(index + 1)"
-        @keydown.home.prevent="focusAction(0)"
-        @keydown.end.prevent="focusAction(coreActions.length - 1)"
         class="contact-profile-action-tile contact-profile-crt-control"
         :class="action.isPrimary ? 'contact-profile-crt-control--primary' : undefined"
       >
@@ -33,13 +26,6 @@
         :href="getActionHref(saveAction, publicBase)"
         :download="saveAction.download"
         :aria-label="saveAction.label"
-        :ref="(element) => setActionLink(element, contactActions.length)"
-        @keydown.left.prevent="focusAction(contactActions.length - 1)"
-        @keydown.right.prevent="focusAction(0)"
-        @keydown.up.prevent="focusAction(contactActions.length - 1)"
-        @keydown.down.prevent="focusAction(0)"
-        @keydown.home.prevent="focusAction(0)"
-        @keydown.end.prevent="focusAction(coreActions.length - 1)"
         class="contact-profile-save__link contact-profile-crt-control contact-profile-crt-control--primary"
       >
         <ContactProfileIcon class="contact-profile-save__icon" name="person-add" />
@@ -89,12 +75,10 @@ const props = defineProps({
   },
 })
 
-const actionLinks = ref([])
 const copiedActionKey = ref(null)
 const contactActions = computed(() => getProfileActionsByGroup(props.profile, 'contact'))
 const saveActions = computed(() => getProfileActionsByGroup(props.profile, 'save'))
 const saveAction = computed(() => saveActions.value[0])
-const coreActions = computed(() => [...contactActions.value, ...saveActions.value])
 const externalActions = computed(() => getProfileActionsByGroup(props.profile, 'external'))
 const publicBase = import.meta.env.BASE_URL
 let copiedActionTimeout
@@ -119,16 +103,6 @@ function externalActionAccessibleName(action) {
     return `${action.label}: ${action.displayValue} (opens in new tab)`
 
   return `${action.label} (opens in new tab)`
-}
-
-function setActionLink(element, index) {
-  actionLinks.value[index] = element
-}
-
-function focusAction(index) {
-  const actionCount = coreActions.value.length
-  const wrappedIndex = (index + actionCount) % actionCount
-  actionLinks.value[wrappedIndex]?.focus()
 }
 
 async function handleActionClick(action) {

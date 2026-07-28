@@ -1,14 +1,14 @@
 <template>
   <q-page class="contact-card-page">
-    <main v-if="profile" class="contact-card-page__content">
+    <div v-if="profile" class="contact-card-page__content">
       <ContactProfileCard :profile="profile" />
-    </main>
-    <main v-else class="contact-card-page__content">
+    </div>
+    <div v-else class="contact-card-page__content">
       <section class="contact-card">
         <h1>Profile not found</h1>
         <p class="contact-card__summary">This profile is not available at this address.</p>
       </section>
-    </main>
+    </div>
   </q-page>
 </template>
 

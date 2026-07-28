@@ -99,8 +99,10 @@ npm run test:themes
 npm run build
 npm run build:profiles
 npm run verify:profiles
+npm run audit:profiles:a11y
 ```
 
 Visual checks cover 320, 375, 768, and desktop widths in both the Vue hash route and canonical
 generated output. The full-viewport root, visible focus, forced colors, font failure, effect removal,
-and lack of active CSS animations are part of the issue acceptance review.
+and lack of active CSS animations are part of the issue acceptance review. The detailed automated
+and manual matrix lives in `docs/contact-profile-accessibility-audit.md`.

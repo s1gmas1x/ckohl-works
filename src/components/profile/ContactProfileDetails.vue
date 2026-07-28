@@ -15,11 +15,7 @@
       </div>
     </dl>
 
-    <footer
-      v-if="profile.footer.length"
-      class="contact-profile-footer contact-profile-panel"
-      aria-label="Profile status"
-    >
+    <footer v-if="profile.footer.length" class="contact-profile-footer contact-profile-panel">
       <span v-for="item in profile.footer" :key="item.key">
         <span class="contact-profile-footer__label">{{ item.label }}</span>
         <span class="contact-profile-footer__value">{{ item.value }}</span>

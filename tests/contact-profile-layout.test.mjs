@@ -24,6 +24,16 @@ const detailsSource = await readFile(
   new URL('../src/components/profile/ContactProfileDetails.vue', import.meta.url),
   'utf8',
 )
+const pageSource = await readFile(new URL('../src/pages/ProfilePage.vue', import.meta.url), 'utf8')
+const headerSource = await readFile(
+  new URL('../src/components/profile/ContactProfileHeader.vue', import.meta.url),
+  'utf8',
+)
+const identitySource = await readFile(
+  new URL('../src/components/profile/ContactProfileIdentityPanel.vue', import.meta.url),
+  'utf8',
+)
+const appDocumentSource = await readFile(new URL('../index.html', import.meta.url), 'utf8')
 
 test('composes the Vue profile from focused semantic regions', () => {
   for (const component of [
@@ -119,4 +129,32 @@ test('generated profiles use the same panel contract as the Vue route', () => {
   assert.match(document, /data-contact-profile-renderer="canonical"/)
   assert.match(document, /<picture class="contact-profile-display__fallback"/)
   assert.doesNotMatch(document, /<canvas/)
+})
+
+test('keeps one main landmark, one named profile region, and browser zoom available', () => {
+  assert.match(pageSource, /<q-page class="contact-card-page">/)
+  assert.doesNotMatch(pageSource, /<main(?:\s|>)/)
+  assert.doesNotMatch(headerSource, /<header[^>]+aria-label=/)
+  assert.doesNotMatch(detailsSource, /<footer[^>]+aria-label=/)
+  assert.match(identitySource, /<h1 :id="titleId">/)
+  assert.doesNotMatch(identitySource, /<section[^>]+aria-labelledby=/)
+
+  const viewport = appDocumentSource.match(/<meta\s+name="viewport"\s+content="([^"]+)"/)?.[1]
+  assert.ok(viewport, 'the app document must define a viewport')
+  assert.doesNotMatch(viewport, /user-scalable\s*=\s*no/i)
+  assert.doesNotMatch(viewport, /maximum-scale\s*=\s*1/i)
+
+  const document = renderProfileDocument(publishedProfiles[0], 'landmark-test')
+  assert.equal(document.match(/<main(?:\s|>)/g)?.length, 1)
+  assert.equal(document.match(/<h1(?:\s|>)/g)?.length, 1)
+  assert.match(
+    document,
+    /<section class="contact-profile [^"]*"[^>]+aria-labelledby="profile-title"/,
+  )
+  assert.doesNotMatch(
+    document,
+    /<section class="contact-profile-identity[^"]*"[^>]+aria-labelledby=/,
+  )
+  assert.doesNotMatch(document, /<(?:header|footer)[^>]+aria-label=/)
+  assert.match(document, /<meta name="viewport" content="width=device-width, initial-scale=1">/)
 })
