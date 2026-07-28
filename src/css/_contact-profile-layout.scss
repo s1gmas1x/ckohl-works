@@ -235,6 +235,8 @@
 }
 
 .contact-profile-action-tile__icon {
+  width: clamp(28px, 5vw, 42px);
+  height: clamp(28px, 5vw, 42px);
   color: var(--crt-color-accent);
 }
 
@@ -276,6 +278,16 @@
 .contact-profile-save__icon,
 .contact-profile-save__arrow {
   color: var(--crt-color-accent);
+}
+
+.contact-profile-save__icon {
+  width: clamp(32px, 6vw, 48px);
+  height: clamp(32px, 6vw, 48px);
+}
+
+.contact-profile-save__arrow {
+  width: 30px;
+  height: 30px;
 }
 
 .contact-profile-save__copy {
@@ -322,15 +334,21 @@
   flex: 1 1 auto;
   min-height: 240px;
   border: var(--crt-border-width) solid var(--crt-color-border-subtle);
-  background:
-    radial-gradient(circle at 50% 48%, var(--crt-color-display-haze), transparent 3%),
-    linear-gradient(
-      to bottom,
-      transparent 0 47%,
-      var(--crt-color-border-subtle) 47% calc(47% + 1px),
-      transparent calc(47% + 1px)
-    ),
-    var(--crt-color-surface-screen);
+  background: var(--crt-color-surface-screen);
+}
+
+.contact-profile-display__fallback {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  display: block;
+}
+
+.contact-profile-display__fallback img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .contact-profile-display__canvas {
@@ -342,6 +360,7 @@
   height: 100%;
   opacity: 0;
   pointer-events: none;
+  transition: opacity 180ms ease-out;
 }
 
 .contact-profile-display__viewport[data-display-state='ready'] .contact-profile-display__canvas {
@@ -349,48 +368,8 @@
 }
 
 .contact-profile-display__viewport[data-display-state='ready']
-  :is(.contact-profile-display__particle, .contact-profile-display__placeholder) {
+  .contact-profile-display__placeholder {
   opacity: 0;
-}
-
-.contact-profile-display__viewport::before {
-  position: absolute;
-  top: 46%;
-  right: -34%;
-  bottom: -55%;
-  left: -34%;
-  border: 1px solid var(--crt-color-border-screen);
-  background:
-    repeating-linear-gradient(
-      90deg,
-      transparent 0 9.5%,
-      var(--crt-color-border-subtle) 9.5% calc(9.5% + 1px),
-      transparent calc(9.5% + 1px) 19%
-    ),
-    repeating-linear-gradient(
-      0deg,
-      transparent 0 10%,
-      var(--crt-color-border-subtle) 10% calc(10% + 1px),
-      transparent calc(10% + 1px) 20%
-    );
-  content: '';
-  transform: perspective(420px) rotateX(64deg);
-  transform-origin: top center;
-}
-
-.contact-profile-display__viewport::after {
-  position: absolute;
-  top: 39%;
-  left: 50%;
-  width: clamp(38px, 8vw, 72px);
-  aspect-ratio: 1;
-  border: 2px solid var(--crt-color-accent);
-  border-radius: 50%;
-  box-shadow:
-    0 0 12px var(--crt-color-display-orb-glow),
-    inset 0 0 12px var(--crt-color-display-orb-inset);
-  content: '';
-  transform: translate(-50%, -50%);
 }
 
 .contact-profile-display__corner {
@@ -424,39 +403,6 @@
   right: 10px;
   bottom: 10px;
   border-width: 0 2px 2px 0;
-}
-
-.contact-profile-display__horizon,
-.contact-profile-display__orb {
-  display: none;
-}
-
-.contact-profile-display__particle {
-  position: absolute;
-  z-index: 2;
-  width: 5px;
-  height: 5px;
-  border: 1px solid var(--crt-color-accent);
-  border-radius: 50%;
-}
-
-.contact-profile-display__particle--one {
-  top: 25%;
-  left: 24%;
-}
-
-.contact-profile-display__particle--two {
-  top: 35%;
-  right: 28%;
-  width: 3px;
-  height: 3px;
-}
-
-.contact-profile-display__particle--three {
-  top: 19%;
-  right: 18%;
-  width: 9px;
-  height: 9px;
 }
 
 .contact-profile-display__placeholder {
@@ -502,6 +448,22 @@
 .contact-profile-external-action__icon,
 .contact-profile-external-action__arrow {
   color: var(--crt-color-accent);
+}
+
+.contact-profile-external-action__icon {
+  width: 26px;
+  height: 26px;
+}
+
+.contact-profile-external-action__arrow {
+  width: 24px;
+  height: 24px;
+}
+
+.contact-profile-icon {
+  display: inline-block;
+  flex: 0 0 auto;
+  fill: currentColor;
 }
 
 .contact-profile-details {
@@ -663,9 +625,8 @@
   }
 }
 
-@media (forced-colors: active) {
-  .contact-profile-display__viewport::before,
-  .contact-profile-display__viewport::after {
-    display: none;
+@media (prefers-reduced-motion: reduce) {
+  .contact-profile-display__canvas {
+    transition: none;
   }
 }

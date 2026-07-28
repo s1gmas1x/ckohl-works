@@ -11,21 +11,23 @@
       <span class="contact-profile-display__corner contact-profile-display__corner--tr"></span>
       <span class="contact-profile-display__corner contact-profile-display__corner--bl"></span>
       <span class="contact-profile-display__corner contact-profile-display__corner--br"></span>
-      <span class="contact-profile-display__horizon"></span>
-      <span class="contact-profile-display__orb"></span>
-      <span class="contact-profile-display__particle contact-profile-display__particle--one"></span>
-      <span class="contact-profile-display__particle contact-profile-display__particle--two"></span>
-      <span
-        class="contact-profile-display__particle contact-profile-display__particle--three"
-      ></span>
-      <p class="contact-profile-display__placeholder">{{ displayStatus }}</p>
+      <picture class="contact-profile-display__fallback" aria-hidden="true">
+        <source media="(max-width: 560px)" :srcset="mobileFallbackSource" />
+        <img :src="wideFallbackSource" alt="" width="804" height="571" decoding="async" />
+      </picture>
+      <p v-if="displayStatus" class="contact-profile-display__placeholder">
+        {{ displayStatus }}
+      </p>
     </div>
   </section>
 </template>
 
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
-import { selectCrtWireframeTier } from '@/features/contact-profile/crt-wireframe/config.js'
+import {
+  createCrtDisplayHost,
+  getCrtDisplayStatus,
+} from '@/features/contact-profile/crt-wireframe/displayHost.js'
 
 const emit = defineEmits([
   'display-ready',
@@ -36,89 +38,47 @@ const emit = defineEmits([
 ])
 const viewportElement = ref(null)
 const displayState = ref('fallback')
-const displayStatus = computed(() => {
-  if (displayState.value === 'initializing') return 'INITIALIZING DISPLAY'
-  if (displayState.value === 'context-lost') return 'DISPLAY STANDBY'
-  if (displayState.value === 'reduced-motion') return 'STATIC DISPLAY'
-  if (displayState.value === 'error') return 'STATIC DISPLAY'
+const displayStatus = computed(() => getCrtDisplayStatus(displayState.value))
+const publicBase = import.meta.env.BASE_URL
+const mobileFallbackSource = `${publicBase}images/contact-profile/crt-wireframe-fallback-mobile.png`
+const wideFallbackSource = `${publicBase}images/contact-profile/crt-wireframe-fallback-wide.png`
+let displayHost
 
-  return 'DISPLAY MODULE READY'
-})
-let sceneController
-let disposed = false
+function handleStateChange(event) {
+  const previousState = displayState.value
+  displayState.value = event.state
 
-function handleSceneEvent(event) {
-  if (event.type === 'disposed') {
-    emit('display-disposed')
-    return
-  }
-
-  if (disposed) return
-
-  if (event.type === 'ready') {
-    displayState.value = 'ready'
-    emit('display-ready')
-  } else if (event.type === 'error') {
-    displayState.value = 'error'
+  if (event.state === 'ready') {
+    if (previousState === 'context-lost') emit('display-context-restored')
+    else emit('display-ready')
+  } else if (event.state === 'failed') {
     emit('display-error', event.detail)
-  } else if (event.type === 'context-lost') {
-    displayState.value = 'context-lost'
+  } else if (event.state === 'context-lost') {
     emit('display-context-lost')
-  } else if (event.type === 'context-restored') {
-    displayState.value = 'ready'
-    emit('display-context-restored')
   }
 }
 
-onMounted(async () => {
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  if (reducedMotion) {
-    displayState.value = 'reduced-motion'
-    return
-  }
+onMounted(() => {
+  if (!viewportElement.value) return
 
-  const coarsePointer = window.matchMedia('(pointer: coarse)').matches
-  const tier = selectCrtWireframeTier({
-    coarsePointer,
-    viewportWidth: window.innerWidth,
+  displayHost = createCrtDisplayHost({
+    mount: viewportElement.value,
+    loadScene: () => import('@/features/contact-profile/crt-wireframe/createCrtWireframeScene.js'),
+    onStateChange: handleStateChange,
   })
-  displayState.value = 'initializing'
-
-  try {
-    const { initializeCrtWireframeScene } =
-      await import('@/features/contact-profile/crt-wireframe/createCrtWireframeScene.js')
-    if (disposed || !viewportElement.value) return
-
-    const initializedController = await initializeCrtWireframeScene({
-      mount: viewportElement.value,
-      tier,
-      pointerEnabled: tier.pointerEnabled && !coarsePointer,
-      onEvent: handleSceneEvent,
-    })
-    if (disposed) {
-      initializedController.dispose()
-      return
-    }
-
-    sceneController = initializedController
-  } catch (error) {
-    if (disposed) return
-
-    displayState.value = 'error'
-    emit('display-error', error)
-  }
+  displayHost.start()
 })
 
 onBeforeUnmount(() => {
-  disposed = true
-  sceneController?.dispose()
-  sceneController = undefined
+  displayHost?.dispose()
+  displayHost = undefined
+  emit('display-disposed')
 })
 
 defineExpose({
-  pause: () => sceneController?.pause(),
-  renderOnce: () => sceneController?.renderOnce(),
-  resize: () => sceneController?.resize(),
-  start: () => sceneController?.start(),
+  pause: () => displayHost?.pause(),
+  renderOnce: () => displayHost?.renderOnce(),
+  resize: () => displayHost?.resize(),
+  start: () => displayHost?.startRendering(),
 })
 </script>

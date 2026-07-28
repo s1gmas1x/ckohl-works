@@ -7,6 +7,10 @@ import {
 } from '../src/data/contactProfileContract.js'
 import { chadProfile } from '../src/data/profileFixtures.js'
 import { publishedProfiles } from '../src/data/publishedProfiles.js'
+import {
+  getContactProfileActionIcon,
+  getContactProfileIconPaths,
+} from '../src/features/contact-profile/actionIcons.js'
 import { renderProfileDocument } from '../scripts/static-profile-renderer.mjs'
 
 function cloneChadProfile() {
@@ -66,6 +70,17 @@ test('generates safe normalized hrefs for every approved action type', () => {
     }),
     'https://www.google.com/maps/search/?api=1&query=Colorado+Springs',
   )
+})
+
+test('maps action types to framework-neutral SVG icons', () => {
+  assert.equal(getContactProfileActionIcon({ type: 'call' }), 'phone')
+  assert.equal(getContactProfileActionIcon({ type: 'sms' }), 'message')
+  assert.equal(getContactProfileActionIcon({ type: 'email' }), 'email')
+  assert.equal(getContactProfileActionIcon({ type: 'website' }), 'globe')
+  assert.equal(getContactProfileActionIcon({ type: 'social', platform: 'GitHub' }), 'code')
+  assert.equal(getContactProfileActionIcon({ type: 'social', platform: 'LinkedIn' }), 'people')
+  assert.ok(getContactProfileIconPaths('phone').length > 0)
+  assert.throws(() => getContactProfileIconPaths('unsupported'), /Unsupported contact profile icon/)
 })
 
 test('rejects unsupported schemes, malformed destinations, and unsafe vCard paths', () => {
@@ -152,6 +167,9 @@ test('generated HTML exposes working actions, honest statuses, and available str
   assert.match(document, /target="_blank" rel="noopener noreferrer"/)
   assert.match(document, /<dt>VCF<\/dt><dd>READY<\/dd>/)
   assert.match(document, /<dt>Link mode<\/dt><dd>DIRECT<\/dd>/)
+  assert.match(document, /<dt>View mode<\/dt><dd>CANONICAL<\/dd>/)
+  assert.match(document, /<svg class="contact-profile-action-tile__icon contact-profile-icon"/)
+  assert.doesNotMatch(document, /<q-icon|☎|✉|💬/)
   assert.doesNotMatch(document, /DYNAMIC LINK|>ACTIVE<|analytics/i)
   assert.match(document, /"url":"https:\/\/ckohl\.com\/"/)
   assert.match(document, /"sameAs":\["https:\/\/github\.com\/s1gmas1x"\]/)

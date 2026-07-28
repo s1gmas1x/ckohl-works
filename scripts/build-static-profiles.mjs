@@ -1,6 +1,6 @@
 import { spawn } from 'node:child_process'
 import { existsSync } from 'node:fs'
-import { mkdir, rename, rm, writeFile } from 'node:fs/promises'
+import { mkdir, readdir, rename, rm, writeFile } from 'node:fs/promises'
 import { execFileSync } from 'node:child_process'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
@@ -112,6 +112,19 @@ async function removeUnselectedVcards() {
   }
 }
 
+async function findStaticEnhancementModule() {
+  const assetsDir = join(stagingDir, 'assets')
+  const matches = (await readdir(assetsDir)).filter(
+    (fileName) => fileName.startsWith('enhanceStaticProfile-') && fileName.endsWith('.js'),
+  )
+
+  if (matches.length !== 1) {
+    throw new Error(`Expected exactly one static CRT enhancement module; found ${matches.length}.`)
+  }
+
+  return `${publicBase}assets/${matches[0]}`
+}
+
 async function main() {
   await mkdir(distDir, { recursive: true })
   await rm(stagingDir, { recursive: true, force: true })
@@ -119,6 +132,7 @@ async function main() {
   try {
     const profileModule = await writeSelectedProfileModule()
     await runQuasarBuild(profileModule)
+    const enhancementModulePath = await findStaticEnhancementModule()
     if (process.env.STATIC_PROFILE_FORCE_FAILURE === '1') {
       throw new Error('Static profile failure injection requested.')
     }
@@ -127,6 +141,7 @@ async function main() {
       buildRevision: getBuildRevision(),
       profileSlugs,
       publicBase,
+      enhancementModulePath,
     })
     await removeUnselectedVcards()
     await promoteBuild()

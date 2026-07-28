@@ -26,7 +26,7 @@ import {
   CRT_WIREFRAME_SCENE_VERSION,
   normalizePointerPosition,
 } from './config.js'
-import { createRenderLifecycle } from './lifecycle.js'
+import { createRenderLifecycle, createRenderVisibilityController } from './lifecycle.js'
 
 const DEFAULT_COLORS = Object.freeze({
   accent: '#ffc96a',
@@ -298,6 +298,7 @@ export async function initializeCrtWireframeScene({
   })
   const cameraTarget = new Vector3(0, -0.28, -5.4)
   const pointer = { currentX: 0, currentY: 0, targetX: 0, targetY: 0 }
+  let sceneStartedAt
   const terrain = createTerrainGrid(three, {
     accentColor,
     divisions: tier.gridDivisions,
@@ -337,7 +338,8 @@ export async function initializeCrtWireframeScene({
   }
 
   function renderFrame(timestamp) {
-    const elapsedSeconds = timestamp / 1000
+    sceneStartedAt ??= timestamp
+    const elapsedSeconds = (timestamp - sceneStartedAt) / 1000
 
     pointer.currentX += (pointer.targetX - pointer.currentX) * 0.025
     pointer.currentY += (pointer.targetY - pointer.currentY) * 0.025
@@ -359,14 +361,13 @@ export async function initializeCrtWireframeScene({
     cancelFrame: cancelFrame.bind(globalThis),
     onEvent,
   })
-  let documentVisible = documentTarget?.visibilityState !== 'hidden'
-  let intersecting = true
   let disposed = false
-
-  function syncActivity() {
-    if (documentVisible && intersecting) lifecycle.start()
-    else lifecycle.pause()
-  }
+  const visibilityController = createRenderVisibilityController({
+    lifecycle,
+    mount,
+    documentTarget,
+    IntersectionObserverClass,
+  })
 
   function handlePointerMove(event) {
     const normalized = normalizePointerPosition(
@@ -383,11 +384,6 @@ export async function initializeCrtWireframeScene({
     pointer.targetY = 0
   }
 
-  function handleVisibilityChange() {
-    documentVisible = documentTarget.visibilityState !== 'hidden'
-    syncActivity()
-  }
-
   function handleContextLost(event) {
     event.preventDefault()
     lifecycle.handleContextLost()
@@ -396,7 +392,7 @@ export async function initializeCrtWireframeScene({
   function handleContextRestored() {
     resize()
     lifecycle.handleContextRestored()
-    syncActivity()
+    visibilityController.sync()
   }
 
   const resizeObserver = ResizeObserverClass
@@ -405,19 +401,7 @@ export async function initializeCrtWireframeScene({
         lifecycle.renderOnce()
       })
     : undefined
-  const intersectionObserver = IntersectionObserverClass
-    ? new IntersectionObserverClass(
-        (entries) => {
-          intersecting = entries.at(-1)?.isIntersecting ?? true
-          syncActivity()
-        },
-        { threshold: 0.01 },
-      )
-    : undefined
-
   resizeObserver?.observe(mount)
-  intersectionObserver?.observe(mount)
-  documentTarget?.addEventListener('visibilitychange', handleVisibilityChange)
   renderer.domElement.addEventListener('webglcontextlost', handleContextLost)
   renderer.domElement.addEventListener('webglcontextrestored', handleContextRestored)
 
@@ -428,15 +412,14 @@ export async function initializeCrtWireframeScene({
 
   resize()
   lifecycle.renderOnce()
-  syncActivity()
+  visibilityController.sync()
 
   function dispose() {
     if (disposed) return
     disposed = true
 
     resizeObserver?.disconnect()
-    intersectionObserver?.disconnect()
-    documentTarget?.removeEventListener('visibilitychange', handleVisibilityChange)
+    visibilityController.dispose()
     renderer.domElement.removeEventListener('webglcontextlost', handleContextLost)
     renderer.domElement.removeEventListener('webglcontextrestored', handleContextRestored)
     mount.removeEventListener('pointermove', handlePointerMove)

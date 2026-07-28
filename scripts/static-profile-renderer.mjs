@@ -11,6 +11,10 @@ import {
   CONTACT_PROFILE_THEME_CONTRACT_VERSION,
   resolveContactProfileTheme,
 } from '../src/data/contactProfileThemes.js'
+import {
+  getContactProfileActionIcon,
+  getContactProfileIconPaths,
+} from '../src/features/contact-profile/actionIcons.js'
 import { selectProfiles } from './profile-selection.mjs'
 
 const shareTechMonoWoff2 = await readFile(
@@ -118,14 +122,12 @@ function escapeHtml(value) {
     .replaceAll("'", '&#39;')
 }
 
-function actionGlyph(action) {
-  if (action.type === 'call') return '☎'
-  if (action.type === 'sms') return '▣'
-  if (action.type === 'email') return '✉'
-  if (action.type === 'location') return '⌖'
-  if (action.type === 'social') return action.platform === 'GitHub' ? '&lt;/&gt;' : '◇'
+function iconMarkup(name, className) {
+  const paths = getContactProfileIconPaths(name)
+    .map((path) => `<path d="${escapeHtml(path)}"></path>`)
+    .join('')
 
-  return '◎'
+  return `<svg class="${className} contact-profile-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${paths}</svg>`
 }
 
 function contactActionMarkup(action, index, publicBase) {
@@ -135,14 +137,14 @@ function contactActionMarkup(action, index, publicBase) {
 
   const typeLabel = action.type === 'email' ? 'EMAIL' : action.typeLabel
 
-  return `<a class="${className}" href="${href}" aria-label="${escapeHtml(action.label)}"${copyEmail}><span class="contact-profile-action-tile__index" aria-hidden="true">[${String(index + 1).padStart(2, '0')}]</span><span class="contact-profile-action-tile__icon" aria-hidden="true">${actionGlyph(action)}</span><span class="contact-profile-action-tile__type" aria-hidden="true">${typeLabel}</span><span class="contact-profile-action-tile__label">${escapeHtml(action.label)}</span></a>`
+  return `<a class="${className}" href="${href}" aria-label="${escapeHtml(action.label)}"${copyEmail}><span class="contact-profile-action-tile__index" aria-hidden="true">[${String(index + 1).padStart(2, '0')}]</span>${iconMarkup(getContactProfileActionIcon(action), 'contact-profile-action-tile__icon')}<span class="contact-profile-action-tile__type" aria-hidden="true">${typeLabel}</span><span class="contact-profile-action-tile__label">${escapeHtml(action.label)}</span></a>`
 }
 
 function saveActionMarkup(action, publicBase) {
   const href = escapeHtml(getActionHref(action, publicBase))
   const download = action.download ? ` download="${escapeHtml(action.download)}"` : ''
 
-  return `<a class="contact-profile-save__link contact-profile-crt-control contact-profile-crt-control--primary" href="${href}"${download} aria-label="${escapeHtml(action.label)}"><span class="contact-profile-save__icon" aria-hidden="true">⇩</span><span class="contact-profile-save__copy"><span class="contact-profile-save__title">${escapeHtml(action.label)}</span><span class="contact-profile-save__subtitle">Add to your address book</span></span><span class="contact-profile-save__arrow" aria-hidden="true">›</span></a>`
+  return `<a class="contact-profile-save__link contact-profile-crt-control contact-profile-crt-control--primary" href="${href}"${download} aria-label="${escapeHtml(action.label)}">${iconMarkup('person-add', 'contact-profile-save__icon')}<span class="contact-profile-save__copy"><span class="contact-profile-save__title">${escapeHtml(action.label)}</span><span class="contact-profile-save__subtitle">Add to your address book</span></span>${iconMarkup('chevron-right', 'contact-profile-save__arrow')}</a>`
 }
 
 function externalActionMarkup(action, publicBase) {
@@ -151,7 +153,7 @@ function externalActionMarkup(action, publicBase) {
       ? `${action.label}: ${action.displayValue} (opens in new tab)`
       : `${action.label} (opens in new tab)`
 
-  return `<a class="contact-profile-external-action contact-profile-crt-control" href="${escapeHtml(getActionHref(action, publicBase))}" aria-label="${escapeHtml(accessibleName)}" target="_blank" rel="noopener noreferrer"><span class="contact-profile-external-action__icon" aria-hidden="true">${actionGlyph(action)}</span><span>${escapeHtml(action.label)}</span><span class="contact-profile-external-action__arrow" aria-hidden="true">›</span></a>`
+  return `<a class="contact-profile-external-action contact-profile-crt-control" href="${escapeHtml(getActionHref(action, publicBase))}" aria-label="${escapeHtml(accessibleName)}" target="_blank" rel="noopener noreferrer">${iconMarkup(getContactProfileActionIcon(action), 'contact-profile-external-action__icon')}<span>${escapeHtml(action.label)}</span>${iconMarkup('chevron-right', 'contact-profile-external-action__arrow')}</a>`
 }
 
 function statusMarkup(item) {
@@ -162,7 +164,12 @@ function footerMarkup(item) {
   return `<span><span class="contact-profile-footer__label">${escapeHtml(item.label)}</span><span class="contact-profile-footer__value">${escapeHtml(item.value)}</span></span>`
 }
 
-export function renderProfileDocument(profile, buildRevision, publicBase = '/') {
+export function renderProfileDocument(
+  profile,
+  buildRevision,
+  publicBase = '/',
+  { enhancementModulePath } = {},
+) {
   const theme = resolveContactProfileTheme(profile.themeKey)
   const hash = contentHash(profile)
   const title = `${profile.identity.name} | ${profile.identity.organization}`
@@ -188,9 +195,11 @@ export function renderProfileDocument(profile, buildRevision, publicBase = '/') 
     sameAs: socialActions.length > 0 ? socialActions.map((action) => action.value) : undefined,
     address: locationAction?.displayValue,
   }
+  const fallbackMobilePath = `${publicBase}images/contact-profile/crt-wireframe-fallback-mobile.png`
+  const fallbackWidePath = `${publicBase}images/contact-profile/crt-wireframe-fallback-wide.png`
 
   return `<!doctype html>
-<html lang="en">
+<html lang="en" data-contact-profile-renderer="canonical">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -200,13 +209,14 @@ export function renderProfileDocument(profile, buildRevision, publicBase = '/') 
     <meta name="profile-theme-contract-version" content="${theme.contractVersion}">
     <meta name="profile-content-hash" content="${hash}">
     <meta name="build-revision" content="${escapeHtml(buildRevision)}">
+    <meta name="profile-renderer" content="canonical">
     <title>${escapeHtml(title)}</title>
     <style>${staticProfileStyle}</style>
     <script type="application/ld+json">${JSON.stringify(jsonLd).replaceAll('<', '\\u003c')}</script>
   </head>
   <body>
     <main>
-      <section class="contact-profile ${escapeHtml(theme.className)}" data-contact-profile-theme="${escapeHtml(theme.key)}" data-contact-profile-theme-contract="${theme.contractVersion}" aria-labelledby="profile-title">
+      <section class="contact-profile ${escapeHtml(theme.className)}" data-contact-profile-theme="${escapeHtml(theme.key)}" data-contact-profile-theme-contract="${theme.contractVersion}" data-contact-profile-renderer="canonical" aria-labelledby="profile-title">
         <div class="contact-profile__screen contact-profile-crt-screen">
           <header class="contact-profile-header contact-profile-panel" aria-label="Contact profile header">
             <span class="contact-profile-header__brand">
@@ -248,12 +258,11 @@ export function renderProfileDocument(profile, buildRevision, publicBase = '/') 
                 <span class="contact-profile-display__corner contact-profile-display__corner--tr"></span>
                 <span class="contact-profile-display__corner contact-profile-display__corner--bl"></span>
                 <span class="contact-profile-display__corner contact-profile-display__corner--br"></span>
-                <span class="contact-profile-display__horizon"></span>
-                <span class="contact-profile-display__orb"></span>
-                <span class="contact-profile-display__particle contact-profile-display__particle--one"></span>
-                <span class="contact-profile-display__particle contact-profile-display__particle--two"></span>
-                <span class="contact-profile-display__particle contact-profile-display__particle--three"></span>
-                <p class="contact-profile-display__placeholder">DISPLAY MODULE READY</p>
+                <picture class="contact-profile-display__fallback" aria-hidden="true">
+                  <source media="(max-width: 560px)" srcset="${escapeHtml(fallbackMobilePath)}">
+                  <img src="${escapeHtml(fallbackWidePath)}" alt="" width="804" height="571" decoding="async">
+                </picture>
+                <p class="contact-profile-display__placeholder" hidden></p>
               </div>
             </section>
             <div class="contact-profile-detail-regions">
@@ -261,7 +270,7 @@ export function renderProfileDocument(profile, buildRevision, publicBase = '/') 
               profile.status.length > 0
                 ? `<dl class="contact-profile-details contact-profile-panel" aria-label="Profile details">${profile.status
                     .map(statusMarkup)
-                    .join('')}</dl>`
+                    .join('')}<div><dt>View mode</dt><dd>CANONICAL</dd></div></dl>`
                 : ''
             }
             ${
@@ -277,6 +286,7 @@ export function renderProfileDocument(profile, buildRevision, publicBase = '/') 
       </section>
     </main>
     <script>${staticProfileKeyboardScript}</script>
+    ${enhancementModulePath ? `<script type="module" src="${escapeHtml(enhancementModulePath)}"></script>` : ''}
   </body>
 </html>
 `
@@ -287,6 +297,7 @@ export async function generateStaticProfiles({
   buildRevision,
   profileSlugs,
   publicBase = '/',
+  enhancementModulePath,
 }) {
   const selectedProfiles = selectProfiles(publishedProfiles, profileSlugs)
 
@@ -302,7 +313,7 @@ export async function generateStaticProfiles({
     await mkdir(profileDir, { recursive: true })
     await writeFile(
       join(profileDir, 'index.html'),
-      renderProfileDocument(profile, buildRevision, publicBase),
+      renderProfileDocument(profile, buildRevision, publicBase, { enhancementModulePath }),
     )
   }
 
@@ -311,6 +322,7 @@ export async function generateStaticProfiles({
     themeContractVersion: CONTACT_PROFILE_THEME_CONTRACT_VERSION,
     buildRevision,
     profileSetHash: contentHash(selectedProfiles),
+    enhancementModulePath,
     profiles,
   }
   await writeFile(

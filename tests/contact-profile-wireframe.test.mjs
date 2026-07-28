@@ -9,7 +9,10 @@ import {
   normalizePointerPosition,
   selectCrtWireframeTier,
 } from '../src/features/contact-profile/crt-wireframe/config.js'
-import { createRenderLifecycle } from '../src/features/contact-profile/crt-wireframe/lifecycle.js'
+import {
+  createRenderLifecycle,
+  createRenderVisibilityController,
+} from '../src/features/contact-profile/crt-wireframe/lifecycle.js'
 
 const componentSource = await readFile(
   new URL('../src/components/profile/ContactProfileDisplayPanel.vue', import.meta.url),
@@ -20,6 +23,14 @@ const sceneSource = await readFile(
     '../src/features/contact-profile/crt-wireframe/createCrtWireframeScene.js',
     import.meta.url,
   ),
+  'utf8',
+)
+const displayHostSource = await readFile(
+  new URL('../src/features/contact-profile/crt-wireframe/displayHost.js', import.meta.url),
+  'utf8',
+)
+const staticEnhancementSource = await readFile(
+  new URL('../src/features/contact-profile/crt-wireframe/enhanceStaticProfile.js', import.meta.url),
   'utf8',
 )
 const staticRendererSource = await readFile(
@@ -155,13 +166,94 @@ test('pauses on context loss, resumes after restoration, and contains render err
   assert.deepEqual(events, ['ready', 'context-lost', 'context-restored', 'error'])
 })
 
-test('keeps Three.js lazy, decorative, isolated, and absent from canonical static HTML for now', () => {
+test('pauses for off-screen and hidden states and removes visibility observers on dispose', () => {
+  const listeners = new Map()
+  const documentTarget = {
+    visibilityState: 'visible',
+    addEventListener(type, callback) {
+      listeners.set(type, callback)
+    },
+    removeEventListener(type, callback) {
+      if (listeners.get(type) === callback) listeners.delete(type)
+    },
+  }
+  let observerCallback
+  let observedMount
+  let observerOptions
+  let disconnected = false
+  class IntersectionObserverHarness {
+    constructor(callback, options) {
+      observerCallback = callback
+      observerOptions = options
+    }
+
+    disconnect() {
+      disconnected = true
+    }
+
+    observe(mount) {
+      observedMount = mount
+    }
+  }
+  const activity = []
+  let running = false
+  const lifecycle = {
+    pause() {
+      if (!running) return false
+      running = false
+      activity.push('pause')
+      return true
+    },
+    start() {
+      if (running) return false
+      running = true
+      activity.push('start')
+      return true
+    },
+  }
+  const mount = {}
+  const visibility = createRenderVisibilityController({
+    lifecycle,
+    mount,
+    documentTarget,
+    IntersectionObserverClass: IntersectionObserverHarness,
+  })
+
+  assert.equal(observedMount, mount)
+  assert.deepEqual(observerOptions, { threshold: 0.01 })
+  assert.equal(listeners.has('visibilitychange'), true)
+  assert.equal(visibility.sync(), true)
+
+  observerCallback([{ isIntersecting: false }])
+  assert.deepEqual(activity, ['start', 'pause'])
+  assert.equal(visibility.getState().intersecting, false)
+
+  documentTarget.visibilityState = 'hidden'
+  listeners.get('visibilitychange')()
+  observerCallback([{ isIntersecting: true }])
+  assert.deepEqual(activity, ['start', 'pause'])
+
+  documentTarget.visibilityState = 'visible'
+  listeners.get('visibilitychange')()
+  assert.deepEqual(activity, ['start', 'pause', 'start'])
+
+  visibility.dispose()
+  assert.deepEqual(activity, ['start', 'pause', 'start', 'pause'])
+  assert.equal(disconnected, true)
+  assert.equal(listeners.has('visibilitychange'), false)
+  assert.equal(visibility.getState().disposed, true)
+
+  observerCallback([{ isIntersecting: true }])
+  assert.deepEqual(activity, ['start', 'pause', 'start', 'pause'])
+})
+
+test('keeps Three.js lazy, decorative, isolated, and progressively enhances static HTML', () => {
   assert.match(componentSource, /aria-hidden="true"/)
-  assert.match(componentSource, /await import\([\s\S]*createCrtWireframeScene\.js/)
-  assert.match(componentSource, /prefers-reduced-motion: reduce/)
+  assert.match(componentSource, /loadScene:[\s\S]*import\([\s\S]*createCrtWireframeScene\.js/)
+  assert.match(displayHostSource, /prefers-reduced-motion: reduce/)
   assert.ok(
-    componentSource.indexOf('prefers-reduced-motion: reduce') <
-      componentSource.indexOf('await import'),
+    displayHostSource.indexOf('prefers-reduced-motion: reduce') <
+      displayHostSource.indexOf('scheduler.schedule(initialize)'),
   )
   assert.doesNotMatch(componentSource, /from ['"]three['"]/)
   assert.match(sceneSource, /WebGLRenderer,[\s\S]*from 'three'/)
@@ -174,4 +266,8 @@ test('keeps Three.js lazy, decorative, isolated, and absent from canonical stati
   assert.doesNotMatch(sceneSource, /DeviceOrientation|devicemotion|postprocessing|Audio/)
   assert.doesNotMatch(staticRendererSource, /createCrtWireframeScene|from 'three'/)
   assert.match(staticRendererSource, /data-display-state="fallback"/)
+  assert.match(staticRendererSource, /<picture class="contact-profile-display__fallback"/)
+  assert.match(staticRendererSource, /type="module" src=".*enhancementModulePath/)
+  assert.match(staticEnhancementSource, /createCrtDisplayHost/)
+  assert.match(staticEnhancementSource, /import\('\.\/createCrtWireframeScene\.js'\)/)
 })
