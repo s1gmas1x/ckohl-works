@@ -113,6 +113,15 @@ test('caps rendering scale, pointer influence, and particle placement determinis
   assert.equal(first.length, 30)
 })
 
+test('keeps ground-object motion on its faded visible-terrain period', () => {
+  assert.match(sceneSource, /const terrainOffset = elapsedSeconds \* 0\.22/)
+  assert.match(sceneSource, /groundObjects\.update\(terrainOffset\)/)
+  assert.doesNotMatch(
+    sceneSource,
+    /groundObjects\.update\(\(elapsedSeconds \* 0\.22\) % TERRAIN_DEPTH\)/,
+  )
+})
+
 test('reports first render, throttles animation, and fully pauses and disposes', () => {
   const frames = createFrameHarness()
   const events = []
