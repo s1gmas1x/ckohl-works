@@ -243,7 +243,7 @@ export function renderProfileDocument(profile, buildRevision, publicBase = '/') 
             </div>
             <section class="contact-profile-display contact-profile-panel" aria-hidden="true">
               <p class="contact-profile-display__label">DISPLAY // WIREFRAME</p>
-              <div class="contact-profile-display__viewport">
+              <div class="contact-profile-display__viewport" data-display-preset="crt-wireframe" data-display-state="fallback">
                 <span class="contact-profile-display__corner contact-profile-display__corner--tl"></span>
                 <span class="contact-profile-display__corner contact-profile-display__corner--tr"></span>
                 <span class="contact-profile-display__corner contact-profile-display__corner--bl"></span>
@@ -253,7 +253,7 @@ export function renderProfileDocument(profile, buildRevision, publicBase = '/') 
                 <span class="contact-profile-display__particle contact-profile-display__particle--one"></span>
                 <span class="contact-profile-display__particle contact-profile-display__particle--two"></span>
                 <span class="contact-profile-display__particle contact-profile-display__particle--three"></span>
-                <p class="contact-profile-display__placeholder">DISPLAY MODULE RESERVED</p>
+                <p class="contact-profile-display__placeholder">DISPLAY MODULE READY</p>
               </div>
             </section>
             <div class="contact-profile-detail-regions">

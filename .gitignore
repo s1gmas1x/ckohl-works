@@ -25,3 +25,7 @@ node_modules
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Local agent instructions and visual references
+/AGENTS.md
+/src/assets/images/mockup/synthwave_sunset.png

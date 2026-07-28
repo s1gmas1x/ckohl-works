@@ -11,6 +11,7 @@
     "lint:check": "prettier \"**/*.{js,vue,css,scss,html,md,json}\" --ignore-path .gitignore && eslint -c ./eslint.config.js \"./src*/**/*.{js,cjs,mjs,vue}\"",
     "dev": "quasar dev",
     "build": "quasar build",
+    "measure:crt-display": "node scripts/measure-crt-wireframe-bundle.mjs",
     "build:profiles": "node scripts/build-static-profiles.mjs",
     "serve:profiles": "node scripts/serve-static-profiles.mjs",
     "test:themes": "node --test tests/contact-profile-*.test.mjs",
@@ -24,6 +25,7 @@
     "@fontsource/ubuntu": "^5.2.8",
     "@quasar/extras": "^2.0.0",
     "quasar": "^2.20.0",
+    "three": "0.185.1",
     "vue": "^3.5.22",
     "vue-router": "^5.0.6"
   },
