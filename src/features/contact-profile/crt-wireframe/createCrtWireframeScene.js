@@ -1,4 +1,25 @@
-import threeModuleUrl from 'three-module-url'
+import {
+  BufferGeometry,
+  CircleGeometry,
+  Color,
+  DoubleSide,
+  Float32BufferAttribute,
+  Group,
+  Line,
+  LineBasicMaterial,
+  LineSegments,
+  Mesh,
+  MeshBasicMaterial,
+  PerspectiveCamera,
+  PlaneGeometry,
+  Points,
+  PointsMaterial,
+  RingGeometry,
+  Scene,
+  ShaderMaterial,
+  Vector3,
+  WebGLRenderer,
+} from 'three'
 import {
   capDevicePixelRatio,
   createDeterministicParticlePositions,
@@ -20,12 +41,28 @@ const TERRAIN_NEAR_Z = HORIZON_Z + TERRAIN_DEPTH
 const TERRAIN_HALF_WIDTH = GRID_SIZE / 2
 const SUN_RADIUS = 1.22
 const SUN_BASE_Y = HORIZON_Y + 0.58
-let threeModulePromise
-
-function loadThreeModule() {
-  threeModulePromise ??= import(/* @vite-ignore */ threeModuleUrl)
-  return threeModulePromise
-}
+const THREE = Object.freeze({
+  BufferGeometry,
+  CircleGeometry,
+  Color,
+  DoubleSide,
+  Float32BufferAttribute,
+  Group,
+  Line,
+  LineBasicMaterial,
+  LineSegments,
+  Mesh,
+  MeshBasicMaterial,
+  PerspectiveCamera,
+  PlaneGeometry,
+  Points,
+  PointsMaterial,
+  RingGeometry,
+  Scene,
+  ShaderMaterial,
+  Vector3,
+  WebGLRenderer,
+})
 
 function readThemeColor(mount, tokenName, fallback, readStyle) {
   const value = readStyle?.(mount)?.getPropertyValue(tokenName)?.trim()
@@ -232,7 +269,7 @@ export async function initializeCrtWireframeScene({
 }) {
   if (!mount) throw new TypeError('CRT wireframe scene requires a mount element.')
 
-  const three = await loadThreeModule()
+  const three = THREE
   const { PerspectiveCamera, Scene, Vector3, WebGLRenderer } = three
   const documentTarget = environment.documentTarget ?? globalThis.document
   const readStyle = environment.getComputedStyle ?? globalThis.getComputedStyle

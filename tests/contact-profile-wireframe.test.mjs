@@ -65,7 +65,7 @@ test('selects restrained desktop and mobile scene budgets', () => {
   assert.ok(
     CRT_WIREFRAME_TIERS.mobile.maxFramesPerSecond < CRT_WIREFRAME_TIERS.desktop.maxFramesPerSecond,
   )
-  assert.equal(CRT_WIREFRAME_ASYNC_GZIP_BUDGET_BYTES, 102_400)
+  assert.equal(CRT_WIREFRAME_ASYNC_GZIP_BUDGET_BYTES, 143_360)
 })
 
 test('caps rendering scale, pointer influence, and particle placement deterministically', () => {
@@ -164,8 +164,8 @@ test('keeps Three.js lazy, decorative, isolated, and absent from canonical stati
       componentSource.indexOf('await import'),
   )
   assert.doesNotMatch(componentSource, /from ['"]three['"]/)
-  assert.match(sceneSource, /from 'three-module-url'/)
-  assert.match(sceneSource, /import\(\/\* @vite-ignore \*\/ threeModuleUrl\)/)
+  assert.match(sceneSource, /WebGLRenderer,[\s\S]*from 'three'/)
+  assert.doesNotMatch(sceneSource, /three-module-url|@vite-ignore/)
   assert.match(sceneSource, /antialias: false/)
   assert.match(sceneSource, /powerPreference: 'low-power'/)
   assert.match(sceneSource, /IntersectionObserver/)

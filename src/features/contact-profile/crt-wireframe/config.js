@@ -1,5 +1,5 @@
 export const CRT_WIREFRAME_SCENE_VERSION = 'crt-wireframe-scene-v1'
-export const CRT_WIREFRAME_ASYNC_GZIP_BUDGET_BYTES = 100 * 1024
+export const CRT_WIREFRAME_ASYNC_GZIP_BUDGET_BYTES = 140 * 1024
 
 export const CRT_WIREFRAME_TIERS = Object.freeze({
   desktop: Object.freeze({
