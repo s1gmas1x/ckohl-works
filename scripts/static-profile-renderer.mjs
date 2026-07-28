@@ -135,7 +135,7 @@ export function renderProfileDocument(
   profile,
   buildRevision,
   publicBase = '/',
-  { enhancementModulePath } = {},
+  { enhancementModulePath, displayHostModulePath, sceneModulePath } = {},
 ) {
   const theme = resolveContactProfileTheme(profile.themeKey)
   const hash = contentHash(profile)
@@ -220,7 +220,13 @@ export function renderProfileDocument(
             </div>
             <section class="contact-profile-display contact-profile-panel" aria-hidden="true">
               <p class="contact-profile-display__label">DISPLAY // WIREFRAME</p>
-              <div class="contact-profile-display__viewport" data-display-preset="crt-wireframe" data-display-state="fallback">
+              <div class="contact-profile-display__viewport" data-display-preset="crt-wireframe" data-display-state="fallback"${
+                displayHostModulePath
+                  ? ` data-display-host-module="${escapeHtml(displayHostModulePath)}"`
+                  : ''
+              }${
+                sceneModulePath ? ` data-display-scene-module="${escapeHtml(sceneModulePath)}"` : ''
+              }>
                 <span class="contact-profile-display__corner contact-profile-display__corner--tl"></span>
                 <span class="contact-profile-display__corner contact-profile-display__corner--tr"></span>
                 <span class="contact-profile-display__corner contact-profile-display__corner--bl"></span>
@@ -265,6 +271,8 @@ export async function generateStaticProfiles({
   profileSlugs,
   publicBase = '/',
   enhancementModulePath,
+  displayHostModulePath,
+  sceneModulePath,
 }) {
   const selectedProfiles = selectProfiles(publishedProfiles, profileSlugs)
 
@@ -280,7 +288,11 @@ export async function generateStaticProfiles({
     await mkdir(profileDir, { recursive: true })
     await writeFile(
       join(profileDir, 'index.html'),
-      renderProfileDocument(profile, buildRevision, publicBase, { enhancementModulePath }),
+      renderProfileDocument(profile, buildRevision, publicBase, {
+        enhancementModulePath,
+        displayHostModulePath,
+        sceneModulePath,
+      }),
     )
   }
 
@@ -290,6 +302,8 @@ export async function generateStaticProfiles({
     buildRevision,
     profileSetHash: contentHash(selectedProfiles),
     enhancementModulePath,
+    displayHostModulePath,
+    sceneModulePath,
     profiles,
   }
   await writeFile(

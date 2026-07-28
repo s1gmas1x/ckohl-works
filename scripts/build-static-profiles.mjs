@@ -112,14 +112,14 @@ async function removeUnselectedVcards() {
   }
 }
 
-async function findStaticEnhancementModule() {
+async function findStaticAsset(prefix) {
   const assetsDir = join(stagingDir, 'assets')
   const matches = (await readdir(assetsDir)).filter(
-    (fileName) => fileName.startsWith('enhanceStaticProfile-') && fileName.endsWith('.js'),
+    (fileName) => fileName.startsWith(prefix) && fileName.endsWith('.js'),
   )
 
   if (matches.length !== 1) {
-    throw new Error(`Expected exactly one static CRT enhancement module; found ${matches.length}.`)
+    throw new Error(`Expected exactly one ${prefix} asset; found ${matches.length}.`)
   }
 
   return `${publicBase}assets/${matches[0]}`
@@ -132,7 +132,9 @@ async function main() {
   try {
     const profileModule = await writeSelectedProfileModule()
     await runQuasarBuild(profileModule)
-    const enhancementModulePath = await findStaticEnhancementModule()
+    const enhancementModulePath = `${publicBase}contact-profile/crt-wireframe-static-enhancement.js`
+    const displayHostModulePath = await findStaticAsset('staticDisplayHost-')
+    const sceneModulePath = await findStaticAsset('createCrtWireframeScene-')
     if (process.env.STATIC_PROFILE_FORCE_FAILURE === '1') {
       throw new Error('Static profile failure injection requested.')
     }
@@ -142,6 +144,8 @@ async function main() {
       profileSlugs,
       publicBase,
       enhancementModulePath,
+      displayHostModulePath,
+      sceneModulePath,
     })
     await removeUnselectedVcards()
     await promoteBuild()

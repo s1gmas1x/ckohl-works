@@ -5,6 +5,11 @@ import {
   capDevicePixelRatio,
   createDeterministicParticlePositions,
   CRT_WIREFRAME_ASYNC_GZIP_BUDGET_BYTES,
+  CRT_WIREFRAME_CANONICAL_LOADER_GZIP_BUDGET_BYTES,
+  CRT_WIREFRAME_FALLBACK_BUDGET_BYTES,
+  CRT_WIREFRAME_PROFILE_CSS_GZIP_BUDGET_BYTES,
+  CRT_WIREFRAME_PROFILE_INITIAL_GZIP_BUDGET_BYTES,
+  CRT_WIREFRAME_RUNTIME_BUDGETS,
   CRT_WIREFRAME_TIERS,
   normalizePointerPosition,
   selectCrtWireframeTier,
@@ -30,7 +35,7 @@ const displayHostSource = await readFile(
   'utf8',
 )
 const staticEnhancementSource = await readFile(
-  new URL('../src/features/contact-profile/crt-wireframe/enhanceStaticProfile.js', import.meta.url),
+  new URL('../public/contact-profile/crt-wireframe-static-enhancement.js', import.meta.url),
   'utf8',
 )
 const staticRendererSource = await readFile(
@@ -77,6 +82,17 @@ test('selects restrained desktop and mobile scene budgets', () => {
     CRT_WIREFRAME_TIERS.mobile.maxFramesPerSecond < CRT_WIREFRAME_TIERS.desktop.maxFramesPerSecond,
   )
   assert.equal(CRT_WIREFRAME_ASYNC_GZIP_BUDGET_BYTES, 143_360)
+  assert.equal(CRT_WIREFRAME_PROFILE_INITIAL_GZIP_BUDGET_BYTES, 10_240)
+  assert.equal(CRT_WIREFRAME_CANONICAL_LOADER_GZIP_BUDGET_BYTES, 3072)
+  assert.equal(CRT_WIREFRAME_PROFILE_CSS_GZIP_BUDGET_BYTES, 4096)
+  assert.equal(CRT_WIREFRAME_FALLBACK_BUDGET_BYTES, 12_288)
+  assert.deepEqual(CRT_WIREFRAME_RUNTIME_BUDGETS, {
+    firstUsableContactActionsMs: 1500,
+    maxCumulativeLayoutShift: 0.05,
+    maxCoreLongTaskMs: 150,
+    maxDeferredDisplayLongTaskMs: 600,
+    sceneReadyAfterRequestMs: 4000,
+  })
 })
 
 test('caps rendering scale, pointer influence, and particle placement deterministically', () => {
@@ -268,6 +284,9 @@ test('keeps Three.js lazy, decorative, isolated, and progressively enhances stat
   assert.match(staticRendererSource, /data-display-state="fallback"/)
   assert.match(staticRendererSource, /<picture class="contact-profile-display__fallback"/)
   assert.match(staticRendererSource, /type="module" src=".*enhancementModulePath/)
+  assert.match(staticRendererSource, /data-display-host-module/)
+  assert.match(staticRendererSource, /data-display-scene-module/)
   assert.match(staticEnhancementSource, /createCrtDisplayHost/)
-  assert.match(staticEnhancementSource, /import\('\.\/createCrtWireframeScene\.js'\)/)
+  assert.match(staticEnhancementSource, /import\(displayHostModulePath\)/)
+  assert.match(staticEnhancementSource, /import\(sceneModulePath\)/)
 })
