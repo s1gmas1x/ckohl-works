@@ -17,7 +17,7 @@
     "measure:crt-display": "node scripts/measure-crt-wireframe-bundle.mjs",
     "build:profiles": "node scripts/build-static-profiles.mjs",
     "serve:profiles": "node scripts/serve-static-profiles.mjs",
-    "test:themes": "node --test tests/contact-profile-*.test.mjs",
+    "test:themes": "node --test tests/contact-profile-*.test.mjs tests/home-section-navigation.test.mjs",
     "verify:profiles": "node scripts/verify-static-profiles.mjs",
     "postinstall": "quasar prepare --silent"
   },

@@ -36,15 +36,17 @@
               no-caps
               color="primary"
               label="View Sample Menu"
-              href="#menu"
+              :href="sectionHref"
               class="ckw-btn ckw-btn--primary"
+              @click.prevent="scrollToSection('menu')"
             />
             <q-btn
               outline
               no-caps
               label="See the Card Flow"
-              href="#demo-flow"
+              :href="sectionHref"
               class="ckw-btn ckw-btn--outline"
+              @click.prevent="scrollToSection('demo-flow')"
             />
           </div>
           <small>This is a static Ckohl Works demonstration. Ordering is not live.</small>
@@ -102,14 +104,16 @@
             no-caps
             color="primary"
             label="Back to Menu"
-            href="#menu"
+            :href="sectionHref"
             class="ckw-btn ckw-btn--primary"
+            @click.prevent="scrollToSection('menu')"
           /><q-btn
             outline
             no-caps
             label="See the Demo Flow"
-            href="#demo-flow"
+            :href="sectionHref"
             class="ckw-btn ckw-btn--outline"
+            @click.prevent="scrollToSection('demo-flow')"
           />
         </div>
       </div>
@@ -133,6 +137,9 @@
 <script setup>
 import heroImage from '@/assets/images/mockup/margots-pizza-hero.png'
 import menuPreviewImage from '@/assets/images/mockup/margots-pizza-mockup.png'
+import { useSectionNavigation } from '@/composables/useSectionNavigation.js'
+
+const { sectionHref, scrollToSection } = useSectionNavigation('/margots-pizza')
 
 const actions = [
   {

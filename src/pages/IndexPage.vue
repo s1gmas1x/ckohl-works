@@ -2,6 +2,7 @@
   <q-page class="home-page">
     <HeroSection />
     <ProcessSection />
+    <ManagedContactPageOfferSection />
     <FeaturedSolutions />
     <DemonstrationsSection />
     <ServicesCareSection />
@@ -17,6 +18,7 @@ import ContactFormSection from '@/components/sections/ContactFormSection.vue'
 import DemonstrationsSection from '@/components/sections/DemonstrationsSection.vue'
 import FeaturedSolutions from '@/components/sections/FeaturedSolutions.vue'
 import HeroSection from '@/components/sections/HeroSection.vue'
+import ManagedContactPageOfferSection from '@/components/sections/ManagedContactPageOfferSection.vue'
 import ProcessSection from '@/components/sections/ProcessSection.vue'
 import ServicesCareSection from '@/components/sections/ServicesCareSection.vue'
 import SiteFooter from '@/components/layout/SiteFooter.vue'

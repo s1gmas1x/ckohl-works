@@ -26,8 +26,8 @@
           v-for="item in drawerItems"
           :key="item.label"
           clickable
-          :href="`#${item.id}`"
-          @click="handleDrawerNavigation(item.id)"
+          :href="sectionHref"
+          @click.prevent="handleDrawerNavigation(item.id)"
         >
           <q-item-section>{{ item.label }}</q-item-section>
         </q-item>
@@ -47,19 +47,20 @@
 import { computed, nextTick, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import SiteHeader from '@/components/layout/SiteHeader.vue'
+import { useSectionNavigation } from '@/composables/useSectionNavigation.js'
 
-const HEADER_SCROLL_OFFSET = 92
 const THEME_STORAGE_KEY = 'ckohl-works-theme'
 const rightDrawerOpen = ref(false)
 const theme = ref(getInitialTheme())
 const route = useRoute()
+const { sectionHref, scrollToSection } = useSectionNavigation()
 const isMargotsPage = computed(() => route.path === '/margots-pizza')
 const isContactCardPage = computed(() => route.path.startsWith('/card/'))
 const displayTheme = computed(() => (isMargotsPage.value ? 'dark' : theme.value))
 
 const drawerItems = [
   { label: 'How It Works', id: 'how-it-works' },
-  { label: 'Offers', id: 'solutions' },
+  { label: 'Offer & Pricing', id: 'managed-contact-page' },
   { label: 'Demos', id: 'demonstrations' },
   { label: 'Contact', id: 'contact' },
 ]
@@ -89,17 +90,6 @@ async function handleDrawerNavigation(sectionId) {
   rightDrawerOpen.value = false
   await nextTick()
 
-  window.setTimeout(() => {
-    const section = document.getElementById(sectionId)
-
-    if (!section) return
-
-    const scrollTop = section.getBoundingClientRect().top + window.scrollY - HEADER_SCROLL_OFFSET
-
-    window.scrollTo({
-      top: Math.max(scrollTop, 0),
-      behavior: 'smooth',
-    })
-  }, 220)
+  window.setTimeout(() => void scrollToSection(sectionId), 220)
 }
 </script>
