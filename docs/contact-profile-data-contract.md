@@ -27,6 +27,13 @@ Website, social, and location actions are optional. Optional actions and their s
 when not configured. Social actions require a named platform. Location actions require a
 human-readable display value in addition to an approved map URL.
 
+External controls pair their reviewed action label with a code-derived destination label. Website
+roots display their normalized hostname, social links display the hostname and account path, and
+locations reuse the reviewed human-readable location. Query strings and fragments are not exposed
+as button copy. Both renderers include the visible destination in the link's accessible name.
+Website actions may optionally select the approved semantic purposes `portfolio` or `services`.
+Those purposes map to code-owned visual treatments; profile data cannot supply icon names or paths.
+
 Identity may also contain one to five reviewed `summaryVariants`. Each variant is a unique,
 non-empty string of at most 180 characters and must differ from the canonical summary. Profiles
 without variants render the canonical summary normally. Profiles with variants retain that summary

@@ -55,7 +55,12 @@
           class="contact-profile-external-action__icon"
           :name="actionIcon(action)"
         />
-        <span>{{ action.label }}</span>
+        <span class="contact-profile-external-action__copy">
+          <span class="contact-profile-external-action__title">{{ action.label }}</span>
+          <span class="contact-profile-external-action__destination">{{
+            action.destinationLabel
+          }}</span>
+        </span>
         <ContactProfileIcon class="contact-profile-external-action__arrow" name="chevron-right" />
       </a>
     </nav>
@@ -99,10 +104,7 @@ function actionIcon(action) {
 }
 
 function externalActionAccessibleName(action) {
-  if (action.type === 'location')
-    return `${action.label}: ${action.displayValue} (opens in new tab)`
-
-  return `${action.label} (opens in new tab)`
+  return `${action.label}: ${action.destinationLabel} (opens in new tab)`
 }
 
 async function handleActionClick(action) {

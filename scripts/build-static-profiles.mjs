@@ -132,7 +132,8 @@ async function main() {
   try {
     const profileModule = await writeSelectedProfileModule()
     await runQuasarBuild(profileModule)
-    const enhancementModulePath = `${publicBase}contact-profile/crt-wireframe-static-enhancement.js`
+    const buildRevision = getBuildRevision()
+    const enhancementModulePath = `${publicBase}contact-profile/crt-wireframe-static-enhancement.js?v=${encodeURIComponent(buildRevision)}`
     const displayHostModulePath = await findStaticAsset('staticDisplayHost-')
     const sceneModulePath = await findStaticAsset('createCrtWireframeScene-')
     if (process.env.STATIC_PROFILE_FORCE_FAILURE === '1') {
@@ -140,7 +141,7 @@ async function main() {
     }
     const manifest = await generateStaticProfiles({
       outputDir: stagingDir,
-      buildRevision: getBuildRevision(),
+      buildRevision,
       profileSlugs,
       publicBase,
       enhancementModulePath,

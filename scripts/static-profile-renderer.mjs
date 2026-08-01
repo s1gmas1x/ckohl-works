@@ -124,12 +124,9 @@ function saveActionMarkup(action, publicBase) {
 }
 
 function externalActionMarkup(action, publicBase) {
-  const accessibleName =
-    action.type === 'location'
-      ? `${action.label}: ${action.displayValue} (opens in new tab)`
-      : `${action.label} (opens in new tab)`
+  const accessibleName = `${action.label}: ${action.destinationLabel} (opens in new tab)`
 
-  return `<a class="contact-profile-external-action contact-profile-crt-control" href="${escapeHtml(getActionHref(action, publicBase))}" aria-label="${escapeHtml(accessibleName)}" target="_blank" rel="noopener noreferrer">${iconMarkup(getContactProfileActionIcon(action), 'contact-profile-external-action__icon')}<span>${escapeHtml(action.label)}</span>${iconMarkup('chevron-right', 'contact-profile-external-action__arrow')}</a>`
+  return `<a class="contact-profile-external-action contact-profile-crt-control" href="${escapeHtml(getActionHref(action, publicBase))}" aria-label="${escapeHtml(accessibleName)}" target="_blank" rel="noopener noreferrer">${iconMarkup(getContactProfileActionIcon(action), 'contact-profile-external-action__icon')}<span class="contact-profile-external-action__copy"><span class="contact-profile-external-action__title">${escapeHtml(action.label)}</span><span class="contact-profile-external-action__destination">${escapeHtml(action.destinationLabel)}</span></span>${iconMarkup('chevron-right', 'contact-profile-external-action__arrow')}</a>`
 }
 
 function statusMarkup(item) {
