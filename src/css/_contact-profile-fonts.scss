@@ -1,0 +1,29 @@
+/*
+ * Profile-only font delivery for the code-owned CRT theme.
+ *
+ * ContactProfileCard is route-lazy, so keeping these faces beside the component avoids loading
+ * display fonts on unrelated site routes. The static renderer embeds the same Latin WOFF2 files.
+ */
+@font-face {
+  font-family: '64M';
+  src: local('Liberation Mono'), local('Courier New');
+  size-adjust: 166.6667%;
+}
+
+@font-face {
+  font-family: 'Sixtyfour Variable';
+  font-style: normal;
+  font-display: block;
+  font-weight: 400;
+  src: url('@fontsource-variable/sixtyfour/files/sixtyfour-latin-full-normal.woff2')
+    format('woff2-variations');
+}
+
+@font-face {
+  font-family: 'Sixtyfour Convergence Variable';
+  font-style: normal;
+  font-display: block;
+  font-weight: 400;
+  src: url('@fontsource-variable/sixtyfour-convergence/files/sixtyfour-convergence-latin-full-normal.woff2')
+    format('woff2-variations');
+}

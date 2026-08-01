@@ -89,6 +89,14 @@ test('keeps controls large enough and long content able to reflow at 320px', () 
   assert.match(layoutStyle, /\.contact-profile-save__link \{[\s\S]*min-height: 92px;/)
   assert.match(layoutStyle, /\.contact-profile-external-action \{[\s\S]*min-height: 64px;/)
   assert.match(layoutStyle, /@media \(max-width: 560px\)/)
+  assert.match(
+    layoutStyle,
+    /@media \(max-width: 560px\)[\s\S]*--crt-type-role-size: 0\.72rem;[\s\S]*--crt-type-body-size: 0\.94rem;[\s\S]*--crt-type-action-size: 0\.83rem;/,
+  )
+  assert.match(
+    layoutStyle,
+    /@media \(max-width: 560px\)[\s\S]*\.contact-profile-header \{[\s\S]*font-size: 0\.68rem;/,
+  )
   assert.match(layoutStyle, /overflow-wrap: anywhere;/)
   assert.match(layoutStyle, /repeat\(3, minmax\(0, 1fr\)\)/)
 

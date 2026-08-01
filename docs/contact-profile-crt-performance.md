@@ -21,7 +21,7 @@ exceeded.
 | Async Three.js scene and scene dependencies         | 140 KiB gzip |         131.7 KiB gzip |
 | Initial profile route plus lightweight display host |  10 KiB gzip |          9.05 KiB gzip |
 | Canonical enhancement plus display-host import path |   3 KiB gzip |               2.08 KiB |
-| Profile route CSS                                   |   4 KiB gzip |          3.59 KiB gzip |
+| Profile route CSS                                   |   4 KiB gzip |          4.00 KiB gzip |
 | Responsive fallback images combined                 |   12 KiB raw |          10.04 KiB raw |
 
 The initial-profile figure deliberately contains the `ProfilePage` route and `displayHost` module.
@@ -61,10 +61,10 @@ both the canonical page and the Vue hash route for:
 - exactly one canvas after three app-route unmount/remount cycles;
 - no canvas or scene request under `prefers-reduced-motion`.
 
-The scene is requested only after the complete card exists. In the representative 2026-07-28 local
-run, canonical core readiness was 283 ms and app core readiness was 323 ms; CLS was 0.014 and 0.012
-respectively, and first scene frames followed release in 292 ms and 177 ms. The observed deferred
-initialization long tasks were 273 ms and 307 ms, respectively.
+The scene is requested only after the complete card exists. In the representative 2026-07-31 local
+run, canonical core readiness was 553 ms and app core readiness was 521 ms; CLS was 0.009 and 0,
+respectively, and first scene frames followed release in 357 ms and 224 ms. The observed deferred
+initialization long tasks were 342 ms and 305 ms, respectively.
 
 The first Three.js parse and WebGL initialization is allowed one deferred task of up to 600 ms. This
 is separate from the 150 ms core-path budget and occurs only after the card is complete and the idle

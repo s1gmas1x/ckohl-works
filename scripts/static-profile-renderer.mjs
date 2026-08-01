@@ -17,13 +17,20 @@ import {
 } from '../src/features/contact-profile/actionIcons.js'
 import { selectProfiles } from './profile-selection.mjs'
 
-const shareTechMonoWoff2 = await readFile(
+const sixtyfourWoff2 = await readFile(
   new URL(
-    '../node_modules/@fontsource/share-tech-mono/files/share-tech-mono-latin-400-normal.woff2',
+    '../node_modules/@fontsource-variable/sixtyfour/files/sixtyfour-latin-full-normal.woff2',
     import.meta.url,
   ),
 )
-const shareTechMonoDataUrl = `data:font/woff2;base64,${shareTechMonoWoff2.toString('base64')}`
+const sixtyfourConvergenceWoff2 = await readFile(
+  new URL(
+    '../node_modules/@fontsource-variable/sixtyfour-convergence/files/sixtyfour-convergence-latin-full-normal.woff2',
+    import.meta.url,
+  ),
+)
+const sixtyfourDataUrl = `data:font/woff2;base64,${sixtyfourWoff2.toString('base64')}`
+const sixtyfourConvergenceDataUrl = `data:font/woff2;base64,${sixtyfourConvergenceWoff2.toString('base64')}`
 const contactProfileThemeStyle = await readFile(
   new URL('../src/css/_contact-profile-crt.scss', import.meta.url),
   'utf8',
@@ -34,7 +41,9 @@ const contactProfileLayoutStyle = await readFile(
 )
 
 const staticProfileStyle = `
-@font-face { font-family:'Share Tech Mono'; font-style:normal; font-weight:400; font-display:swap; src:url(${shareTechMonoDataUrl}) format('woff2'); }
+@font-face { font-family:'64M'; src:local('Liberation Mono'),local('Courier New'); size-adjust:166.6667%; }
+@font-face { font-family:'Sixtyfour Variable'; font-style:normal; font-weight:400; font-display:block; src:url(${sixtyfourDataUrl}) format('woff2-variations'); }
+@font-face { font-family:'Sixtyfour Convergence Variable'; font-style:normal; font-weight:400; font-display:block; src:url(${sixtyfourConvergenceDataUrl}) format('woff2-variations'); }
 :root { color-scheme:dark; }
 * { box-sizing: border-box; }
 body { min-width:320px; margin:0; background:#000; color:#fff; font-family:ui-monospace,'Cascadia Code','SFMono-Regular',Consolas,monospace; }

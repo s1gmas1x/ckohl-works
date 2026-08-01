@@ -45,6 +45,7 @@ const titleId = computed(() => `${props.profile.slug}-profile-title`)
 </script>
 
 <style lang="scss">
+@use '../../css/contact-profile-fonts';
 @use '../../css/contact-profile-crt';
 @use '../../css/contact-profile-layout';
 </style>
