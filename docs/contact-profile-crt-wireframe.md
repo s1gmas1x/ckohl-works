@@ -10,9 +10,11 @@ The scene uses a near-black background, amber perspective terrain grid, a distin
 and sparse stars distributed around a large striped synthwave sun. The sun is approximately 3.5
 times its original diameter, sits partly behind a low mountain ridge, and is followed by three
 subtle wireframe pyramids on fine-pointer desktop displays. Transverse grid bands and pyramids move
-slowly toward the viewer while the camera, stars, and sun use restrained ambient motion. The
-pyramids begin beyond the ridge clearance, so their entrance never intersects the mountain mask.
-One short shooting star crosses the clear desktop sky every 18 seconds; it is absent on mobile.
+slowly toward the viewer. Independent, long camera pan, tilt, and slight roll cycles create subtle
+parallax between the terrain, pyramids, mountains, sun, and stars without changing the initial
+composition. Mobile uses approximately half the camera movement. The pyramids begin beyond the
+ridge clearance, so their entrance never intersects the mountain mask. The shooting-star
+implementation is retained but disabled pending a later visual-refinement pass.
 
 The scene is deterministic and contains no models, textures, lights, shadows, physics,
 postprocessing, audio, or sensor input.
@@ -61,8 +63,8 @@ The canvas is decorative, unfocusable, and hidden from assistive technology. Red
 skips Three.js and leaves the static fallback visible. No scene input changes content, navigation,
 or focus order.
 
-Rendering pauses while the display is off-screen or the document is hidden. Pointer response,
-pyramids, and the occasional shooting star are limited to fine-pointer desktop devices.
+Rendering pauses while the display is off-screen or the document is hidden. Ambient camera motion
+is reduced on mobile. Pointer response and pyramids are limited to fine-pointer desktop devices.
 
 With JavaScript disabled, WebGL unavailable, the scene chunk unavailable, or the context lost, the
 fallback remains visible and all important controls remain ordinary HTML links.
@@ -86,6 +88,6 @@ initialization tradeoff.
 
 ## Future visual exploration
 
-A later visual-only pass may explore a more varied mountain silhouette or additional sparse ground
-objects. Those additions should remain absent on mobile and under reduced motion, avoid the central
-sightline, and preserve the current loading and fallback contract.
+A later visual-only pass may revisit the disabled shooting star, explore a more varied mountain
+silhouette, or add sparse ground objects. Those additions should remain absent on mobile and under
+reduced motion, avoid the central sightline, and preserve the current loading and fallback contract.

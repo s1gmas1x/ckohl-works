@@ -19,6 +19,7 @@ import {
   createRenderLifecycle,
   createRenderVisibilityController,
 } from '../src/features/contact-profile/crt-wireframe/lifecycle.js'
+import { applyCameraParallax } from '../src/features/contact-profile/crt-wireframe/createCrtWireframeScene.js'
 
 const componentSource = await readFile(
   new URL('../src/components/profile/ContactProfileDisplayPanel.vue', import.meta.url),
@@ -129,7 +130,46 @@ test('keeps ground-object motion on its faded visible-terrain period', () => {
   )
 })
 
-test('keeps the longer shooting-star pass inside the minimum desktop display frame', () => {
+test('keeps camera pan, tilt, and roll subtle while creating depth parallax', () => {
+  const pointer = { currentX: 0, currentY: 0 }
+  const initialCamera = new PerspectiveCamera(48, 1.05, 0.1, 80)
+  const initialTarget = new Vector3()
+  applyCameraParallax(initialCamera, initialTarget, 0, pointer)
+  initialCamera.updateMatrixWorld()
+
+  assert.deepEqual(initialCamera.position.toArray(), [0, 2.75, 6.8])
+  assert.deepEqual(initialTarget.toArray(), [0, -0.28, -5.4])
+
+  const movedCamera = new PerspectiveCamera(48, 1.05, 0.1, 80)
+  const movedTarget = new Vector3()
+  applyCameraParallax(movedCamera, movedTarget, 7, pointer)
+  movedCamera.updateMatrixWorld()
+
+  const foreground = new Vector3(0, 0, 0)
+  const sunset = new Vector3(0, 0, -9)
+  const foregroundShift = Math.abs(
+    foreground.clone().project(movedCamera).x - foreground.clone().project(initialCamera).x,
+  )
+  const sunsetShift = Math.abs(
+    sunset.clone().project(movedCamera).x - sunset.clone().project(initialCamera).x,
+  )
+
+  assert.ok(foregroundShift > sunsetShift)
+  assert.ok(Math.abs(movedCamera.position.x) <= 0.2)
+  assert.ok(Math.abs(movedCamera.position.y - 2.75) <= 0.065)
+
+  const rolledCamera = new PerspectiveCamera(48, 1.05, 0.1, 80)
+  const rolledTarget = new Vector3()
+  applyCameraParallax(rolledCamera, rolledTarget, 10.5, pointer)
+  const unrolledCamera = rolledCamera.clone()
+  unrolledCamera.lookAt(rolledTarget)
+
+  assert.ok(Math.abs(rolledCamera.quaternion.angleTo(unrolledCamera.quaternion) - 0.0061) < 1e-6)
+})
+
+test('keeps the deferred shooting-star pass disabled and inside the desktop frame', () => {
+  assert.match(sceneSource, /const SHOOTING_STAR_ENABLED = false/)
+
   const cycleSeconds = readSceneNumericConstant('SHOOTING_STAR_CYCLE_SECONDS')
   const durationSeconds = readSceneNumericConstant('SHOOTING_STAR_DURATION_SECONDS')
   const headStartX = readSceneNumericConstant('SHOOTING_STAR_HEAD_START_X')
