@@ -13,7 +13,13 @@ export const chadProfile = {
     organization: 'Ckohl Works',
     role: 'Full-Stack Developer',
     summary:
-      'I build websites, business pages, and NFC/QR tools. When the technical side gets weird, I dig into what is actually happening instead of guessing.',
+      'I build websites, digital contact tools, and practical systems that make the next step clear.',
+    summaryVariants: [
+      'Good ideas deserve clean execution, useful details, and fewer moving parts.',
+      'When the technical side gets weird, I trace the signal instead of guessing.',
+      'From business pages to NFC and QR workflows, I build for the moment people act.',
+      'Clear interface. Solid handoff. No mystery between the problem and the fix.',
+    ],
   },
   actions: [
     { key: 'call', type: 'call', label: 'Call Chad', value: '+17194285039', isPrimary: true },

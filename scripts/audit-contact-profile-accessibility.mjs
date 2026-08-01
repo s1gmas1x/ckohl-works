@@ -302,7 +302,13 @@ async function auditReflow(page, label) {
       'Principal multilingual digital contact systems architect'
     document.querySelector('.contact-profile-identity__organization').textContent =
       'A deliberately long organization name for reflow verification'
-    document.querySelector('.contact-profile-identity__summary').textContent =
+    const summary = document.querySelector('.contact-profile-identity__summary')
+    summary.removeAttribute('data-terminal-typing-active')
+    summary.querySelector('.contact-profile-identity__summary-reserve')?.setAttribute('hidden', '')
+    summary.querySelector('.contact-profile-identity__summary-typed')?.setAttribute('hidden', '')
+    const semanticSummary =
+      summary.querySelector('.contact-profile-identity__summary-semantic') || summary
+    semanticSummary.textContent =
       'Extended text spacing and long content must wrap without clipping, overlap, or two-dimensional scrolling at the narrowest supported layout.'
   })
 
@@ -333,6 +339,13 @@ async function auditReducedMotion(browser, path, label) {
     return {
       canvasCount: viewport?.querySelectorAll('canvas').length,
       state: viewport?.dataset.displayState,
+      summary: document
+        .querySelector('.contact-profile-identity__summary-semantic')
+        ?.textContent.trim(),
+      typedHidden: document.querySelector('.contact-profile-identity__summary-typed')?.hidden,
+      typingActive: document
+        .querySelector('.contact-profile-identity__summary')
+        ?.hasAttribute('data-terminal-typing-active'),
       transitionDuration: getComputedStyle(
         document.querySelector('.contact-profile-display__canvas') || viewport,
       ).transitionDuration,
@@ -340,6 +353,13 @@ async function auditReducedMotion(browser, path, label) {
   })
 
   assert.equal(result.state, 'reduced-motion', `${label} must use static reduced-motion mode`)
+  assert.ok(result.summary, `${label} must retain the semantic summary under reduced motion`)
+  assert.equal(result.typedHidden, true, `${label} must hide animated copy under reduced motion`)
+  assert.equal(
+    result.typingActive,
+    false,
+    `${label} must skip terminal typing under reduced motion`,
+  )
   assert.equal(result.canvasCount, 0, `${label} must skip the WebGL canvas under reduced motion`)
   assert.equal(sceneRequests.length, 0, `${label} must not request Three.js under reduced motion`)
   assert.ok(
@@ -392,10 +412,16 @@ async function auditNoJavaScriptBaseline(browser) {
   const result = await page.evaluate(() => ({
     actionCount: document.querySelectorAll('.contact-profile a').length,
     fallbackComplete: document.querySelector('.contact-profile-display__fallback img')?.complete,
+    summary: document
+      .querySelector('.contact-profile-identity__summary-semantic')
+      ?.textContent.trim(),
+    typedHidden: document.querySelector('.contact-profile-identity__summary-typed')?.hidden,
     title: document.querySelector('h1')?.textContent.trim(),
   }))
 
   assert.equal(result.title, 'Chad Kohl', 'canonical no-JavaScript baseline must retain identity')
+  assert.ok(result.summary, 'canonical no-JavaScript baseline must retain the profile summary')
+  assert.equal(result.typedHidden, true, 'canonical no-JavaScript baseline must hide animated copy')
   assert.ok(result.actionCount >= 7, 'canonical no-JavaScript baseline must retain contact actions')
   assert.equal(
     result.fallbackComplete,

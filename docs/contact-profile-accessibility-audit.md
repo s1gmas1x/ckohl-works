@@ -28,7 +28,12 @@ vCard download, statuses, and footer content remain semantic HTML outside the di
   the accessibility tree. The loading message does not use a live region because display readiness
   does not affect any task or content.
 - Reduced motion keeps the fallback image, skips the WebGL canvas, and does not request the
-  Three.js scene module.
+  Three.js scene module. It also keeps the canonical summary static and hides the typing cursor.
+- The console typing effect duplicates the canonical summary and reviewed alternates only in an
+  `aria-hidden` visual layer. Assistive technology receives the stable canonical summary without
+  live-region announcements, deletions, or repeated alternate copy.
+- Invisible overlapping phrase copies reserve the maximum summary height before typing starts, so
+  phrase changes do not move actions or focus targets.
 - Forced-colors mode removes scanlines, vignette, and CRT shadows while preserving a three-pixel
   focus indicator.
 
@@ -55,9 +60,10 @@ It fails on any of the following:
 - horizontal overflow at 320 px, long-content/text-spacing reflow, or landscape;
 - custom arrow/Home/End behavior on ordinary links;
 - loss of meaningful identity or actions when CSS is removed;
-- a Three.js request or canvas under reduced motion;
+- a Three.js request, canvas, terminal typing state, or cursor under reduced motion;
 - loss of focus visibility under forced colors;
-- loss of identity, actions, or fallback artwork on the canonical page without JavaScript;
+- loss of the canonical summary, identity, actions, or fallback artwork on the canonical page
+  without JavaScript;
 - browser runtime errors during the primary mobile scenarios.
 
 The solid-surface contrast pass is intentional. Axe cannot resolve text contrast through the
@@ -80,7 +86,7 @@ builds on pull requests and pushes to `main`.
 | 320 × 720 mobile         | Covered   | Covered        | Axe, contrast, landmarks, accessibility tree, focus, touch targets, reflow |
 | 1440 × 900 desktop       | Covered   | Covered        | Axe, contrast, landmarks, accessibility tree, full-width layout            |
 | 844 × 390 landscape      | Covered   | Covered        | Reflow and touch targets                                                   |
-| `prefers-reduced-motion` | Covered   | Covered        | Static fallback; no canvas or Three.js request                             |
+| `prefers-reduced-motion` | Covered   | Covered        | Static summary/fallback; no typing, cursor, canvas, or Three.js request    |
 | Forced colors            | Covered   | Covered        | Effects removed; focus retained                                            |
 | CSS unavailable          | Covered   | Covered        | Identity and functional named links retained                               |
 | JavaScript unavailable   | Covered   | Not applicable | Canonical identity, links, vCard, and fallback retained                    |
@@ -102,6 +108,8 @@ release, verify:
   content and visible focus;
 - forced colors or a high-contrast system theme retains boundaries and focus;
 - reduced motion shows the complete static synthwave fallback without initializing WebGL.
+- the typing cadence remains readable, the block cursor does not obscure characters, and changing
+  phrases does not move the action controls.
 
 Record device, operating-system, browser, and assistive-technology versions with the release
 evidence. Any failure in an important action blocks release; decorative display failure does not.

@@ -140,6 +140,19 @@ function footerMarkup(item) {
   return `<span><span class="contact-profile-footer__label">${escapeHtml(item.label)}</span><span class="contact-profile-footer__value">${escapeHtml(item.value)}</span></span>`
 }
 
+function summaryMarkup(identity) {
+  const phrases = [identity.summary, ...(identity.summaryVariants ?? [])]
+  if (phrases.length < 2) {
+    return `<p class="contact-profile-identity__summary">${escapeHtml(identity.summary)}</p>`
+  }
+
+  const reserve = phrases
+    .map((phrase) => `<span data-terminal-typing-phrase>${escapeHtml(phrase)}</span>`)
+    .join('')
+
+  return `<p class="contact-profile-identity__summary" data-terminal-typing><span class="contact-profile-identity__summary-semantic">${escapeHtml(identity.summary)}</span><span class="contact-profile-identity__summary-reserve" aria-hidden="true" hidden>${reserve}</span><span class="contact-profile-identity__summary-typed" aria-hidden="true" hidden><span data-terminal-typing-output></span><span class="contact-profile-identity__summary-cursor"></span></span></p>`
+}
+
 export function renderProfileDocument(
   profile,
   buildRevision,
@@ -208,7 +221,7 @@ export function renderProfileDocument(
               <p class="contact-profile-identity__role">${escapeHtml(profile.identity.role)}</p>
               <p class="contact-profile-identity__organization">${escapeHtml(profile.identity.organization)}</p>
               <span class="contact-profile-identity__divider" aria-hidden="true"></span>
-              <p class="contact-profile-identity__summary">${escapeHtml(profile.identity.summary)}</p>
+              ${summaryMarkup(profile.identity)}
             </section>
             <div class="contact-profile-action-regions">
               <nav class="contact-profile-contact-actions" aria-label="Primary contact actions">${contactActions

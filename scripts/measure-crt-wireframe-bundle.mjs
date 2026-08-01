@@ -63,10 +63,20 @@ async function measureAsset(assetName) {
 }
 
 const sceneEntryName = findSingleAsset('createCrtWireframeScene-', '.js')
-const displayHostName = findSingleAsset('displayHost-', '.js')
 const staticDisplayHostName = findSingleAsset('staticDisplayHost-', '.js')
 const profileEntryName = findSingleAsset('ProfilePage-', '.js')
 const profileCssName = findSingleAsset('ProfilePage-', '.css')
+
+const staticDisplayHostSource = await readFile(join(assetsDir, staticDisplayHostName), 'utf8')
+const sharedHostAssetNames = [...staticDisplayHostSource.matchAll(staticImportPattern)].map(
+  (match) => match[1],
+)
+if (sharedHostAssetNames.length !== 1) {
+  throw new Error(
+    `Expected the static display bridge to import one shared host asset; found ${sharedHostAssetNames.length}.`,
+  )
+}
+const displayHostName = sharedHostAssetNames[0]
 
 async function collectStaticAssetGraph(assetName, destination) {
   if (destination.has(assetName)) return

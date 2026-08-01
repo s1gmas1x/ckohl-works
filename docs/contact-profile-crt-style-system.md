@@ -82,11 +82,27 @@ appears. Together the two web fonts are 12,028 bytes raw, slightly smaller than 
 13,500-byte Share Tech Mono file. If either face fails, the fallback stack renders without affecting
 contact behavior.
 
+## Terminal summary motion
+
+Profiles with reviewed summary variants progressively enhance the canonical summary into a
+terminal typing cycle. Characters use a deterministic cadence with small timing changes, brief
+space and punctuation hesitations, a completed-line hold, and a faster backspace pass. A solid
+block cursor uses the only approved keyframe animation in the contact-profile surface.
+
+The canonical summary remains normal semantic text. The visual typed layer and all alternate
+phrases are `aria-hidden`, and overlapping invisible phrase copies reserve the tallest required
+line box before the effect starts. This prevents the surrounding layout from moving as copy
+changes. With JavaScript unavailable, enhancement failure, fewer than two phrases, or
+`prefers-reduced-motion: reduce`, the canonical summary remains visible and the typed layer and
+cursor stay hidden. Typing pauses off-screen and while the document is hidden and is disposed on
+unmount or page exit.
+
 ## Effect limits
 
 - Scanlines and the vignette are static CSS gradients behind content.
 - Decorative pseudo-elements use `pointer-events: none`.
-- There is no flicker, strobe, distortion, keyframe animation, filter, or blend mode.
+- There is no flicker, strobe, distortion, filter, or blend mode. The terminal block cursor blink is
+  the sole keyframe exception and is disabled with reduced motion.
 - Glow is limited to a small identity text shadow and restrained inset depth.
 - `prefers-contrast: more` removes scanlines, vignette, and identity glow.
 - Forced-colors mode removes decorative effects and maps surfaces, text, borders, and focus to
@@ -97,10 +113,11 @@ readability, increase paint cost, or make focus harder to identify.
 
 ## Performance observation
 
-The static CRT effects stay behind semantic content and do not introduce document animations. The
-profile's complete asset and runtime budget, including a CSS-only core measurement before the lazy
-scene is released, lives in `docs/contact-profile-crt-performance.md`. That lab check is a
-development baseline, not a substitute for a real-device release pass.
+The static CRT effects stay behind semantic content. The optional summary typing and cursor are the
+only content-adjacent motion and do not change the accessibility tree. The profile's complete asset
+and runtime budget, including a core measurement before the lazy scene is released, lives in
+`docs/contact-profile-crt-performance.md`. That lab check is a development baseline, not a
+substitute for a real-device release pass.
 
 ## Verification
 
@@ -115,6 +132,7 @@ npm run audit:profiles:a11y
 ```
 
 Visual checks cover 320, 375, 768, and desktop widths in both the Vue hash route and canonical
-generated output. The full-viewport root, visible focus, forced colors, font failure, effect removal,
-and lack of active CSS animations are part of the issue acceptance review. The detailed automated
-and manual matrix lives in `docs/contact-profile-accessibility-audit.md`.
+generated output. The full-viewport root, visible focus, forced colors, font failure, stable summary
+height, terminal cadence, and motion-disabled static summary are part of the issue acceptance
+review. The detailed automated and manual matrix lives in
+`docs/contact-profile-accessibility-audit.md`.

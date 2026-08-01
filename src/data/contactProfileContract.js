@@ -22,6 +22,8 @@ const actionTypeConfiguration = Object.freeze({
 
 const requiredActionTypes = Object.freeze(['call', 'sms', 'email', 'vcard'])
 const allowedFooterSources = Object.freeze(['profile', 'schema'])
+export const CONTACT_PROFILE_SUMMARY_VARIANT_LIMIT = 5
+export const CONTACT_PROFILE_SUMMARY_VARIANT_MAX_LENGTH = 180
 
 function describePath(profileSlug, path) {
   return `Profile ${JSON.stringify(profileSlug ?? 'unknown')} ${path}`
@@ -45,6 +47,36 @@ function requireString(value, profileSlug, path) {
   }
 
   return value.trim()
+}
+
+function normalizeSummaryVariants(value, profileSlug, summary) {
+  if (value === undefined) return Object.freeze([])
+  if (!Array.isArray(value)) fail(profileSlug, 'identity.summaryVariants', 'must be an array')
+  if (value.length === 0 || value.length > CONTACT_PROFILE_SUMMARY_VARIANT_LIMIT) {
+    fail(
+      profileSlug,
+      'identity.summaryVariants',
+      `must contain between 1 and ${CONTACT_PROFILE_SUMMARY_VARIANT_LIMIT} entries`,
+    )
+  }
+
+  const variants = value.map((item, index) => {
+    const variant = requireString(item, profileSlug, `identity.summaryVariants[${index}]`)
+    if (variant.length > CONTACT_PROFILE_SUMMARY_VARIANT_MAX_LENGTH) {
+      fail(
+        profileSlug,
+        `identity.summaryVariants[${index}]`,
+        `must contain no more than ${CONTACT_PROFILE_SUMMARY_VARIANT_MAX_LENGTH} characters`,
+      )
+    }
+    return variant
+  })
+
+  if (new Set([summary, ...variants]).size !== variants.length + 1) {
+    fail(profileSlug, 'identity.summaryVariants', 'must not contain duplicate entries')
+  }
+
+  return Object.freeze(variants)
 }
 
 function normalizePhoneNumber(value, profileSlug, path) {
@@ -322,11 +354,13 @@ export function normalizeContactProfile(profile) {
   }
 
   const rawIdentity = requireObject(profile.identity, profileSlug, 'identity')
+  const summary = requireString(rawIdentity.summary, profileSlug, 'identity.summary')
   const identity = Object.freeze({
     name: requireString(rawIdentity.name, profileSlug, 'identity.name'),
     organization: requireString(rawIdentity.organization, profileSlug, 'identity.organization'),
     role: requireString(rawIdentity.role, profileSlug, 'identity.role'),
-    summary: requireString(rawIdentity.summary, profileSlug, 'identity.summary'),
+    summary,
+    summaryVariants: normalizeSummaryVariants(rawIdentity.summaryVariants, profileSlug, summary),
   })
   const actions = validateActionCollection(profile.actions, profileSlug)
   const vCard = validateVcard(profile.vCard, actions, identity, profileSlug)

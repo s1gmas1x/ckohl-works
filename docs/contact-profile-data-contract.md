@@ -27,6 +27,12 @@ Website, social, and location actions are optional. Optional actions and their s
 when not configured. Social actions require a named platform. Location actions require a
 human-readable display value in addition to an approved map URL.
 
+Identity may also contain one to five reviewed `summaryVariants`. Each variant is a unique,
+non-empty string of at most 180 characters and must differ from the canonical summary. Profiles
+without variants render the canonical summary normally. Profiles with variants retain that summary
+as their semantic and no-JavaScript copy, then may progressively rotate it with the reviewed
+variants. Timing, cursor, markup, and animation values remain code-owned and are not profile data.
+
 The current SMS contract contains only the configured phone number. It does not prefill message
 content.
 
@@ -67,6 +73,9 @@ Do not add fictional uptime, signal, availability, or live-service telemetry.
 Generated JSON-LD includes only values available in the normalized profile: name, role,
 organization, description, email, telephone, first website, configured social destinations, and
 location display text.
+
+The canonical `summary` remains the metadata and JSON-LD description. Animated variants are
+presentation copy only and are never announced as changing live content.
 
 Static verification checks every generated action href, status value, schema marker, deterministic
 content hash, and exact reviewed vCard content. Selected builds continue to remove unselected
