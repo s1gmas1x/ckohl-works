@@ -52,7 +52,9 @@
   color: var(--crt-color-accent);
   font-family: var(--crt-type-label-family);
   font-size: clamp(0.72rem, 1.3vw, 0.9rem);
+  font-variation-settings: var(--crt-type-accent-settings);
   letter-spacing: var(--crt-type-label-tracking);
+  line-height: 1;
   text-transform: uppercase;
 }
 
@@ -132,6 +134,7 @@
   color: var(--crt-color-text-muted);
   font-family: var(--crt-type-label-family);
   font-size: var(--crt-type-label-size);
+  font-variation-settings: var(--crt-type-accent-settings);
   letter-spacing: var(--crt-type-label-tracking);
   text-transform: uppercase;
 }
@@ -153,6 +156,7 @@
   color: var(--crt-color-accent);
   font-family: var(--crt-type-label-family);
   font-size: var(--crt-type-role-size);
+  font-variation-settings: var(--crt-type-accent-settings);
   letter-spacing: var(--crt-type-role-tracking);
   line-height: 1.5;
   overflow-wrap: anywhere;
@@ -169,6 +173,7 @@
   color: var(--crt-color-text-action);
   font-family: var(--crt-type-label-family);
   font-size: var(--crt-type-action-size);
+  font-variation-settings: var(--crt-type-accent-settings);
   letter-spacing: var(--crt-type-action-tracking);
   line-height: 1.2;
   overflow-wrap: anywhere;
@@ -470,6 +475,7 @@
   display: grid;
   grid-area: details;
   gap: 0;
+  line-height: 1;
   margin: 0;
   color: var(--crt-color-text-body);
   font-family: var(--crt-type-data-family);
@@ -569,6 +575,12 @@
 
 @media (max-width: 560px) {
   .contact-profile {
+    --crt-type-label-size: 0.68rem;
+    --crt-type-role-size: 0.72rem;
+    --crt-type-body-size: 0.94rem;
+    --crt-type-action-size: 0.83rem;
+    --crt-type-data-size: 0.68rem;
+
     padding: 8px;
   }
 
@@ -578,8 +590,14 @@
   }
 
   .contact-profile-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-content: center;
+    justify-content: initial;
     min-height: 58px;
     padding: 10px;
+    font-size: 0.68rem;
+    line-height: 1.4;
   }
 
   .contact-profile-header__brand,

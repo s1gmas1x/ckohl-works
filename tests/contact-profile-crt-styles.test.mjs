@@ -12,6 +12,10 @@ const layoutStyle = await readFile(
   new URL('../src/css/_contact-profile-layout.scss', import.meta.url),
   'utf8',
 )
+const fontStyle = await readFile(
+  new URL('../src/css/_contact-profile-fonts.scss', import.meta.url),
+  'utf8',
+)
 const componentSource = await readFile(
   new URL('../src/components/profile/ContactProfileCard.vue', import.meta.url),
   'utf8',
@@ -71,6 +75,10 @@ test('defines the complete semantic CRT token contract under the approved theme'
     '--crt-panel-gap',
     '--crt-panel-padding-inline',
     '--crt-type-terminal-family',
+    '--crt-type-terminal-settings',
+    '--crt-type-accent-family',
+    '--crt-type-accent-settings',
+    '--crt-type-accent-palette',
     '--crt-type-identity-family',
     '--crt-type-label-family',
     '--crt-type-body-family',
@@ -140,6 +148,31 @@ test('focus and font fallbacks remain functional without decorative effects', ()
   )
 })
 
+test('uses the Sixtyfour pairing without allowing the color font to escape the amber theme', () => {
+  assert.match(getToken('--crt-type-terminal-family'), /^'Sixtyfour Variable'/)
+  assert.match(getToken('--crt-type-terminal-family'), /'64M'/)
+  assert.equal(getToken('--crt-type-label-family'), 'var(--crt-type-accent-family)')
+  assert.match(
+    themeStyle,
+    /@supports \(font-palette: --crt-amber-convergence\)[\s\S]*--crt-type-accent-family: 'Sixtyfour Convergence Variable'/,
+  )
+  assert.match(themeStyle, /0 #ffc96a,[\s\S]*1 #ffe1a5,[\s\S]*2 #c9933d;/)
+  assert.match(
+    themeStyle,
+    /@media \(forced-colors: active\)[\s\S]*--crt-type-accent-family: var\(--crt-type-terminal-family\);/,
+  )
+  assert.match(
+    fontStyle,
+    /font-family: 'Sixtyfour Variable';[\s\S]*sixtyfour-latin-full-normal\.woff2/,
+  )
+  assert.match(
+    fontStyle,
+    /font-family: 'Sixtyfour Convergence Variable';[\s\S]*sixtyfour-convergence-latin-full-normal\.woff2/,
+  )
+  assert.match(fontStyle, /font-family: '64M';[\s\S]*size-adjust: 166\.6667%;/)
+  assert.equal(fontStyle.match(/font-display: block;/g)?.length, 2)
+})
+
 test('Vue and generated profiles consume the same full-viewport theme source', () => {
   const document = renderProfileDocument(publishedProfiles[0], 'style-test')
 
@@ -147,7 +180,13 @@ test('Vue and generated profiles consume the same full-viewport theme source', (
   assert.ok(document.includes(layoutStyle))
   assert.match(document, /class="contact-profile__screen contact-profile-crt-screen"/)
   assert.match(componentSource, /class="contact-profile__screen contact-profile-crt-screen"/)
+  assert.match(componentSource, /@use '\.\.\/\.\.\/css\/contact-profile-fonts';/)
   assert.match(componentSource, /@use '\.\.\/\.\.\/css\/contact-profile-layout';/)
   assert.match(layoutStyle, /\.contact-profile \{[\s\S]*min-height: 100vh;/)
+  assert.match(document, /@font-face \{ font-family:'Sixtyfour Variable'/)
+  assert.match(document, /@font-face \{ font-family:'Sixtyfour Convergence Variable'/)
+  assert.match(document, /@font-face \{ font-family:'64M'[\s\S]*size-adjust:166\.6667%;/)
+  assert.equal(document.match(/font-display:block/g)?.length, 2)
+  assert.doesNotMatch(document, /Share Tech Mono/)
   assert.doesNotMatch(componentSource, /--ckw-crt-|#[\da-f]{3,8}|rgba?\(/i)
 })

@@ -57,18 +57,30 @@ screen effects leaves the solid color hierarchy intact.
 
 ## Typography and fallback
 
-Share Tech Mono remains the approved terminal face and only its regular weight is loaded. Identity,
-labels, body copy, actions, and data fields use semantic typography tokens rather than requesting
-synthetic customer-configured fonts.
+Sixtyfour is the approved terminal face for identity, body copy, actions, and data fields.
+Sixtyfour Convergence is reserved for the header, eyebrow, role, organization, and display label
+accent roles. Both faces expose only their regular weight; their code-owned variable-axis settings
+add weight and restrained channel separation without synthetic font styles or customer-configured
+values.
+
+Convergence is a color font, so its built-in red channel is replaced by an amber-only palette using
+the existing accent, strong-text, and muted-text colors. Browsers without custom font-palette
+support use Sixtyfour for the accent roles instead of exposing the original palette. Forced-colors
+mode also uses Sixtyfour so system text colors remain authoritative.
 
 The fallback stack is:
 
 ```text
-ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace
+64M, ui-monospace, Cascadia Code, SFMono-Regular, Consolas, monospace
 ```
 
-The static renderer embeds the self-hosted Latin WOFF2 with `font-display: swap`. If it fails, the
-fallback stack renders immediately without affecting layout or contact behavior.
+The SPA declares the two self-hosted Latin WOFF2 files only in the lazy profile route. The static
+renderer embeds the same files. Both use a short font-display block so the wider pixel metrics are
+available before the card paints. A local monospace metrics fallback is widened with `size-adjust`
+to reserve Sixtyfour's character cells during a cold load, preventing mobile reflow when the face
+appears. Together the two web fonts are 12,028 bytes raw, slightly smaller than the previous
+13,500-byte Share Tech Mono file. If either face fails, the fallback stack renders without affecting
+contact behavior.
 
 ## Effect limits
 

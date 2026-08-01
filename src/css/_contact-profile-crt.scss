@@ -5,6 +5,15 @@
  * while app.scss includes it through Sass. Profile data may select this code-owned theme but
  * cannot override any value below.
  */
+@font-palette-values --crt-amber-convergence {
+  font-family: 'Sixtyfour Convergence Variable';
+  base-palette: 0;
+  override-colors:
+    0 #ffc96a,
+    1 #ffe1a5,
+    2 #c9933d;
+}
+
 .contact-profile-theme--crt-amber {
   /* Surfaces */
   --crt-color-surface-page: #050402;
@@ -39,13 +48,18 @@
 
   /* Typography roles */
   --crt-type-terminal-family:
-    'Share Tech Mono', ui-monospace, 'Cascadia Code', 'SFMono-Regular', Consolas, monospace;
+    'Sixtyfour Variable', '64M', ui-monospace, 'Cascadia Code', 'SFMono-Regular', Consolas,
+    monospace;
+  --crt-type-terminal-settings: 'BLED' 22, 'SCAN' 0;
+  --crt-type-accent-family: var(--crt-type-terminal-family);
+  --crt-type-accent-settings: var(--crt-type-terminal-settings);
+  --crt-type-accent-palette: normal;
   --crt-type-identity-family: var(--crt-type-terminal-family);
   --crt-type-identity-size: clamp(2.3rem, 5vw, 3.85rem);
   --crt-type-identity-weight: 400;
   --crt-type-identity-tracking: 0.02em;
   --crt-type-identity-leading: 1.08;
-  --crt-type-label-family: var(--crt-type-terminal-family);
+  --crt-type-label-family: var(--crt-type-accent-family);
   --crt-type-label-size: 0.72rem;
   --crt-type-label-weight: 400;
   --crt-type-label-tracking: 0.1em;
@@ -88,6 +102,16 @@
     var(--crt-color-surface-page);
   color: var(--crt-color-text-body);
   font-family: var(--crt-type-body-family);
+  font-palette: var(--crt-type-accent-palette);
+  font-variation-settings: var(--crt-type-terminal-settings);
+}
+
+@supports (font-palette: --crt-amber-convergence) {
+  .contact-profile-theme--crt-amber {
+    --crt-type-accent-family: 'Sixtyfour Convergence Variable', var(--crt-type-terminal-family);
+    --crt-type-accent-settings: 'BLED' 18, 'SCAN' 0, 'XELA' -10, 'YELA' 10;
+    --crt-type-accent-palette: --crt-amber-convergence;
+  }
 }
 
 .contact-profile-theme--crt-amber .contact-profile-crt-screen {
@@ -196,6 +220,9 @@
     --crt-depth-screen: none;
     --crt-depth-panel: none;
     --crt-glow-identity: none;
+    --crt-type-accent-family: var(--crt-type-terminal-family);
+    --crt-type-accent-settings: var(--crt-type-terminal-settings);
+    --crt-type-accent-palette: normal;
 
     forced-color-adjust: auto;
     background: Canvas;
