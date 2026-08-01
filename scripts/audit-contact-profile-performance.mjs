@@ -185,7 +185,10 @@ async function auditReadyDisplayPresentation(page, label) {
     }
   })
 
-  assert.ok(presentation.viewport, `${label} must retain the display viewport after the first render`)
+  assert.ok(
+    presentation.viewport,
+    `${label} must retain the display viewport after the first render`,
+  )
   assert.equal(presentation.state, 'ready', `${label} display must stay ready after its reveal`)
   assert.ok(presentation.canvas, `${label} must retain a display canvas after the first render`)
   assert.ok(presentation.fallback, `${label} must retain the fallback below the canvas`)
@@ -221,12 +224,15 @@ async function auditReadyDisplayPresentation(page, label) {
     `${label} canvas must fill the viewport content width`,
   )
   assert.ok(
-    Math.abs(presentation.canvas.left - presentation.viewport.left - presentation.viewport.clientLeft) <=
-      1,
+    Math.abs(
+      presentation.canvas.left - presentation.viewport.left - presentation.viewport.clientLeft,
+    ) <= 1,
     `${label} canvas must start inside the viewport border`,
   )
   assert.ok(
-    Math.abs(presentation.canvas.top - presentation.viewport.top - presentation.viewport.clientTop) <= 1,
+    Math.abs(
+      presentation.canvas.top - presentation.viewport.top - presentation.viewport.clientTop,
+    ) <= 1,
     `${label} canvas must start inside the viewport border`,
   )
 }
@@ -485,6 +491,8 @@ async function auditNormalDisplay(browser, { key, path }) {
       ),
     )
 
+    await page.locator('[data-display-preset="crt-wireframe"]').scrollIntoViewIfNeeded()
+    await page.waitForFunction(() => window.__crtPerformance.pendingAnimationFrames >= 1)
     await setDocumentVisibility(page, 'hidden')
     await page.waitForTimeout(160)
     assert.equal(
@@ -492,11 +500,15 @@ async function auditNormalDisplay(browser, { key, path }) {
       0,
       `${label} must not render while the document is hidden`,
     )
+    const frameRequestsBeforeResume = await page.evaluate(
+      () => window.__crtPerformance.animationFrameRequests,
+    )
     await setDocumentVisibility(page, 'visible')
-    await page.waitForTimeout(80)
-    assert.ok(
-      (await page.evaluate(() => window.__crtPerformance.pendingAnimationFrames)) >= 1,
-      `${label} must resume its restrained frame loop after the document becomes visible`,
+    await page.waitForFunction(
+      (previousFrameRequests) =>
+        window.__crtPerformance.animationFrameRequests > previousFrameRequests,
+      frameRequestsBeforeResume,
+      { timeout: 1000 },
     )
 
     const repeatedNavigation =
