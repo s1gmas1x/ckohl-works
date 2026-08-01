@@ -41,6 +41,27 @@ const TERRAIN_NEAR_Z = HORIZON_Z + TERRAIN_DEPTH
 const TERRAIN_HALF_WIDTH = GRID_SIZE / 2
 const GROUND_OBJECT_HORIZON_CLEARANCE = 1.35
 const GROUND_OBJECT_FADE_DISTANCE = 1.6
+const CAMERA_PARALLAX = Object.freeze({
+  mobileScale: 0.55,
+  panCycleSeconds: 28,
+  panDistance: 0.2,
+  pointerPanDistance: 0.18,
+  pointerTargetPanDistance: 0.035,
+  pointerTargetTiltDistance: 0.02,
+  pointerTiltDistance: 0.1,
+  positionY: 2.75,
+  positionZ: 6.8,
+  rollCycleSeconds: 42,
+  rollRadians: 0.0061,
+  targetPanDistance: 0.05,
+  targetTiltDistance: 0.018,
+  targetY: -0.28,
+  targetZ: -5.4,
+  tiltCycleSeconds: 36,
+  tiltDistance: 0.065,
+})
+// Keep the implementation available for the visual-refinement backlog, but do not render it yet.
+const SHOOTING_STAR_ENABLED = false
 const SHOOTING_STAR_CYCLE_SECONDS = 12
 const SHOOTING_STAR_DURATION_SECONDS = 1.6
 const SHOOTING_STAR_HEAD_START_X = 3.8
@@ -112,6 +133,34 @@ function disposeScene(scene) {
     const materials = Array.isArray(object.material) ? object.material : [object.material]
     for (const material of materials) material?.dispose?.()
   })
+}
+
+export function applyCameraParallax(camera, target, elapsedSeconds, pointer, motionScale = 1) {
+  const panPhase = (elapsedSeconds * Math.PI * 2) / CAMERA_PARALLAX.panCycleSeconds
+  const tiltPhase = (elapsedSeconds * Math.PI * 2) / CAMERA_PARALLAX.tiltCycleSeconds
+  const rollPhase = (elapsedSeconds * Math.PI * 2) / CAMERA_PARALLAX.rollCycleSeconds
+  const pan = Math.sin(panPhase) * motionScale
+  const tilt = Math.sin(tiltPhase) * motionScale
+  const roll = Math.sin(rollPhase) * CAMERA_PARALLAX.rollRadians * motionScale
+
+  camera.position.x =
+    pan * CAMERA_PARALLAX.panDistance + pointer.currentX * CAMERA_PARALLAX.pointerPanDistance
+  camera.position.y =
+    CAMERA_PARALLAX.positionY +
+    tilt * CAMERA_PARALLAX.tiltDistance -
+    pointer.currentY * CAMERA_PARALLAX.pointerTiltDistance
+  camera.position.z = CAMERA_PARALLAX.positionZ
+  target.x =
+    pan * CAMERA_PARALLAX.targetPanDistance +
+    pointer.currentX * CAMERA_PARALLAX.pointerTargetPanDistance
+  target.y =
+    CAMERA_PARALLAX.targetY +
+    tilt * CAMERA_PARALLAX.targetTiltDistance -
+    pointer.currentY * CAMERA_PARALLAX.pointerTargetTiltDistance
+  target.z = CAMERA_PARALLAX.targetZ
+
+  camera.lookAt(target)
+  camera.rotateZ(roll)
 }
 
 function createHorizon(three, accentColor) {
@@ -573,8 +622,9 @@ export async function initializeCrtWireframeScene({
     powerPreference: 'low-power',
     stencil: false,
   })
-  const cameraTarget = new Vector3(0, -0.28, -5.4)
+  const cameraTarget = new Vector3()
   const pointer = { currentX: 0, currentY: 0, targetX: 0, targetY: 0 }
+  const cameraMotionScale = mobile ? CAMERA_PARALLAX.mobileScale : 1
   let sceneStartedAt
   const terrain = createTerrainGrid(three, {
     accentColor,
@@ -597,11 +647,12 @@ export async function initializeCrtWireframeScene({
     accentColor,
     count: tier.groundObjectCount,
   })
-  const shootingStar = createShootingStar(three, { accentColor, enabled: !mobile })
+  const shootingStar = SHOOTING_STAR_ENABLED
+    ? createShootingStar(three, { accentColor, enabled: !mobile })
+    : null
   const horizon = createHorizon(three, accentColor)
 
-  camera.position.set(0, 2.75, 6.8)
-  camera.lookAt(cameraTarget)
+  applyCameraParallax(camera, cameraTarget, 0, pointer, cameraMotionScale)
   scene.add(
     terrain.object,
     horizon,
@@ -609,7 +660,7 @@ export async function initializeCrtWireframeScene({
     mountains,
     horizonMask,
     particles,
-    shootingStar.object,
+    ...(shootingStar ? [shootingStar.object] : []),
     groundObjects.object,
   )
 
@@ -639,9 +690,7 @@ export async function initializeCrtWireframeScene({
 
     pointer.currentX += (pointer.targetX - pointer.currentX) * 0.025
     pointer.currentY += (pointer.targetY - pointer.currentY) * 0.025
-    camera.position.x = Math.sin(elapsedSeconds * 0.11) * 0.055 + pointer.currentX * 0.18
-    camera.position.y = 2.75 - pointer.currentY * 0.1
-    camera.lookAt(cameraTarget)
+    applyCameraParallax(camera, cameraTarget, elapsedSeconds, pointer, cameraMotionScale)
 
     const terrainOffset = elapsedSeconds * 0.22
     terrain.update(terrainOffset % terrain.spacing)
@@ -649,7 +698,7 @@ export async function initializeCrtWireframeScene({
     sun.position.y = SUN_BASE_Y + Math.sin(elapsedSeconds * 0.5) * 0.02
     particles.rotation.y = Math.sin(elapsedSeconds * 0.08) * 0.025
     particles.position.y = Math.sin(elapsedSeconds * 0.17) * 0.025
-    shootingStar.update(elapsedSeconds)
+    shootingStar?.update(elapsedSeconds)
     renderer.render(scene, camera)
   }
 
