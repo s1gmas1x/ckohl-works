@@ -8,16 +8,20 @@
 
       <nav class="site-footer__links" aria-label="Solutions">
         <span>Solutions</span>
-        <a href="#solutions">Tap-and-Scan Pages</a>
-        <a href="#solutions">Digital Contact Cards</a>
-        <a href="#services">Business Websites &amp; Care</a>
+        <a :href="sectionHref" @click.prevent="scrollToSection('solutions')">Tap-and-Scan Pages</a>
+        <a :href="sectionHref" @click.prevent="scrollToSection('solutions')"
+          >Digital Contact Cards</a
+        >
+        <a :href="sectionHref" @click.prevent="scrollToSection('services')"
+          >Business Websites &amp; Care</a
+        >
       </nav>
 
       <nav class="site-footer__links" aria-label="Company">
         <span>Company</span>
-        <a href="#how-it-works">How It Works</a>
-        <a href="#demonstrations">Demonstrations</a>
-        <a href="#contact">Contact</a>
+        <a :href="sectionHref" @click.prevent="scrollToSection('how-it-works')">How It Works</a>
+        <a :href="sectionHref" @click.prevent="scrollToSection('demonstrations')">Demonstrations</a>
+        <a :href="sectionHref" @click.prevent="scrollToSection('contact')">Contact</a>
       </nav>
 
       <div class="site-footer__links">
@@ -44,8 +48,10 @@
 
 <script setup>
 import BrandMark from '@/components/ui/BrandMark.vue'
+import { useSectionNavigation } from '@/composables/useSectionNavigation.js'
 
 const year = new Date().getFullYear()
+const { sectionHref, scrollToSection } = useSectionNavigation()
 </script>
 
 <style lang="scss" scoped>

@@ -88,6 +88,7 @@ import SectionHeading from '@/components/ui/SectionHeading.vue'
 
 const contactMethods = ['Email', 'Phone', 'Text']
 const services = [
+  'Managed contact page',
   'Business website',
   'Smart QR or NFC experience',
   'Hosting or care',

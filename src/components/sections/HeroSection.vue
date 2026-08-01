@@ -45,16 +45,18 @@
             color="primary"
             icon-right="arrow_downward"
             label="See How It Works"
-            href="#how-it-works"
+            :href="sectionHref"
             class="ckw-btn ckw-btn--primary"
+            @click.prevent="scrollToSection('how-it-works')"
           />
           <q-btn
             outline
             no-caps
             icon-right="arrow_forward"
             label="View a Demo"
-            href="#demonstrations"
+            :href="sectionHref"
             class="ckw-btn ckw-btn--outline"
+            @click.prevent="scrollToSection('demonstrations')"
           />
         </div>
       </div>
@@ -86,6 +88,9 @@
 <script setup>
 import contactCardFront from '@/assets/images/hero/ckohl-works-contact-card-front-nfc-paths.svg'
 import contactCardFrontFallback from '@/assets/images/hero/ckohl-works-contact-card-front-nfc-paths.png'
+import { useSectionNavigation } from '@/composables/useSectionNavigation.js'
+
+const { sectionHref, scrollToSection } = useSectionNavigation()
 </script>
 
 <style lang="scss" scoped>

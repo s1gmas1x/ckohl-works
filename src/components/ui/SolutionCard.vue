@@ -24,7 +24,11 @@
     <q-card-section>
       <h3>{{ solution.title }}</h3>
       <p>{{ solution.description }}</p>
-      <a :href="solution.href" class="solution-card__link">
+      <a
+        :href="sectionHref"
+        class="solution-card__link"
+        @click.prevent="scrollToSection(solution.sectionId)"
+      >
         <span>Learn More</span>
         <q-icon name="arrow_forward" size="17px" />
       </a>
@@ -33,12 +37,16 @@
 </template>
 
 <script setup>
+import { useSectionNavigation } from '@/composables/useSectionNavigation.js'
+
 defineProps({
   solution: {
     type: Object,
     required: true,
   },
 })
+
+const { sectionHref, scrollToSection } = useSectionNavigation()
 </script>
 
 <style lang="scss" scoped>

@@ -33,7 +33,7 @@ export const solutions = [
       'QR and NFC experiences for menus, directions, reviews, booking, promotions, service details, and vendor or property pages.',
     icon: 'contactless',
     variant: 'nfc',
-    href: '#contact',
+    sectionId: 'contact',
   },
   {
     title: 'Digital Contact Cards',
@@ -41,7 +41,7 @@ export const solutions = [
       'Give customers one mobile place to call, email, visit your site, book, get directions, or save your details.',
     icon: 'badge',
     variant: 'qr',
-    href: '#contact',
+    sectionId: 'contact',
   },
   {
     title: 'Business Websites and Care',
@@ -49,7 +49,7 @@ export const solutions = [
       'Mobile-friendly websites, hosting, maintenance, updates, and support for the parts of your business customers rely on.',
     icon: 'support_agent',
     variant: 'app',
-    href: '#contact',
+    sectionId: 'contact',
   },
 ]
 

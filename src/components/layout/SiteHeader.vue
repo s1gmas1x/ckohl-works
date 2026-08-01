@@ -25,8 +25,9 @@
         color="primary"
         icon-right="arrow_forward"
         label="Start a Conversation"
-        href="#contact"
+        :href="sectionHref"
         class="ckw-btn ckw-btn--primary site-header__cta"
+        @click.prevent="scrollToSection('contact')"
       />
 
       <q-btn
@@ -58,9 +59,8 @@
 </template>
 
 <script setup>
-import { nextTick } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
 import BrandMark from '@/components/ui/BrandMark.vue'
+import { useSectionNavigation } from '@/composables/useSectionNavigation.js'
 
 defineEmits(['toggle-drawer', 'toggle-theme'])
 
@@ -87,38 +87,17 @@ defineProps({
   },
 })
 
-const HEADER_SCROLL_OFFSET = 92
-
-const route = useRoute()
-const router = useRouter()
+const { sectionHref, scrollToSection } = useSectionNavigation()
 
 const navigationItems = [
   { label: 'How It Works', id: 'how-it-works' },
-  { label: 'Offers', id: 'solutions' },
+  { label: 'Offer & Pricing', id: 'managed-contact-page' },
   { label: 'Demos', id: 'demonstrations' },
   { label: 'Contact', id: 'contact' },
 ]
 
 async function handleNavigation(item) {
   await scrollToSection(item.id)
-}
-
-async function scrollToSection(sectionId) {
-  if (route.path !== '/') {
-    await router.push('/')
-    await nextTick()
-  }
-
-  const section = document.getElementById(sectionId)
-
-  if (!section) return
-
-  const scrollTop = section.getBoundingClientRect().top + window.scrollY - HEADER_SCROLL_OFFSET
-
-  window.scrollTo({
-    top: Math.max(scrollTop, 0),
-    behavior: 'smooth',
-  })
 }
 </script>
 

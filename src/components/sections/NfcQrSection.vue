@@ -15,8 +15,9 @@
             color="primary"
             icon-right="arrow_forward"
             label="Start a Conversation"
-            href="#contact"
+            :href="sectionHref"
             class="ckw-btn ckw-btn--primary"
+            @click.prevent="scrollToSection('contact')"
           />
           <q-btn
             outline
@@ -62,6 +63,9 @@
 
 <script setup>
 import SectionHeading from '@/components/ui/SectionHeading.vue'
+import { useSectionNavigation } from '@/composables/useSectionNavigation.js'
+
+const { sectionHref, scrollToSection } = useSectionNavigation()
 </script>
 
 <style lang="scss" scoped>
