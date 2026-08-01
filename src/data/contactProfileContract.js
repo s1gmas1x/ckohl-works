@@ -22,6 +22,7 @@ const actionTypeConfiguration = Object.freeze({
 
 const requiredActionTypes = Object.freeze(['call', 'sms', 'email', 'vcard'])
 const allowedFooterSources = Object.freeze(['profile', 'schema'])
+const allowedWebsitePurposes = Object.freeze(['portfolio', 'services'])
 export const CONTACT_PROFILE_SUMMARY_VARIANT_LIMIT = 5
 export const CONTACT_PROFILE_SUMMARY_VARIANT_MAX_LENGTH = 180
 
@@ -126,6 +127,14 @@ function normalizeHttpsUrl(value, profileSlug, path) {
   return url.href
 }
 
+function createExternalDestinationLabel(value) {
+  const url = new URL(value)
+  const hostname = url.hostname.replace(/^www\./u, '')
+  const pathname = url.pathname === '/' ? '' : url.pathname.replace(/\/$/u, '')
+
+  return `${hostname}${pathname}`
+}
+
 function normalizeVcardPath(value, profileSlug, path) {
   const vcardPath = requireString(value, profileSlug, path)
 
@@ -209,12 +218,25 @@ function normalizeAction(action, index, profileSlug) {
   if (type === 'social') {
     normalizedAction.platform = requireString(action.platform, profileSlug, `${path}.platform`)
   }
+  if (type === 'website' && action.purpose !== undefined) {
+    const purpose = requireString(action.purpose, profileSlug, `${path}.purpose`)
+    if (!allowedWebsitePurposes.includes(purpose)) {
+      fail(profileSlug, `${path}.purpose`, `uses unsupported value ${JSON.stringify(purpose)}`)
+    }
+    normalizedAction.purpose = purpose
+  }
   if (type === 'location') {
     normalizedAction.displayValue = requireString(
       action.displayValue,
       profileSlug,
       `${path}.displayValue`,
     )
+  }
+  if (configuration.group === 'external') {
+    normalizedAction.destinationLabel =
+      type === 'location'
+        ? normalizedAction.displayValue
+        : createExternalDestinationLabel(normalizedAction.value)
   }
 
   return normalizedAction

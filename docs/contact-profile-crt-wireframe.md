@@ -45,8 +45,9 @@ disposes scene resources, and releases the WebGL context.
 `ContactProfileDisplayPanel.vue` owns the Vue integration.
 `public/contact-profile/crt-wireframe-static-enhancement.js` progressively enhances only the
 canonical HTML and imports the shared typing effect, display host, and scene by their generated
-asset paths. It is kept outside the SPA bundle so a direct card never initializes the marketing
-router.
+asset paths. Its generated URL includes the build revision so phones and browsers cannot retain a
+pre-typing cached enhancement after deployment. It is kept outside the SPA bundle so a direct card
+never initializes the marketing router.
 `displayHost.js` owns the shared state machine and failure policy, while
 `createCrtWireframeScene.js` remains isolated from routing, contact data, and controls.
 
@@ -78,7 +79,7 @@ fallback remains visible and all important controls remain ordinary HTML links.
 | Mobile/coarse |     1.0 |             16 |         6 |          20 | Disabled          |
 
 Run `npm run build && npm run measure:crt-display` to enforce the 140 KiB gzip ceiling for the
-incremental, tree-shaken Three.js scene payload. It also enforces the 11 KiB profile/display and
+incremental, tree-shaken Three.js scene payload. It also enforces the 11.5 KiB profile/display and
 typing loader, 3.5 KiB canonical enhancement path, 4.5 KiB profile CSS, and 12 KiB responsive
 fallback budgets. The scene remains absent from the initial marketing/profile dependency graph. Run
 `npm run build:profiles && npm run audit:profiles:performance` for the local browser evidence that

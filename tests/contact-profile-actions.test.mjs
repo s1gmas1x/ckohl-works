@@ -49,6 +49,16 @@ test('normalizes reviewed fixtures into ordered typed actions and truthful deriv
       ['schema', 'V2'],
     ],
   )
+  assert.deepEqual(
+    chad.actions
+      .filter((action) => action.group === 'external')
+      .map(({ label, destinationLabel, purpose }) => [label, destinationLabel, purpose]),
+    [
+      ['Portfolio', 'ckohl.com', 'portfolio'],
+      ['Services', 'works.ckohl.com', 'services'],
+      ['LinkedIn', 'linkedin.com/in/chad-kohl401', undefined],
+    ],
+  )
   assert.ok(chad.actions.every(Object.isFrozen))
   assert.ok(Object.isFrozen(chad.actions))
   assert.ok(Object.isFrozen(chad))
@@ -87,10 +97,33 @@ test('maps action types to framework-neutral SVG icons', () => {
   assert.equal(getContactProfileActionIcon({ type: 'sms' }), 'message')
   assert.equal(getContactProfileActionIcon({ type: 'email' }), 'email')
   assert.equal(getContactProfileActionIcon({ type: 'website' }), 'globe')
+  assert.equal(getContactProfileActionIcon({ type: 'website', purpose: 'portfolio' }), 'globe')
+  assert.equal(getContactProfileActionIcon({ type: 'website', purpose: 'services' }), 'gear')
   assert.equal(getContactProfileActionIcon({ type: 'social', platform: 'GitHub' }), 'code')
-  assert.equal(getContactProfileActionIcon({ type: 'social', platform: 'LinkedIn' }), 'people')
+  assert.equal(getContactProfileActionIcon({ type: 'social', platform: 'LinkedIn' }), 'linkedin')
   assert.ok(getContactProfileIconPaths('phone').length > 0)
+  assert.ok(getContactProfileIconPaths('gear').length > 0)
+  assert.ok(getContactProfileIconPaths('linkedin').length > 0)
   assert.throws(() => getContactProfileIconPaths('unsupported'), /Unsupported contact profile icon/)
+})
+
+test('derives concise external destinations without exposing URL tracking details', () => {
+  const profile = cloneChadProfile()
+  profile.actions.find((action) => action.key === 'website').value =
+    'https://www.example.com/selected-work/?utm_source=card#featured'
+
+  const normalized = normalizeContactProfile(profile)
+  const portfolio = normalized.actions.find((action) => action.key === 'website')
+
+  assert.equal(portfolio.destinationLabel, 'example.com/selected-work')
+  assert.doesNotMatch(portfolio.destinationLabel, /utm_source|featured/)
+})
+
+test('rejects arbitrary website purposes instead of accepting profile-owned icon keys', () => {
+  const profile = cloneChadProfile()
+  profile.actions.find((action) => action.key === 'works').purpose = 'custom-icon'
+
+  assert.throws(() => normalizeContactProfile(profile), /purpose.*unsupported value/)
 })
 
 test('rejects unsupported schemes, malformed destinations, and unsafe vCard paths', () => {
@@ -173,7 +206,16 @@ test('generated HTML exposes working actions, honest statuses, and available str
   assert.match(document, /href="sms:\+17194285039"/)
   assert.match(document, /href="mailto:chad_kohl@ckohl\.com"/)
   assert.match(document, /href="\/ckohl-works\/contacts\/chad-kohl\.vcf" download="chad-kohl\.vcf"/)
-  assert.match(document, /href="https:\/\/github\.com\/s1gmas1x"/)
+  assert.match(document, /href="https:\/\/www\.linkedin\.com\/in\/chad-kohl401"/)
+  assert.match(
+    document,
+    /aria-label="Portfolio: ckohl\.com \(opens in new tab\)"[\s\S]*>Portfolio<[\s\S]*>ckohl\.com</,
+  )
+  assert.match(
+    document,
+    /aria-label="Services: works\.ckohl\.com \(opens in new tab\)"[\s\S]*>Services<[\s\S]*>works\.ckohl\.com</,
+  )
+  assert.match(document, /contact-profile-external-action__destination/)
   assert.match(document, /target="_blank" rel="noopener noreferrer"/)
   assert.match(document, /<dt>VCF<\/dt><dd>READY<\/dd>/)
   assert.match(document, /<dt>Link mode<\/dt><dd>DIRECT<\/dd>/)
@@ -182,7 +224,7 @@ test('generated HTML exposes working actions, honest statuses, and available str
   assert.doesNotMatch(document, /<q-icon|☎|✉|💬/)
   assert.doesNotMatch(document, /DYNAMIC LINK|>ACTIVE<|analytics/i)
   assert.match(document, /"url":"https:\/\/ckohl\.com\/"/)
-  assert.match(document, /"sameAs":\["https:\/\/github\.com\/s1gmas1x"\]/)
+  assert.match(document, /"sameAs":\["https:\/\/www\.linkedin\.com\/in\/chad-kohl401"\]/)
   assert.doesNotMatch(document, /"address"/)
 })
 
@@ -190,6 +232,8 @@ test('uses native link keyboard behavior in both renderers', () => {
   assert.match(actionComponentSource, /<a[\s\S]*:href="getActionHref\(action, publicBase\)"/)
   assert.doesNotMatch(actionComponentSource, /@keydown(?:\.|=)/)
   assert.doesNotMatch(actionComponentSource, /focusAction|actionLinks|setActionLink/)
+  assert.match(actionComponentSource, /contact-profile-external-action__destination/)
+  assert.match(actionComponentSource, /action\.destinationLabel/)
 
   assert.match(staticRendererSource, /document\.querySelectorAll\('\[data-copy-email\]'\)/)
   assert.doesNotMatch(

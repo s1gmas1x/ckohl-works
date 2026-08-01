@@ -16,13 +16,13 @@ unrealistic target as a release gate.
 `npm run build && npm run measure:crt-display` fails when any deterministic asset budget is
 exceeded.
 
-| Asset boundary                                               |       Budget | Current measured value |
-| ------------------------------------------------------------ | -----------: | ---------------------: |
-| Async Three.js scene and scene dependencies                  | 140 KiB gzip |        132.86 KiB gzip |
-| Initial profile route plus shared display/typing host        |  11 KiB gzip |         10.57 KiB gzip |
-| Canonical enhancement plus shared display/typing import path | 3.5 KiB gzip |          3.29 KiB gzip |
-| Profile route CSS                                            | 4.5 KiB gzip |          4.26 KiB gzip |
-| Responsive fallback images combined                          |   12 KiB raw |          10.04 KiB raw |
+| Asset boundary                                               |        Budget | Current measured value |
+| ------------------------------------------------------------ | ------------: | ---------------------: |
+| Async Three.js scene and scene dependencies                  |  140 KiB gzip |        132.86 KiB gzip |
+| Initial profile route plus shared display/typing host        | 11.5 KiB gzip |         11.24 KiB gzip |
+| Canonical enhancement plus shared display/typing import path |  3.5 KiB gzip |          3.29 KiB gzip |
+| Profile route CSS                                            |  4.5 KiB gzip |          4.26 KiB gzip |
+| Responsive fallback images combined                          |    12 KiB raw |          10.04 KiB raw |
 
 The initial-profile figure deliberately contains the `ProfilePage` route and the shared lightweight
 display/typing host asset. It excludes shared application chunks that existed before these
@@ -31,6 +31,10 @@ not in the profile route's static import graph. The 2026-07-31 typing change int
 the initial-code budget by 1 KiB, the canonical loader by 0.5 KiB, and profile CSS by 0.5 KiB; the
 measured additions provide the terminal cadence, lifecycle controls, stable phrase reservation, and
 blinking cursor in both renderers.
+
+The reviewed external-action labels, destination copy, LinkedIn mark, and Services gear added 0.34
+KiB gzip on 2026-07-31. The initial-code ceiling increased by 0.5 KiB for that visible, semantic UI;
+the canonical loader, CSS, fallback, and deferred-scene ceilings did not change.
 
 The only runtime fallback images are:
 

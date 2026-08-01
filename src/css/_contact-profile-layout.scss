@@ -522,6 +522,21 @@
   height: 26px;
 }
 
+.contact-profile-external-action__copy {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.contact-profile-external-action__destination {
+  color: var(--crt-color-text-muted);
+  font-family: var(--crt-type-data-family);
+  font-size: 0.62rem;
+  letter-spacing: var(--crt-type-data-tracking);
+  line-height: 1.35;
+  text-transform: none;
+}
+
 .contact-profile-external-action__arrow {
   width: 24px;
   height: 24px;

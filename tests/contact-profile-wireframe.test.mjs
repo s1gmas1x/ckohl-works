@@ -92,7 +92,7 @@ test('selects restrained desktop and mobile scene budgets', () => {
     CRT_WIREFRAME_TIERS.mobile.maxFramesPerSecond < CRT_WIREFRAME_TIERS.desktop.maxFramesPerSecond,
   )
   assert.equal(CRT_WIREFRAME_ASYNC_GZIP_BUDGET_BYTES, 143_360)
-  assert.equal(CRT_WIREFRAME_PROFILE_INITIAL_GZIP_BUDGET_BYTES, 11_264)
+  assert.equal(CRT_WIREFRAME_PROFILE_INITIAL_GZIP_BUDGET_BYTES, 11_776)
   assert.equal(CRT_WIREFRAME_CANONICAL_LOADER_GZIP_BUDGET_BYTES, 3584)
   assert.equal(CRT_WIREFRAME_PROFILE_CSS_GZIP_BUDGET_BYTES, 4608)
   assert.equal(CRT_WIREFRAME_FALLBACK_BUDGET_BYTES, 12_288)

@@ -19,9 +19,9 @@ const outputDir = join(rootDir, 'dist', 'static-profiles')
 const manifest = JSON.parse(await readFile(join(outputDir, 'static-profile-manifest.json'), 'utf8'))
 const expectedSlugs = parseProfileSlugs(process.env.STATIC_PROFILE_SLUGS)
 const expectedProfiles = selectProfiles(publishedProfiles, expectedSlugs)
-const enhancementAssetPath = manifest.enhancementModulePath?.slice(
-  manifest.enhancementModulePath.indexOf('contact-profile/'),
-)
+const enhancementAssetPath = manifest.enhancementModulePath
+  ?.slice(manifest.enhancementModulePath.indexOf('contact-profile/'))
+  .split('?')[0]
 const displayHostAssetName = manifest.displayHostModulePath?.split('/').at(-1)
 const sceneAssetName = manifest.sceneModulePath?.split('/').at(-1)
 
@@ -45,8 +45,8 @@ assert.equal(
 )
 assert.match(
   manifest.enhancementModulePath,
-  /\/contact-profile\/crt-wireframe-static-enhancement\.js$/,
-  'manifest must identify the standalone canonical-profile enhancement module',
+  /\/contact-profile\/crt-wireframe-static-enhancement\.js\?v=[^&]+$/,
+  'manifest must identify a revisioned canonical-profile enhancement module',
 )
 assert.match(
   manifest.displayHostModulePath,
