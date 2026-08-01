@@ -1,23 +1,43 @@
-const mount = document.querySelector(
+const displayMount = document.querySelector(
   '.contact-profile-display__viewport[data-display-preset="crt-wireframe"]',
 )
-const displayHostModulePath = mount?.dataset.displayHostModule
-const sceneModulePath = mount?.dataset.displaySceneModule
+const typingMount = document.querySelector('[data-terminal-typing]')
+const displayHostModulePath = displayMount?.dataset.displayHostModule
+const sceneModulePath = displayMount?.dataset.displaySceneModule
 
-if (mount && displayHostModulePath && sceneModulePath) {
+if (displayHostModulePath && (typingMount || (displayMount && sceneModulePath))) {
   try {
-    const { createCrtDisplayHost } = await import(displayHostModulePath)
-    const host = createCrtDisplayHost({
-      mount,
-      loadScene: () => import(sceneModulePath),
-    })
+    const { createCrtDisplayHost, createTerminalTypingEffect } = await import(displayHostModulePath)
+    const enhancements = []
 
-    host.start()
+    if (typingMount && createTerminalTypingEffect) {
+      try {
+        const typingEffect = createTerminalTypingEffect({ mount: typingMount })
+        typingEffect.start()
+        enhancements.push(typingEffect)
+      } catch {
+        // The semantic summary remains visible if typing cannot start.
+      }
+    }
+
+    if (displayMount && sceneModulePath && createCrtDisplayHost) {
+      try {
+        const displayHost = createCrtDisplayHost({
+          mount: displayMount,
+          loadScene: () => import(sceneModulePath),
+        })
+        displayHost.start()
+        enhancements.push(displayHost)
+      } catch {
+        displayMount.dataset.displayState = 'failed'
+      }
+    }
+
     window.addEventListener('pagehide', (event) => {
-      if (!event.persisted) host.dispose()
+      if (!event.persisted) enhancements.forEach((enhancement) => enhancement.dispose())
     })
   } catch {
-    // The fallback image remains usable if a generated enhancement asset is unavailable.
-    mount.dataset.displayState = 'failed'
+    // Semantic copy and the fallback image remain usable when enhancement assets are unavailable.
+    if (displayMount) displayMount.dataset.displayState = 'failed'
   }
 }

@@ -155,7 +155,11 @@ if (expectedSlugs) {
     )
     await assert.rejects(readFile(join(outputDir, 'contacts', profile.vCard.filename)))
 
-    for (const fixtureSentinel of [profile.identity.summary, profile.vCard.filename]) {
+    for (const fixtureSentinel of [
+      profile.identity.summary,
+      ...profile.identity.summaryVariants,
+      profile.vCard.filename,
+    ]) {
       assert.ok(
         !spaSource.includes(fixtureSentinel),
         `unselected profile ${profile.slug} must not be present in the SPA bundle`,
