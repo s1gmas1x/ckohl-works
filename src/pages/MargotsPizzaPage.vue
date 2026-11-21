@@ -30,10 +30,6 @@
         role="img"
         aria-label="Margot holding a thin pepperoni pizza against a Colorado mountain backdrop"
       ></div>
-      <div class="margots-mobile-mark">
-        <img :src="margotsEmblem" alt="Illustrated Margot holding a pizza" />
-        <span>Est. 1925</span>
-      </div>
       <div class="margots-container margots-hero__grid">
         <div class="margots-hero__copy">
           <p class="margots-kicker">Colorado Springs</p>
@@ -66,6 +62,10 @@
     </section>
 
     <section class="margots-section" aria-label="Restaurant actions">
+      <div class="margots-mobile-mark">
+        <img :src="margotsEmblem" alt="Illustrated Margot holding a pizza" />
+        <span>Est. 1925</span>
+      </div>
       <div class="margots-container margots-actions-grid">
         <article v-for="action in actions" :key="action.title">
           <q-icon :name="action.icon" size="28px" />
@@ -403,7 +403,11 @@ const pizzas = [
 @media (max-width: 860px) {
   .margots-hero {
     padding-top: 0;
+    padding-bottom: 32px;
     background: #1c0708;
+  }
+  .margots-section[aria-label='Restaurant actions'] {
+    padding-top: 0;
   }
   .margots-mobile-title {
     display: block;
@@ -435,7 +439,7 @@ const pizzas = [
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 10px 0 0;
+    padding: 0 0 28px;
   }
   .margots-mobile-mark span {
     margin-top: -22px;
