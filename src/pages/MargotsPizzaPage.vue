@@ -1,8 +1,9 @@
 <template>
   <q-page class="margots-page">
     <header class="margots-demo-shell">
-      <RouterLink to="/" class="margots-demo-shell__return">
+      <RouterLink to="/" class="margots-demo-shell__return" aria-label="Back to Ckohl Works">
         <q-icon name="arrow_back" size="18px" />
+        <img :src="margotsEmblem" alt="" class="margots-demo-shell__mark" />
         <span>Ckohl Works</span>
       </RouterLink>
       <div
@@ -238,6 +239,9 @@ const pizzas = [
   font-family: 'Julius Sans One', sans-serif;
   text-decoration: none;
   text-transform: none;
+}
+.margots-demo-shell__mark {
+  display: none;
 }
 .margots-demo-shell__return:hover {
   color: #d9a83b;
@@ -492,6 +496,19 @@ const pizzas = [
   }
   .margots-demo-shell__ticker {
     font-size: 0.61rem;
+  }
+  .margots-demo-shell__mark {
+    display: block;
+    width: 64px;
+    height: 44px;
+    object-fit: contain;
+  }
+  .margots-demo-shell__return span {
+    display: none;
+  }
+  .margots-mobile-art {
+    aspect-ratio: 1 / 1;
+    background-position: right center;
   }
   .margots-actions-grid,
   .margots-menu-grid {
