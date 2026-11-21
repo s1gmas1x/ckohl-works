@@ -271,16 +271,20 @@ const pizzas = [
   }
 }
 .margots-hero {
-  padding: 78px 0 72px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  min-height: 620px;
+  padding: 64px 0 60px;
   background:
     linear-gradient(90deg, rgba(25, 3, 5, 0.98), rgba(25, 3, 5, 0.93) 38%, rgba(25, 3, 5, 0.2) 74%),
-    var(--margots-hero-image) center / cover no-repeat;
+    var(--margots-hero-image) center top / cover no-repeat;
 }
 .margots-hero__grid,
 .margots-location__grid {
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
-  gap: 54px;
+  gap: 44px;
   align-items: center;
 }
 .margots-kicker {
@@ -295,32 +299,34 @@ const pizzas = [
   margin: 0;
   color: #d9a83b;
   font-family: 'Limelight', Georgia, serif;
-  font-size: clamp(2.4rem, 6vw, 5.5rem);
+  font-size: clamp(2.5rem, 4vw, 4rem);
+  line-height: 1.12;
 }
 .margots-hero h1,
 .margots-heading {
-  margin: 12px 0;
+  margin: 16px 0;
   color: #f9e8c3;
   font-family: 'Limelight', Georgia, serif;
   line-height: 1.08;
 }
 .margots-hero h1 {
-  font-size: clamp(2.25rem, 4vw, 4rem);
+  max-width: 620px;
+  font-size: clamp(2rem, 3vw, 3rem);
 }
 .margots-hero__copy > p:not(.margots-kicker):not(.margots-brand),
 .margots-review p,
 .margots-location p {
   max-width: 580px;
   color: #e4cfa6;
-  font-size: 1.08rem;
-  line-height: 1.7;
+  font-size: 1rem;
+  line-height: 1.65;
 }
 .margots-actions,
 .margots-location__actions {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
-  margin: 26px 0 14px;
+  margin: 22px 0 12px;
 }
 .margots-page :deep(.ckw-btn) {
   font-family: 'Julius Sans One', sans-serif;
@@ -338,7 +344,7 @@ const pizzas = [
   background: rgba(26, 5, 7, 0.6);
 }
 .margots-section {
-  padding: 72px 0;
+  padding: 56px 0;
   border-top: 1px solid rgba(217, 168, 59, 0.3);
 }
 .margots-actions-grid,
@@ -349,7 +355,8 @@ const pizzas = [
 }
 .margots-actions-grid article,
 .margots-menu-grid article {
-  padding: 22px;
+  min-width: 0;
+  padding: 18px;
   background: #260b0d;
   border: 1px solid rgba(217, 168, 59, 0.45);
 }
@@ -358,18 +365,30 @@ const pizzas = [
 }
 .margots-actions-grid h2,
 .margots-menu-grid h3 {
-  margin: 12px 0 6px;
+  margin: 12px 0 8px;
   color: #f7e5bd;
   font-family: 'Limelight', Georgia, serif;
+  font-weight: 400;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+.margots-actions-grid h2 {
+  font-size: clamp(1.35rem, 2vw, 1.75rem);
+}
+.margots-menu-grid h3 {
+  font-size: clamp(1.4rem, 2vw, 1.8rem);
 }
 .margots-actions-grid p,
 .margots-menu-grid p {
   margin: 0;
   color: #d8c19a;
+  font-size: 0.94rem;
   line-height: 1.55;
 }
 .margots-heading {
-  font-size: clamp(2rem, 4vw, 3rem);
+  max-width: 900px;
+  font-size: clamp(1.8rem, 2.8vw, 2.5rem);
+  line-height: 1.2;
 }
 .pizza-card__image {
   display: block;
@@ -379,13 +398,13 @@ const pizzas = [
   border: 1px solid rgba(217, 168, 59, 0.4);
 }
 .margots-menu-note {
-  margin: -2px 0 24px;
+  margin: 0 0 22px;
   color: #c7a96c;
   line-height: 1.5;
 }
 .margots-menu-grid strong {
   display: block;
-  margin-top: 12px;
+  margin-top: 14px;
   color: #d9a83b;
 }
 .margots-location {
@@ -406,8 +425,10 @@ const pizzas = [
 }
 @media (max-width: 860px) {
   .margots-hero {
+    display: block;
+    min-height: 0;
     padding-top: 0;
-    padding-bottom: 32px;
+    padding-bottom: 28px;
     background: #1c0708;
   }
   .margots-section[aria-label='Restaurant actions'] {
@@ -454,10 +475,10 @@ const pizzas = [
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 0 0 28px;
+    padding: 0 0 24px;
   }
   .margots-mobile-mark strong {
-    margin-top: -18px;
+    margin-top: -12px;
     color: #d9a83b;
     font-family: 'Limelight', Georgia, serif;
     font-size: clamp(1.6rem, 6vw, 2.5rem);
@@ -473,7 +494,7 @@ const pizzas = [
   }
   .margots-mobile-mark img {
     display: block;
-    width: min(270px, 70vw);
+    width: min(210px, 55vw);
     height: auto;
   }
   .margots-hero__copy {
@@ -498,6 +519,12 @@ const pizzas = [
   .margots-location__actions {
     justify-content: flex-start;
   }
+  .margots-section {
+    padding: 44px 0;
+  }
+  .margots-section[aria-label='Restaurant actions'] {
+    padding-top: 0;
+  }
 }
 @media (max-width: 560px) {
   .margots-demo-shell {
@@ -511,9 +538,21 @@ const pizzas = [
     aspect-ratio: 1 / 1;
     background-position: right center;
   }
-  .margots-actions-grid,
+  .margots-actions-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .margots-actions-grid article {
+    padding: 16px;
+  }
+  .margots-actions-grid h2 {
+    font-size: 1.25rem;
+  }
   .margots-menu-grid {
     grid-template-columns: 1fr;
+  }
+  .margots-hero h1 {
+    font-size: clamp(1.8rem, 8vw, 2.3rem);
   }
   .margots-actions .q-btn,
   .margots-location__actions .q-btn {
