@@ -126,13 +126,13 @@
             no-caps
             color="primary"
             label="Back to Menu"
-            href="#menu"
+            @click="scrollToSection('menu')"
             class="ckw-btn ckw-btn--primary"
           /><q-btn
             outline
             no-caps
             label="See the Demo Flow"
-            href="#demo-flow"
+            @click="scrollToSection('demo-flow')"
             class="ckw-btn ckw-btn--outline"
           />
         </div>
