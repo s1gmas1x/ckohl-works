@@ -75,17 +75,16 @@
             <q-btn
               unelevated
               no-caps
-              color="primary"
               label="View Sample Menu"
               @click="scrollToSection('menu')"
-              class="ckw-btn ckw-btn--primary"
+              class="margots-button margots-button--primary"
             />
             <q-btn
-              outline
+              unelevated
               no-caps
               label="See the Card Flow"
               @click="scrollToSection('demo-flow')"
-              class="ckw-btn ckw-btn--outline"
+              class="margots-button"
             />
           </div>
           <small>This is a static Ckohl Works demonstration. Ordering is not live.</small>
@@ -145,16 +144,15 @@
           <q-btn
             unelevated
             no-caps
-            color="primary"
             label="Back to Menu"
             @click="scrollToSection('menu')"
-            class="ckw-btn ckw-btn--primary"
+            class="margots-button margots-button--primary"
           /><q-btn
-            outline
+            unelevated
             no-caps
             label="See the Demo Flow"
             @click="scrollToSection('demo-flow')"
-            class="ckw-btn ckw-btn--outline"
+            class="margots-button"
           />
         </div>
       </div>
@@ -483,8 +481,35 @@ const pizzas = [
   gap: 12px;
   margin: 22px 0 12px;
 }
-.margots-page :deep(.ckw-btn) {
+.margots-page .margots-button {
+  --button-gold: #d9a83b;
+  min-height: 48px;
+  padding: 8px 22px;
+  border: 1px solid var(--button-gold);
+  border-radius: 0;
+  background: #260b0d;
+  color: #f7e5bd;
   font-family: 'Julius Sans One', sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.margots-page .margots-button::after {
+  position: absolute;
+  inset: 4px;
+  background: conic-gradient(from 90deg at 1px 1px, transparent 25%, var(--button-gold) 0)
+    0 0 / calc(100% - 1px) calc(100% - 1px);
+  mask: conic-gradient(at 9px 9px, transparent 25%, #000 0) 0 0 / calc(100% - 9px)
+    calc(100% - 9px);
+  pointer-events: none;
+  content: '';
+}
+.margots-page .margots-button--primary {
+  --button-gold: #f5cf79;
+  background: #7d451c;
+}
+.margots-page .margots-button:focus-visible {
+  outline: 2px solid #f5cf79;
+  outline-offset: 3px;
 }
 .margots-hero small {
   color: #c7a96c;
@@ -492,11 +517,6 @@ const pizzas = [
 .margots-hero__grid::after {
   content: '';
   min-height: 420px;
-}
-.margots-page .ckw-btn--outline {
-  color: #f5dfb0 !important;
-  border-color: rgba(217, 168, 59, 0.72) !important;
-  background: rgba(26, 5, 7, 0.6);
 }
 .margots-section {
   padding: 56px 0;
