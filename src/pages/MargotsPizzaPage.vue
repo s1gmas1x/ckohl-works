@@ -583,6 +583,7 @@ const pizzas = [
     width: calc(100% - 16px);
   }
   .margots-demo-shell__brand {
+    margin-inline-start: -8px;
     gap: 0;
     font-size: clamp(1.25rem, 5.5vw, 2rem);
     line-height: 1.1;
@@ -591,6 +592,7 @@ const pizzas = [
     width: clamp(88px, 26vw, 112px);
     height: 84px;
     flex-shrink: 0;
+    object-position: left center;
   }
   .margots-site-nav__toggle {
     display: grid;
