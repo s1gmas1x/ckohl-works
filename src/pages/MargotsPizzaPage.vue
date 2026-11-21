@@ -5,13 +5,13 @@
         <q-icon name="arrow_back" size="18px" />
         <span>Ckohl Works</span>
       </RouterLink>
-      <a class="margots-demo-shell__brand" href="#top" aria-label="Margot's Pizza, back to top">
+      <a class="margots-demo-shell__brand" href="#top" @click.prevent="scrollToSection('top')" aria-label="Margot's Pizza, back to top">
         <img :src="margotsEmblem" alt="" />
         <span>Margot's Pizza</span>
       </a>
       <nav class="margots-demo-shell__nav" aria-label="Margot's Pizza sections">
-        <a href="#menu">Menu</a>
-        <a href="#demo-flow">Tap &amp; Scan</a>
+        <a href="#menu" @click.prevent="scrollToSection('menu')">Menu</a>
+        <a href="#demo-flow" @click.prevent="scrollToSection('demo-flow')">Tap &amp; Scan</a>
       </nav>
       <div
         class="margots-demo-shell__ticker"
@@ -56,14 +56,14 @@
               no-caps
               color="primary"
               label="View Sample Menu"
-              href="#menu"
+              @click="scrollToSection('menu')"
               class="ckw-btn ckw-btn--primary"
             />
             <q-btn
               outline
               no-caps
               label="See the Card Flow"
-              href="#demo-flow"
+              @click="scrollToSection('demo-flow')"
               class="ckw-btn ckw-btn--outline"
             />
           </div>
@@ -183,6 +183,10 @@ import sausageImage from '@/assets/images/mockup/margots-pizza-sausage-v2.png'
 import deluxeImage from '@/assets/images/mockup/margots-pizza-deluxe-v2.png'
 import cheeseImage from '@/assets/images/mockup/margots-pizza-cheese-v2.png'
 
+const scrollToSection = (id) => {
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
 const actions = [
   {
     icon: 'menu_book',
@@ -286,6 +290,11 @@ const pizzas = [
   font-size: 0.68rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
+}
+#menu,
+#demo-flow,
+#top {
+  scroll-margin-top: 60px;
 }
 .margots-container {
   width: min(1160px, calc(100% - 32px));
