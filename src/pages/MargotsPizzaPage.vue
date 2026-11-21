@@ -181,10 +181,13 @@ const pizzas = [
 </script>
 
 <style lang="scss" scoped>
+@import url("https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Limelight&family=Montserrat:wght@400;500;600;700&display=swap");
+
 .margots-page {
   min-height: 100vh;
   background: #1c0708;
   color: #f5dfb0;
+  font-family: 'Montserrat', sans-serif;
 }
 .margots-container {
   width: min(1160px, calc(100% - 32px));
@@ -210,6 +213,7 @@ const pizzas = [
   align-items: center;
   color: #f5dfb0;
   letter-spacing: 0;
+  font-family: 'Julius Sans One', sans-serif;
   text-decoration: none;
   text-transform: none;
 }
@@ -220,7 +224,7 @@ const pizzas = [
   overflow: hidden;
   color: #c7a96c;
   font-size: 0.7rem;
-  font-weight: 800;
+  font-family: 'Julius Sans One', sans-serif;
   letter-spacing: 0.09em;
   white-space: nowrap;
   text-transform: uppercase;
@@ -258,21 +262,21 @@ const pizzas = [
   margin: 0 0 10px;
   color: #d9a83b;
   font-size: 0.75rem;
-  font-weight: 800;
+  font-family: 'Julius Sans One', sans-serif;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 .margots-brand {
   margin: 0;
   color: #d9a83b;
-  font-family: Georgia, serif;
+  font-family: 'Limelight', Georgia, serif;
   font-size: clamp(2.4rem, 6vw, 5.5rem);
 }
 .margots-hero h1,
 .margots-heading {
   margin: 12px 0;
   color: #f9e8c3;
-  font-family: Georgia, serif;
+  font-family: 'Limelight', Georgia, serif;
   line-height: 1.08;
 }
 .margots-hero h1 {
@@ -292,6 +296,9 @@ const pizzas = [
   flex-wrap: wrap;
   gap: 12px;
   margin: 26px 0 14px;
+}
+.margots-page :deep(.ckw-btn) {
+  font-family: 'Julius Sans One', sans-serif;
 }
 .margots-hero small {
   color: #c7a96c;
@@ -328,7 +335,7 @@ const pizzas = [
 .margots-menu-grid h3 {
   margin: 12px 0 6px;
   color: #f7e5bd;
-  font-family: Georgia, serif;
+  font-family: 'Limelight', Georgia, serif;
 }
 .margots-actions-grid p,
 .margots-menu-grid p {
