@@ -5,7 +5,12 @@
         <q-icon name="arrow_back" size="18px" />
         <span>Ckohl Works</span>
       </RouterLink>
-      <button type="button" class="margots-demo-shell__brand" @click="scrollToSection('top')" aria-label="Margot's Pizza, back to top">
+      <button
+        type="button"
+        class="margots-demo-shell__brand"
+        @click="scrollToSection('top')"
+        aria-label="Margot's Pizza, back to top"
+      >
         <img :src="margotsEmblem" alt="" />
         <span>Margot's Pizza</span>
       </button>
@@ -145,8 +150,8 @@
           <p class="margots-kicker">NFC / QR Demonstration</p>
           <h2 class="margots-heading">One card. A useful next step.</h2>
           <p>
-            A customer taps the card or scans its QR code to open this sample destination.
-            A live card could guide them to the menu, directions, reviews, or catering.
+            A customer taps the card or scans its QR code to open this sample destination. A live
+            card could guide them to the menu, directions, reviews, or catering.
           </p>
           <small>The printed card is a concept; NFC is not active in this demo.</small>
         </div>
@@ -164,7 +169,10 @@
               <p>Open the Margot's Pizza demo</p>
               <q-icon name="nfc" size="32px" aria-hidden="true" />
             </div>
-            <a href="https://ckohl-works.netlify.app/#/margots-pizza" aria-label="Open the Margot's Pizza demo">
+            <a
+              href="https://ckohl-works.netlify.app/#/margots-pizza"
+              aria-label="Open the Margot's Pizza demo"
+            >
               <img :src="demoQr" alt="QR code linking to the Margot's Pizza demo" />
             </a>
           </div>
@@ -525,7 +533,9 @@ const pizzas = [
   border: 1px solid rgba(217, 168, 59, 0.65);
   border-radius: 12px;
   background: radial-gradient(circle at 85% 10%, #681e28, #330b12 60%, #20070b);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28), inset 0 0 0 5px #28090e;
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.28),
+    inset 0 0 0 5px #28090e;
 }
 .margots-tap-card__identity,
 .margots-tap-card__scan {
