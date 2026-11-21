@@ -5,13 +5,13 @@
         <q-icon name="arrow_back" size="18px" />
         <span>Ckohl Works</span>
       </RouterLink>
-      <a class="margots-demo-shell__brand" href="#top" @click.prevent="scrollToSection('top')" aria-label="Margot's Pizza, back to top">
+      <button type="button" class="margots-demo-shell__brand" @click="scrollToSection('top')" aria-label="Margot's Pizza, back to top">
         <img :src="margotsEmblem" alt="" />
         <span>Margot's Pizza</span>
-      </a>
+      </button>
       <nav class="margots-demo-shell__nav" aria-label="Margot's Pizza sections">
-        <a href="#menu" @click.prevent="scrollToSection('menu')">Menu</a>
-        <a href="#demo-flow" @click.prevent="scrollToSection('demo-flow')">Tap &amp; Scan</a>
+        <button type="button" @click="scrollToSection('menu')">Menu</button>
+        <button type="button" @click="scrollToSection('demo-flow')">Tap &amp; Scan</button>
       </nav>
       <div
         class="margots-demo-shell__ticker"
@@ -328,6 +328,10 @@ const pizzas = [
   color: #d9a83b;
 }
 .margots-demo-shell__brand {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
   display: inline-flex;
   align-items: center;
   gap: 7px;
@@ -347,7 +351,11 @@ const pizzas = [
   justify-content: flex-end;
   gap: 24px;
 }
-.margots-demo-shell__nav a {
+.margots-demo-shell__nav button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
   color: #f5dfb0;
   font-family: 'Julius Sans One', sans-serif;
   font-size: 0.72rem;
@@ -355,8 +363,8 @@ const pizzas = [
   text-decoration: none;
   text-transform: uppercase;
 }
-.margots-demo-shell__nav a:hover,
-.margots-demo-shell__nav a:focus-visible {
+.margots-demo-shell__nav button:hover,
+.margots-demo-shell__nav button:focus-visible {
   color: #d9a83b;
 }
 .margots-demo-shell__ticker {
