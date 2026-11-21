@@ -64,6 +64,7 @@
     <section class="margots-section" aria-label="Restaurant actions">
       <div class="margots-mobile-mark">
         <img :src="margotsEmblem" alt="Illustrated Margot holding a pizza" />
+        <strong>Margot's Pizza</strong>
         <span>Est. 1925</span>
       </div>
       <div class="margots-container margots-actions-grid">
@@ -441,8 +442,15 @@ const pizzas = [
     align-items: center;
     padding: 0 0 28px;
   }
+  .margots-mobile-mark strong {
+    margin-top: -18px;
+    color: #d9a83b;
+    font-family: 'Limelight', Georgia, serif;
+    font-size: clamp(1.6rem, 6vw, 2.5rem);
+    font-weight: 400;
+  }
   .margots-mobile-mark span {
-    margin-top: -22px;
+    margin-top: 8px;
     color: #d9a83b;
     font-family: 'Julius Sans One', sans-serif;
     font-size: 0.7rem;
