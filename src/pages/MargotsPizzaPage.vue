@@ -278,7 +278,7 @@ const pizzas = [
   padding: 64px 0 60px;
   background:
     linear-gradient(90deg, rgba(25, 3, 5, 0.98), rgba(25, 3, 5, 0.93) 38%, rgba(25, 3, 5, 0.2) 74%),
-    var(--margots-hero-image) center 35% / cover no-repeat;
+    var(--margots-hero-image) center top / cover no-repeat;
 }
 .margots-hero__grid,
 .margots-location__grid {
