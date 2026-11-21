@@ -5,19 +5,6 @@
         <q-icon name="arrow_back" size="18px" />
         <span>Ckohl Works</span>
       </RouterLink>
-      <button
-        type="button"
-        class="margots-demo-shell__brand"
-        @click="scrollToSection('top')"
-        aria-label="Margot's Pizza, back to top"
-      >
-        <img :src="margotsEmblem" alt="" />
-        <span>Margot's Pizza</span>
-      </button>
-      <nav class="margots-demo-shell__nav" aria-label="Margot's Pizza sections">
-        <button type="button" @click="scrollToSection('menu')">Menu</button>
-        <button type="button" @click="scrollToSection('demo-flow')">Demo Flow</button>
-      </nav>
       <div
         class="margots-demo-shell__ticker"
         aria-label="Ckohl Works demonstration only. Ordering is not live."
@@ -33,14 +20,43 @@
       </div>
     </header>
 
-    <section class="margots-hero" :style="{ '--margots-hero-image': `url(${heroImage})` }">
-      <div class="margots-mobile-title">
-        <img :src="margotsEmblem" alt="" class="margots-mobile-title__mark" />
-        <div class="margots-mobile-title__copy">
-          <p>Colorado Springs</p>
-          <p>Margot's Pizza</p>
+    <nav class="margots-site-nav" aria-label="Margot's Pizza" @keydown.esc="closeMenu">
+      <div class="margots-container margots-site-nav__inner">
+        <button
+          type="button"
+          class="margots-demo-shell__brand"
+          aria-label="Margot's Pizza, back to top"
+          @click="scrollToSection('top')"
+        >
+          <img :src="margotsEmblem" alt="" />
+          <span>
+            <small>Colorado Springs</small>
+            Margot's Pizza
+          </span>
+        </button>
+        <button
+          ref="menuToggle"
+          type="button"
+          class="margots-site-nav__toggle"
+          aria-controls="margots-section-links"
+          :aria-expanded="menuOpen"
+          aria-label="Toggle section navigation"
+          @click="menuOpen = !menuOpen"
+        >
+          <q-icon :name="menuOpen ? 'close' : 'menu'" size="26px" aria-hidden="true" />
+        </button>
+        <div
+          id="margots-section-links"
+          class="margots-demo-shell__nav"
+          :class="{ 'is-open': menuOpen }"
+        >
+          <button type="button" @click="scrollToSection('menu')">Menu</button>
+          <button type="button" @click="scrollToSection('demo-flow')">Demo Flow</button>
         </div>
       </div>
+    </nav>
+
+    <section class="margots-hero" :style="{ '--margots-hero-image': `url(${heroImage})` }">
       <div
         class="margots-mobile-art"
         role="img"
@@ -160,6 +176,7 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import heroImage from '@/assets/images/mockup/margots-pizza-hero-v2.webp'
 import margotsEmblem from '@/assets/images/mockup/margots-emblem.webp'
 import pepperoniImage from '@/assets/images/mockup/margots-pizza-pepperoni-v2.png'
@@ -167,7 +184,17 @@ import sausageImage from '@/assets/images/mockup/margots-pizza-sausage-v2.png'
 import deluxeImage from '@/assets/images/mockup/margots-pizza-deluxe-v2.png'
 import cheeseImage from '@/assets/images/mockup/margots-pizza-cheese-v2.png'
 
+const menuOpen = ref(false)
+const menuToggle = ref(null)
+
+const closeMenu = () => {
+  if (!menuOpen.value) return
+  menuOpen.value = false
+  menuToggle.value?.focus()
+}
+
 const scrollToSection = (id) => {
+  closeMenu()
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 }
 
@@ -226,7 +253,6 @@ const pizzas = [
   color: #f5dfb0;
   font-family: 'Montserrat', sans-serif;
 }
-.margots-mobile-title,
 .margots-mobile-art {
   display: none;
 }
@@ -289,7 +315,7 @@ const pizzas = [
   top: 0;
   z-index: 10;
   display: grid;
-  grid-template-columns: auto auto 1fr;
+  grid-template-columns: auto minmax(0, 1fr);
   gap: 24px;
   align-items: center;
   min-height: 48px;
@@ -311,6 +337,29 @@ const pizzas = [
 .margots-demo-shell__return:hover {
   color: #d9a83b;
 }
+.margots-site-nav {
+  position: relative;
+  z-index: 9;
+  background: #1c0708;
+  border-bottom: 1px solid rgba(217, 168, 59, 0.28);
+}
+.margots-site-nav__inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.margots-site-nav__toggle {
+  display: none;
+}
+.margots-demo-shell__brand small {
+  display: block;
+  margin-bottom: 3px;
+  font-family: 'Julius Sans One', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+}
 .margots-demo-shell__brand {
   padding: 0;
   border: 0;
@@ -323,11 +372,11 @@ const pizzas = [
   font-family: 'Limelight', Georgia, serif;
   font-size: 1.05rem;
   text-decoration: none;
-  white-space: nowrap;
+  text-align: left;
 }
 .margots-demo-shell__brand img {
-  width: 42px;
-  height: 42px;
+  width: 78px;
+  height: 58px;
   object-fit: contain;
 }
 .margots-demo-shell__nav {
@@ -352,7 +401,6 @@ const pizzas = [
   color: #d9a83b;
 }
 .margots-demo-shell__ticker {
-  display: none;
   overflow: hidden;
   color: #c7a96c;
   font-size: 0.7rem;
@@ -531,15 +579,51 @@ const pizzas = [
   margin: 0;
 }
 @media (max-width: 860px) {
-  .margots-demo-shell {
-    grid-template-columns: auto minmax(0, 1fr);
+  .margots-site-nav__inner {
+    width: calc(100% - 16px);
   }
-  .margots-demo-shell__brand,
+  .margots-demo-shell__brand {
+    gap: 0;
+    font-size: clamp(1.25rem, 5.5vw, 2rem);
+    line-height: 1.1;
+  }
+  .margots-demo-shell__brand img {
+    width: clamp(88px, 26vw, 112px);
+    height: 84px;
+    flex-shrink: 0;
+  }
+  .margots-site-nav__toggle {
+    display: grid;
+    place-items: center;
+    flex: 0 0 44px;
+    min-height: 44px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #f5dfb0;
+    cursor: pointer;
+  }
   .margots-demo-shell__nav {
     display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    flex-direction: column;
+    gap: 0;
+    min-width: 160px;
+    border: 1px solid rgba(217, 168, 59, 0.45);
+    background: #260b0d;
   }
-  .margots-demo-shell__ticker {
-    display: block;
+  .margots-demo-shell__nav.is-open {
+    display: flex;
+  }
+  .margots-demo-shell__nav button {
+    min-height: 44px;
+    padding: 0 16px;
+    text-align: left;
+  }
+  .margots-demo-shell {
+    grid-template-columns: auto minmax(0, 1fr);
   }
   .margots-hero {
     display: block;
@@ -550,37 +634,6 @@ const pizzas = [
   }
   .margots-section[aria-label='Restaurant actions'] {
     padding-top: 0;
-  }
-  .margots-mobile-title {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    padding: 16px 56px 16px 12px;
-  }
-  .margots-mobile-title__mark {
-    display: block;
-    flex: 0 0 90px;
-    width: 90px;
-    height: 72px;
-    object-fit: contain;
-  }
-  .margots-mobile-title__copy {
-    min-width: 0;
-  }
-  .margots-mobile-title p:first-child {
-    margin: 0 0 8px;
-    color: #d9a83b;
-    font-family: 'Julius Sans One', sans-serif;
-    font-size: 0.7rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-  }
-  .margots-mobile-title p:last-child {
-    margin: 0;
-    color: #d9a83b;
-    font-family: 'Limelight', Georgia, serif;
-    font-size: clamp(1.45rem, 6vw, 2.5rem);
-    line-height: 1.1;
   }
   .margots-mobile-art {
     display: block;
