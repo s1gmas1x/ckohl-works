@@ -496,10 +496,9 @@ const pizzas = [
 .margots-page .margots-button::after {
   position: absolute;
   inset: 4px;
-  background: conic-gradient(from 90deg at 1px 1px, transparent 25%, var(--button-gold) 0)
-    0 0 / calc(100% - 1px) calc(100% - 1px);
-  mask: conic-gradient(at 9px 9px, transparent 25%, #000 0) 0 0 / calc(100% - 9px)
-    calc(100% - 9px);
+  background: conic-gradient(from 90deg at 1px 1px, transparent 25%, var(--button-gold) 0) 0 0 /
+    calc(100% - 1px) calc(100% - 1px);
+  mask: conic-gradient(at 9px 9px, transparent 25%, #000 0) 0 0 / calc(100% - 9px) calc(100% - 9px);
   pointer-events: none;
   content: '';
 }
