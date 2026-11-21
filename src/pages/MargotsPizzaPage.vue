@@ -16,7 +16,7 @@
       </button>
       <nav class="margots-demo-shell__nav" aria-label="Margot's Pizza sections">
         <button type="button" @click="scrollToSection('menu')">Menu</button>
-        <button type="button" @click="scrollToSection('demo-flow')">Tap &amp; Scan</button>
+        <button type="button" @click="scrollToSection('demo-flow')">Demo Flow</button>
       </nav>
       <div
         class="margots-demo-shell__ticker"
@@ -145,38 +145,15 @@
     </section>
 
     <section id="demo-flow" class="margots-section margots-review">
-      <div class="margots-container margots-flow__grid">
-        <div class="margots-flow__copy">
-          <p class="margots-kicker">NFC / QR Demonstration</p>
-          <h2 class="margots-heading">One card. A useful next step.</h2>
-          <p>
-            A customer taps the card or scans its QR code to open this sample destination. A live
-            card could guide them to the menu, directions, reviews, or catering.
-          </p>
-          <small>The printed card is a concept; NFC is not active in this demo.</small>
-        </div>
-        <div class="margots-tap-card" aria-label="Margot's Pizza tap and scan card concept">
-          <div class="margots-tap-card__identity">
-            <img :src="margotsEmblem" alt="" />
-            <div>
-              <strong>Margot's Pizza</strong>
-              <span>Colorado Springs · Est. 1925</span>
-            </div>
-          </div>
-          <div class="margots-tap-card__scan">
-            <div>
-              <span class="margots-tap-card__prompt">Tap or scan</span>
-              <p>Open the Margot's Pizza demo</p>
-              <q-icon name="nfc" size="32px" aria-hidden="true" />
-            </div>
-            <a
-              href="https://ckohl-works.netlify.app/#/margots-pizza"
-              aria-label="Open the Margot's Pizza demo"
-            >
-              <img :src="demoQr" alt="QR code linking to the Margot's Pizza demo" />
-            </a>
-          </div>
-        </div>
+      <div class="margots-container">
+        <p class="margots-kicker">NFC / QR Demonstration</p>
+        <h2 class="margots-heading">
+          Menu, directions, reviews, and contact can all begin with one tap or scan.
+        </h2>
+        <p>
+          For a live customer, these buttons would be configured with the restaurant's real
+          destinations and updated manually during the early beta.
+        </p>
       </div>
     </section>
   </q-page>
@@ -185,7 +162,6 @@
 <script setup>
 import heroImage from '@/assets/images/mockup/margots-pizza-hero-v2.webp'
 import margotsEmblem from '@/assets/images/mockup/margots-emblem.webp'
-import demoQr from '@/assets/images/mockup/margots-demo-qr.svg'
 import pepperoniImage from '@/assets/images/mockup/margots-pizza-pepperoni-v2.png'
 import sausageImage from '@/assets/images/mockup/margots-pizza-sausage-v2.png'
 import deluxeImage from '@/assets/images/mockup/margots-pizza-deluxe-v2.png'
@@ -516,88 +492,6 @@ const pizzas = [
   font-size: 0.94rem;
   line-height: 1.55;
 }
-.margots-flow__grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 460px);
-  gap: 56px;
-  align-items: center;
-}
-.margots-flow__copy small {
-  display: block;
-  margin-top: 14px;
-  color: #bca77f;
-}
-.margots-tap-card {
-  min-width: 0;
-  padding: 24px;
-  border: 1px solid rgba(217, 168, 59, 0.65);
-  border-radius: 12px;
-  background: radial-gradient(circle at 85% 10%, #681e28, #330b12 60%, #20070b);
-  box-shadow:
-    0 18px 40px rgba(0, 0, 0, 0.28),
-    inset 0 0 0 5px #28090e;
-}
-.margots-tap-card__identity,
-.margots-tap-card__scan {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-}
-.margots-tap-card__identity {
-  justify-content: flex-start;
-  padding-bottom: 18px;
-  border-bottom: 1px solid rgba(217, 168, 59, 0.4);
-}
-.margots-tap-card__identity img {
-  width: 65px;
-  height: 65px;
-  object-fit: contain;
-}
-.margots-tap-card__identity strong {
-  display: block;
-  color: #f5dfb0;
-  font-family: 'Limelight', Georgia, serif;
-  font-size: clamp(1.35rem, 2vw, 1.7rem);
-  font-weight: 400;
-  line-height: 1.2;
-}
-.margots-tap-card__identity span,
-.margots-tap-card__prompt {
-  color: #d9a83b;
-  font-family: 'Julius Sans One', sans-serif;
-  font-size: 0.66rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-.margots-tap-card__scan {
-  padding-top: 18px;
-}
-.margots-review .margots-tap-card__scan p {
-  max-width: 200px;
-  margin: 6px 0 12px;
-  color: #f5dfb0;
-  font-size: 0.86rem;
-}
-.margots-tap-card__scan :deep(.q-icon) {
-  color: #d9a83b;
-}
-.margots-tap-card__scan a {
-  display: block;
-  flex: 0 0 118px;
-  padding: 8px;
-  border-radius: 4px;
-  background: #fff;
-}
-.margots-tap-card__scan a:focus-visible {
-  outline: 3px solid #f5dfb0;
-  outline-offset: 4px;
-}
-.margots-tap-card__scan a img {
-  display: block;
-  width: 100%;
-  aspect-ratio: 1;
-}
 .margots-heading {
   max-width: 900px;
   font-size: clamp(1.8rem, 2.8vw, 2.5rem);
@@ -646,10 +540,6 @@ const pizzas = [
   }
   .margots-demo-shell__ticker {
     display: block;
-  }
-  .margots-flow__grid {
-    grid-template-columns: 1fr;
-    gap: 28px;
   }
   .margots-hero {
     display: block;
@@ -762,12 +652,6 @@ const pizzas = [
   }
   .margots-demo-shell__ticker {
     font-size: 0.61rem;
-  }
-  .margots-tap-card {
-    padding: 18px;
-  }
-  .margots-tap-card__scan a {
-    flex-basis: 96px;
   }
   .margots-mobile-art {
     aspect-ratio: 1 / 1;
