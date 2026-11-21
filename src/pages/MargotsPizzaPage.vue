@@ -130,7 +130,7 @@
 </template>
 
 <script setup>
-import heroImage from '@/assets/images/mockup/margots-pizza-hero.png'
+import heroImage from '@/assets/images/mockup/margots-pizza-hero-v2.webp'
 import pepperoniImage from '@/assets/images/mockup/margots-pizza-pepperoni-v2.png'
 import sausageImage from '@/assets/images/mockup/margots-pizza-sausage-v2.png'
 import deluxeImage from '@/assets/images/mockup/margots-pizza-deluxe-v2.png'
@@ -382,6 +382,23 @@ const pizzas = [
   margin: 0;
 }
 @media (max-width: 860px) {
+  .margots-hero {
+    padding-top: 0;
+    background: #1c0708;
+  }
+  .margots-hero::before {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1570 / 1002;
+    background: var(--margots-hero-image) center / cover no-repeat;
+    content: '';
+  }
+  .margots-hero__copy {
+    padding-top: 24px;
+  }
+  .margots-hero__grid::after {
+    display: none;
+  }
   .margots-hero__grid,
   .margots-location__grid {
     grid-template-columns: 1fr;
@@ -403,18 +420,9 @@ const pizzas = [
   .margots-demo-shell__ticker {
     font-size: 0.61rem;
   }
-  .margots-hero {
-    padding-top: 42px;
-  }
   .margots-actions-grid,
   .margots-menu-grid {
     grid-template-columns: 1fr;
-  }
-  .margots-hero {
-    background-position: 65% center;
-  }
-  .margots-hero__grid::after {
-    display: none;
   }
   .margots-actions .q-btn,
   .margots-location__actions .q-btn {
