@@ -224,8 +224,8 @@ const pizzas = [
 .margots-mobile-mark::before,
 .margots-mobile-mark::after {
   position: absolute;
-  top: 78px;
-  width: calc(50% - 130px);
+  top: 100px;
+  width: calc(50% - 155px);
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(217, 168, 59, 0.65));
   content: '';
@@ -239,7 +239,7 @@ const pizzas = [
 }
 .margots-mobile-mark img {
   display: block;
-  width: 150px;
+  width: 200px;
   height: auto;
 }
 .margots-mobile-mark strong {
