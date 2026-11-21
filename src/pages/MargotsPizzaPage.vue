@@ -181,7 +181,7 @@ const pizzas = [
 </script>
 
 <style lang="scss" scoped>
-@import url("https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Limelight&family=Montserrat:wght@400;500;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Limelight&family=Montserrat:wght@400;500;600;700&display=swap');
 
 .margots-page {
   min-height: 100vh;
