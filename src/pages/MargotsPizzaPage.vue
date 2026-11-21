@@ -271,10 +271,14 @@ const pizzas = [
   }
 }
 .margots-hero {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  min-height: 620px;
   padding: 64px 0 60px;
   background:
     linear-gradient(90deg, rgba(25, 3, 5, 0.98), rgba(25, 3, 5, 0.93) 38%, rgba(25, 3, 5, 0.2) 74%),
-    var(--margots-hero-image) center / cover no-repeat;
+    var(--margots-hero-image) center 35% / cover no-repeat;
 }
 .margots-hero__grid,
 .margots-location__grid {
@@ -421,6 +425,8 @@ const pizzas = [
 }
 @media (max-width: 860px) {
   .margots-hero {
+    display: block;
+    min-height: 0;
     padding-top: 0;
     padding-bottom: 28px;
     background: #1c0708;
