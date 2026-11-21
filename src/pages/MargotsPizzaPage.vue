@@ -21,6 +21,19 @@
     </header>
 
     <section class="margots-hero" :style="{ '--margots-hero-image': `url(${heroImage})` }">
+      <div class="margots-mobile-title">
+        <p>Colorado Springs</p>
+        <p>Margot's Pizza</p>
+      </div>
+      <div
+        class="margots-mobile-art"
+        role="img"
+        aria-label="Margot holding a thin pepperoni pizza against a Colorado mountain backdrop"
+      ></div>
+      <div class="margots-mobile-mark">
+        <img :src="margotsEmblem" alt="Illustrated Margot holding a pizza" />
+        <span>Est. 1925</span>
+      </div>
       <div class="margots-container margots-hero__grid">
         <div class="margots-hero__copy">
           <p class="margots-kicker">Colorado Springs</p>
@@ -131,6 +144,7 @@
 
 <script setup>
 import heroImage from '@/assets/images/mockup/margots-pizza-hero-v2.webp'
+import margotsEmblem from '@/assets/images/mockup/margots-emblem.webp'
 import pepperoniImage from '@/assets/images/mockup/margots-pizza-pepperoni-v2.png'
 import sausageImage from '@/assets/images/mockup/margots-pizza-sausage-v2.png'
 import deluxeImage from '@/assets/images/mockup/margots-pizza-deluxe-v2.png'
@@ -190,6 +204,11 @@ const pizzas = [
   background: #1c0708;
   color: #f5dfb0;
   font-family: 'Montserrat', sans-serif;
+}
+.margots-mobile-title,
+.margots-mobile-art,
+.margots-mobile-mark {
+  display: none;
 }
 .margots-container {
   width: min(1160px, calc(100% - 32px));
@@ -386,15 +405,57 @@ const pizzas = [
     padding-top: 0;
     background: #1c0708;
   }
-  .margots-hero::before {
+  .margots-mobile-title {
+    display: block;
+    padding: 28px 16px 22px;
+    text-align: center;
+  }
+  .margots-mobile-title p:first-child {
+    margin: 0 0 8px;
+    color: #d9a83b;
+    font-family: 'Julius Sans One', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .margots-mobile-title p:last-child {
+    margin: 0;
+    color: #d9a83b;
+    font-family: 'Limelight', Georgia, serif;
+    font-size: clamp(2rem, 8vw, 3.75rem);
+    line-height: 1.1;
+  }
+  .margots-mobile-art {
     display: block;
     width: 100%;
     aspect-ratio: 1570 / 1002;
     background: var(--margots-hero-image) center / cover no-repeat;
-    content: '';
+  }
+  .margots-mobile-mark {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 0 0;
+  }
+  .margots-mobile-mark span {
+    margin-top: -22px;
+    color: #d9a83b;
+    font-family: 'Julius Sans One', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+  .margots-mobile-mark img {
+    display: block;
+    width: min(270px, 70vw);
+    height: auto;
   }
   .margots-hero__copy {
-    padding-top: 24px;
+    padding-top: 0;
+  }
+  .margots-hero__copy > .margots-kicker,
+  .margots-hero__copy > .margots-brand {
+    display: none;
   }
   .margots-hero__grid::after {
     display: none;
