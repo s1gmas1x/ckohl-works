@@ -65,7 +65,7 @@
     </section>
 
     <section class="margots-section" aria-label="Restaurant actions">
-      <div class="margots-mobile-mark">
+      <div class="margots-mobile-mark margots-container">
         <img :src="margotsEmblem" alt="Illustrated Margot holding a pizza" />
         <strong>Margot's Pizza</strong>
         <span>Est. 1925</span>
@@ -212,7 +212,49 @@ const pizzas = [
 .margots-mobile-title,
 .margots-mobile-art,
 .margots-mobile-mark {
-  display: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  margin-bottom: 30px;
+  text-align: center;
+}
+.margots-mobile-mark::before,
+.margots-mobile-mark::after {
+  position: absolute;
+  top: 78px;
+  width: calc(50% - 130px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(217, 168, 59, 0.65));
+  content: '';
+}
+.margots-mobile-mark::before {
+  left: 0;
+}
+.margots-mobile-mark::after {
+  right: 0;
+  transform: rotate(180deg);
+}
+.margots-mobile-mark img {
+  display: block;
+  width: 150px;
+  height: auto;
+}
+.margots-mobile-mark strong {
+  margin-top: -8px;
+  color: #d9a83b;
+  font-family: 'Limelight', Georgia, serif;
+  font-size: 1.8rem;
+  font-weight: 400;
+  line-height: 1.15;
+}
+.margots-mobile-mark span {
+  margin-top: 6px;
+  color: #d9a83b;
+  font-family: 'Julius Sans One', sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
 }
 .margots-container {
   width: min(1160px, calc(100% - 32px));
@@ -472,10 +514,12 @@ const pizzas = [
     background: var(--margots-hero-image) center / cover no-repeat;
   }
   .margots-mobile-mark {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    margin-bottom: 0;
     padding: 0 0 24px;
+  }
+  .margots-mobile-mark::before,
+  .margots-mobile-mark::after {
+    display: none;
   }
   .margots-mobile-mark strong {
     margin-top: -12px;
