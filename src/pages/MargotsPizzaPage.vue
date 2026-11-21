@@ -71,13 +71,12 @@
         <p class="margots-menu-note">Sample items and prices for this restaurant demonstration.</p>
         <div class="margots-menu-grid">
           <article v-for="pizza in pizzas" :key="pizza.name">
-            <div
+            <img
               class="pizza-card__image"
-              :class="pizza.variant"
-              :style="{ '--pizza-image': `url(${menuPreviewImage})` }"
-              role="img"
-              :aria-label="pizza.imageAlt"
-            ></div>
+              :src="pizza.image"
+              :alt="pizza.imageAlt"
+              loading="lazy"
+            />
             <h3>{{ pizza.name }}</h3>
             <p>{{ pizza.description }}</p>
             <strong>{{ pizza.price }}</strong>
@@ -132,7 +131,10 @@
 
 <script setup>
 import heroImage from '@/assets/images/mockup/margots-pizza-hero.png'
-import menuPreviewImage from '@/assets/images/mockup/margots-pizza-mockup.png'
+import pepperoniImage from '@/assets/images/mockup/margots-pizza-pepperoni-v2.png'
+import sausageImage from '@/assets/images/mockup/margots-pizza-sausage-v2.png'
+import deluxeImage from '@/assets/images/mockup/margots-pizza-deluxe-v2.png'
+import cheeseImage from '@/assets/images/mockup/margots-pizza-cheese-v2.png'
 
 const actions = [
   {
@@ -153,28 +155,28 @@ const pizzas = [
     name: 'The Margot',
     description: 'Pepperoni, mozzarella, and house sauce.',
     price: '$17',
-    variant: 'pizza-card__image--pepperoni',
+    image: pepperoniImage,
     imageAlt: 'Thin deck pepperoni pizza with sauce near the edge and cupped pepperoni',
   },
   {
     name: 'The Classic',
     description: 'Sausage, mozzarella, and house sauce.',
     price: '$17',
-    variant: 'pizza-card__image--sausage',
+    image: sausageImage,
     imageAlt: 'Thin deck sausage pizza with a crisp, lightly blistered edge',
   },
   {
     name: 'The Deluxe',
     description: 'Pepperoni, sausage, green pepper, and mozzarella.',
     price: '$19',
-    variant: 'pizza-card__image--deluxe',
+    image: deluxeImage,
     imageAlt: 'Thin deck deluxe pizza with pepperoni, sausage, green pepper, and cheese',
   },
   {
     name: 'The Cheese',
     description: 'House sauce and mozzarella.',
     price: '$15',
-    variant: 'pizza-card__image--cheese',
+    image: cheeseImage,
     imageAlt: 'Thin deck cheese pizza with sauce and browned mozzarella',
   },
 ]
@@ -347,22 +349,11 @@ const pizzas = [
   font-size: clamp(2rem, 4vw, 3rem);
 }
 .pizza-card__image {
+  display: block;
+  width: 100%;
   aspect-ratio: 1.35;
-  background-color: #1a0808;
-  background-image: var(--pizza-image);
-  background-repeat: no-repeat;
-  background-size: 450% auto;
-  background-position: 4.5% 46.7%;
+  object-fit: cover;
   border: 1px solid rgba(217, 168, 59, 0.4);
-}
-.pizza-card__image--sausage {
-  background-position: 34.4% 46.7%;
-}
-.pizza-card__image--deluxe {
-  background-position: 64.9% 46.7%;
-}
-.pizza-card__image--cheese {
-  background-position: 95.1% 46.7%;
 }
 .margots-menu-note {
   margin: -2px 0 24px;
