@@ -3,7 +3,6 @@
     <header class="margots-demo-shell">
       <RouterLink to="/" class="margots-demo-shell__return" aria-label="Back to Ckohl Works">
         <q-icon name="arrow_back" size="18px" />
-        <img :src="margotsEmblem" alt="" class="margots-demo-shell__mark" />
         <span>Ckohl Works</span>
       </RouterLink>
       <div
@@ -23,8 +22,11 @@
 
     <section class="margots-hero" :style="{ '--margots-hero-image': `url(${heroImage})` }">
       <div class="margots-mobile-title">
-        <p>Colorado Springs</p>
-        <p>Margot's Pizza</p>
+        <img :src="margotsEmblem" alt="" class="margots-mobile-title__mark" />
+        <div class="margots-mobile-title__copy">
+          <p>Colorado Springs</p>
+          <p>Margot's Pizza</p>
+        </div>
       </div>
       <div
         class="margots-mobile-art"
@@ -240,9 +242,6 @@ const pizzas = [
   text-decoration: none;
   text-transform: none;
 }
-.margots-demo-shell__mark {
-  display: none;
-}
 .margots-demo-shell__return:hover {
   color: #d9a83b;
 }
@@ -415,9 +414,20 @@ const pizzas = [
     padding-top: 0;
   }
   .margots-mobile-title {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 16px 56px 16px 12px;
+  }
+  .margots-mobile-title__mark {
     display: block;
-    padding: 28px 16px 22px;
-    text-align: center;
+    flex: 0 0 90px;
+    width: 90px;
+    height: 72px;
+    object-fit: contain;
+  }
+  .margots-mobile-title__copy {
+    min-width: 0;
   }
   .margots-mobile-title p:first-child {
     margin: 0 0 8px;
@@ -431,7 +441,7 @@ const pizzas = [
     margin: 0;
     color: #d9a83b;
     font-family: 'Limelight', Georgia, serif;
-    font-size: clamp(2rem, 8vw, 3.75rem);
+    font-size: clamp(1.45rem, 6vw, 2.5rem);
     line-height: 1.1;
   }
   .margots-mobile-art {
@@ -496,15 +506,6 @@ const pizzas = [
   }
   .margots-demo-shell__ticker {
     font-size: 0.61rem;
-  }
-  .margots-demo-shell__mark {
-    display: block;
-    width: 64px;
-    height: 44px;
-    object-fit: contain;
-  }
-  .margots-demo-shell__return span {
-    display: none;
   }
   .margots-mobile-art {
     aspect-ratio: 1 / 1;
