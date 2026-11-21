@@ -210,7 +210,9 @@ const pizzas = [
   font-family: 'Montserrat', sans-serif;
 }
 .margots-mobile-title,
-.margots-mobile-art,
+.margots-mobile-art {
+  display: none;
+}
 .margots-mobile-mark {
   display: flex;
   flex-direction: column;
