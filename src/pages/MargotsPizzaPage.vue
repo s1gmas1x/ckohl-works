@@ -404,8 +404,18 @@ const pizzas = [
   background: #260b0d;
   border: 1px solid rgba(217, 168, 59, 0.45);
 }
+.margots-actions-grid article {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-height: 164px;
+  padding: 20px;
+  background: #23090b;
+  border-color: rgba(217, 168, 59, 0.28);
+}
 .margots-actions-grid :deep(.q-icon) {
   color: #d9a83b;
+  line-height: 1;
 }
 .margots-actions-grid h2,
 .margots-menu-grid h3 {
@@ -417,6 +427,7 @@ const pizzas = [
   overflow-wrap: anywhere;
 }
 .margots-actions-grid h2 {
+  margin: 10px 0 6px;
   font-size: clamp(1.35rem, 2vw, 1.75rem);
 }
 .margots-menu-grid h3 {
