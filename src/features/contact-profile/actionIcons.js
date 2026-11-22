@@ -11,6 +11,9 @@ export const CONTACT_PROFILE_ICON_PATHS = Object.freeze({
   'person-add': Object.freeze([
     'M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4Zm0-6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2ZM7 10V7H5v3H2v2h3v3h2v-3h3v-2H7Zm8 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4Zm-5.33 4c.73-1 3.29-2 5.33-2 2.05 0 4.61 1 5.34 2H9.67Z',
   ]),
+  download: Object.freeze([
+    'M19 9h-4V3H9v6H5l7 7 7-7ZM5 18v2h14v-2H5Z',
+  ]),
   globe: Object.freeze([
     'M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm6.92 6h-2.95a15.7 15.7 0 0 0-1.38-3.56A8.03 8.03 0 0 1 18.92 8ZM12 4c.83 1.2 1.48 2.53 1.86 4h-3.72A13.7 13.7 0 0 1 12 4ZM4.26 14a7.8 7.8 0 0 1 0-4h3.38a16.5 16.5 0 0 0 0 4H4.26Zm.82 2h2.95c.3 1.25.77 2.45 1.38 3.56A8.03 8.03 0 0 1 5.08 16Zm2.95-8H5.08a8.03 8.03 0 0 1 4.33-3.56A15.7 15.7 0 0 0 8.03 8ZM12 20a13.7 13.7 0 0 1-1.86-4h3.72A13.7 13.7 0 0 1 12 20Zm2.27-6H9.73a14.4 14.4 0 0 1 0-4h4.54a14.4 14.4 0 0 1 0 4Zm.32 5.56A15.7 15.7 0 0 0 15.97 16h2.95a8.03 8.03 0 0 1-4.33 3.56ZM16.36 14a16.5 16.5 0 0 0 0-4h3.38a7.8 7.8 0 0 1 0 4h-3.38Z',
   ]),
@@ -38,6 +41,7 @@ export function getContactProfileActionIcon(action) {
   if (action.type === 'call') return 'phone'
   if (action.type === 'sms') return 'message'
   if (action.type === 'email') return 'email'
+  if (action.type === 'vcard') return 'download'
   if (action.type === 'location') return 'location'
   if (action.type === 'website' && action.purpose === 'services') return 'gear'
   if (action.type === 'social') {
