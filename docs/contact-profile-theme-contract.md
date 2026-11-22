@@ -16,6 +16,18 @@ The previous placeholder value, `works`, is intentionally not aliased. A missing
 fails profile validation and publication so a reviewed production fixture cannot silently render
 with unintended presentation.
 
+The additional approved key `kohl-group` implements the reviewed brand kit supplied by Chris Kohl
+in the October 31, 2026 “Branding Kit” email (standalone v2 HTML). Only selected artwork and fonts
+are extracted; the supplied scripts and HTML are never shipped. The code-owned presentation uses
+navy, bone, terra cotta, Jost, and Cormorant Garamond. The portrait is resized to a 640px WebP;
+fonts are local Latin WOFF2 assets. No image-generation or remote asset request is needed at runtime.
+
+Both renderers use the escaped `kohlGroupMarkup.js` template and `_contact-profile-kohl.scss`.
+Vue mounts this code-owned HTML without event handlers; native links provide all interactions.
+The static document includes only JSON-LD, with no application or CRT enhancement script. The
+branded layout intentionally omits terminal diagnostics, derived status rows, and decorative
+wireframes. It does not change Chad's CRT presentation or imply managed action links/analytics.
+
 ## Contract boundaries
 
 The registry owns:

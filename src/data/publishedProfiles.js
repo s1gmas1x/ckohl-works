@@ -1,4 +1,4 @@
-import { chadProfile, pikesPeakHandymanProfile } from './profileFixtures.js'
+import { chadProfile, chrisProfile, pikesPeakHandymanProfile } from './profileFixtures.js'
 import { validateContactProfileThemes } from './contactProfileThemes.js'
 import {
   getActionHref,
@@ -11,7 +11,9 @@ import {
 export { getActionHref, getProfileAction, getProfileActionsByGroup, PROFILE_SCHEMA_VERSION }
 
 export const publishedProfiles = Object.freeze(
-  validateContactProfileThemes(normalizeContactProfiles([chadProfile, pikesPeakHandymanProfile])),
+  validateContactProfileThemes(
+    normalizeContactProfiles([chadProfile, chrisProfile, pikesPeakHandymanProfile]),
+  ),
 )
 
 export function getPublishedProfile(slug) {

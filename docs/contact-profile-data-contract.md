@@ -43,6 +43,13 @@ variants. Timing, cursor, markup, and animation values remain code-owned and are
 The current SMS contract contains only the configured phone number. It does not prefill message
 content.
 
+Identity may optionally include `brokerage` text and a `mediaKey` selected from the reviewed local
+artwork registry in `contactProfileMedia.js`. Arbitrary image URLs and inherited object keys are
+rejected. These additive optional fields preserve schema version 2 and do not change existing
+profile hashes. Selected publication removes unselected personal-media directories along with
+their vCards. Branded themes may omit terminal status presentation while retaining normalized
+actions and structured data.
+
 ## URL and navigation policy
 
 - Call and SMS phone values are reduced to a valid 7–15 digit destination, retaining one leading

@@ -1,4 +1,4 @@
-import { CRT_AMBER_THEME_KEY } from './contactProfileThemes.js'
+import { CRT_AMBER_THEME_KEY, KOHL_GROUP_THEME_KEY } from './contactProfileThemes.js'
 import { PROFILE_SCHEMA_VERSION } from './contactProfileContract.js'
 
 export { PROFILE_SCHEMA_VERSION }
@@ -113,7 +113,62 @@ export const pikesPeakHandymanProfile = {
   },
 }
 
+export const chrisProfile = {
+  schemaVersion: PROFILE_SCHEMA_VERSION,
+  kind: 'contact_profile',
+  slug: 'chris',
+  themeKey: KOHL_GROUP_THEME_KEY,
+  identity: {
+    name: 'Chris Kohl',
+    organization: 'The Kohl Group',
+    brokerage: 'Metro Real Estate Group',
+    role: 'Realtor® / Associate Broker',
+    summary: 'Strong Roots. Better Moves.',
+    mediaKey: 'chris-kohl',
+  },
+  actions: [
+    { key: 'call', type: 'call', label: 'Call Chris', value: '+17199634398', isPrimary: true },
+    { key: 'text', type: 'sms', label: 'Text Chris', value: '+17199634398' },
+    { key: 'email', type: 'email', label: 'Email Chris', value: 'chris@kohlrealtygroup.com' },
+    {
+      key: 'vcard',
+      type: 'vcard',
+      label: 'Save contact',
+      value: '/contacts/chris-kohl.vcf',
+      download: 'chris-kohl.vcf',
+    },
+    {
+      key: 'website',
+      type: 'website',
+      label: 'Visit website',
+      value: 'https://www.kohlrealtygroup.com',
+    },
+    {
+      key: 'instagram',
+      type: 'social',
+      platform: 'Instagram',
+      label: 'Instagram',
+      value: 'https://instagram.com/chris_kohl',
+    },
+    {
+      key: 'location',
+      type: 'location',
+      label: 'Office directions',
+      displayValue: '106 N. Tejon St., Colorado Springs, CO 80903',
+      value:
+        'https://www.google.com/maps/search/?api=1&query=106+N.+Tejon+St.%2C+Colorado+Springs%2C+CO+80903',
+    },
+  ],
+  footer: [],
+  vCard: {
+    filename: 'chris-kohl.vcf',
+    content:
+      'BEGIN:VCARD\r\nVERSION:3.0\r\nN:Kohl;Chris;;;\r\nFN:Chris Kohl\r\nORG:The Kohl Group;Metro Real Estate Group\r\nTITLE:Realtor® / Associate Broker\r\nTEL;TYPE=CELL,VOICE:+17199634398\r\nEMAIL;TYPE=INTERNET:chris@kohlrealtygroup.com\r\nURL:https://www.kohlrealtygroup.com\r\nADR;TYPE=WORK:;;106 N. Tejon St.;Colorado Springs;CO;80903;USA\r\nEND:VCARD\r\n',
+  },
+}
+
 export const profileModuleExportNames = {
   chad: 'chadProfile',
+  chris: 'chrisProfile',
   'pikes-peak-handyman': 'pikesPeakHandymanProfile',
 }

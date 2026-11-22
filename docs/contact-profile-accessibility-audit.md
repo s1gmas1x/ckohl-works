@@ -113,3 +113,14 @@ release, verify:
 
 Record device, operating-system, browser, and assistive-technology versions with the release
 evidence. Any failure in an important action blocks release; decorative display failure does not.
+
+## Chris Kohl card — issue #97 (2026-11-22)
+
+Local Chromium checks passed for canonical static and hash-route app delivery at 320, 390, 560,
+561, 768, and 1440 px. Axe WCAG 2 A/AA and 2.1 AA checks reported no violations. All seven native
+links remain present, controls meet the 44px minimum, and no horizontal overflow appeared with
+long name/action-label substitutions at 320px. Keyboard focus, local image loading, static no-JS
+identity/contact links, and the vCard download were checked. The portrait is a 38 KB, 640px WebP
+from the supplied kit. No CRT enhancement runs on the branded card.
+
+Production, real-phone NFC/QR, iOS/Android contact import, and cross-browser checks remain pending.

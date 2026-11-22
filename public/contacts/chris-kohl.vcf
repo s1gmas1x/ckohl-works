@@ -1,0 +1,11 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Kohl;Chris;;;
+FN:Chris Kohl
+ORG:The Kohl Group;Metro Real Estate Group
+TITLE:Realtor® / Associate Broker
+TEL;TYPE=CELL,VOICE:+17199634398
+EMAIL;TYPE=INTERNET:chris@kohlrealtygroup.com
+URL:https://www.kohlrealtygroup.com
+ADR;TYPE=WORK:;;106 N. Tejon St.;Colorado Springs;CO;80903;USA
+END:VCARD

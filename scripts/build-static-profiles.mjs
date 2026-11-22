@@ -7,6 +7,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 import { generateStaticProfiles } from './static-profile-renderer.mjs'
 import { publishedProfiles } from '../src/data/publishedProfiles.js'
 import { profileModuleExportNames } from '../src/data/profileFixtures.js'
+import { contactProfileMedia, getContactProfileMedia } from '../src/data/contactProfileMedia.js'
 import { parseProfileSlugs, selectProfiles } from './profile-selection.mjs'
 
 const rootDir = resolve(dirname(fileURLToPath(import.meta.url)), '..')
@@ -101,9 +102,20 @@ async function promoteBuild() {
   await rm(previousDir, { recursive: true, force: true })
 }
 
-async function removeUnselectedVcards() {
+async function removeUnselectedProfileAssets() {
   if (!profileSlugs) return
 
+  const selectedMedia = new Set(
+    selectProfiles(publishedProfiles, profileSlugs).flatMap((profile) => {
+      const media = getContactProfileMedia(profile.identity.mediaKey)
+      return media ? [media.portrait, media.brokerageLogo] : []
+    }),
+  )
+  for (const media of Object.values(contactProfileMedia)) {
+    if (!selectedMedia.has(media.portrait)) {
+      await rm(join(stagingDir, dirname(media.portrait)), { recursive: true, force: true })
+    }
+  }
   const selectedSlugs = new Set(profileSlugs)
   const unselectedProfiles = publishedProfiles.filter((profile) => !selectedSlugs.has(profile.slug))
 
@@ -148,7 +160,7 @@ async function main() {
       displayHostModulePath,
       sceneModulePath,
     })
-    await removeUnselectedVcards()
+    await removeUnselectedProfileAssets()
     await promoteBuild()
     console.log(`Published ${manifest.profiles.length} static profiles to ${publishedDir}.`)
   } catch (error) {

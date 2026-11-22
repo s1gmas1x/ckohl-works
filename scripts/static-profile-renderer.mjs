@@ -9,12 +9,14 @@ import {
 } from '../src/data/publishedProfiles.js'
 import {
   CONTACT_PROFILE_THEME_CONTRACT_VERSION,
+  KOHL_GROUP_THEME_KEY,
   resolveContactProfileTheme,
 } from '../src/data/contactProfileThemes.js'
 import {
   getContactProfileActionIcon,
   getContactProfileIconPaths,
 } from '../src/features/contact-profile/actionIcons.js'
+import { renderKohlGroupMarkup } from '../src/features/contact-profile/kohlGroupMarkup.js'
 import { selectProfiles } from './profile-selection.mjs'
 
 const sixtyfourWoff2 = await readFile(
@@ -37,6 +39,11 @@ const contactProfileThemeStyle = await readFile(
 )
 const contactProfileLayoutStyle = await readFile(
   new URL('../src/css/_contact-profile-layout.scss', import.meta.url),
+  'utf8',
+)
+
+const kohlGroupStyle = await readFile(
+  new URL('../src/css/_contact-profile-kohl.scss', import.meta.url),
   'utf8',
 )
 
@@ -157,6 +164,7 @@ export function renderProfileDocument(
   { enhancementModulePath, displayHostModulePath, sceneModulePath } = {},
 ) {
   const theme = resolveContactProfileTheme(profile.themeKey)
+  const isKohlGroup = theme.key === KOHL_GROUP_THEME_KEY
   const hash = contentHash(profile)
   const title = `${profile.identity.name} | ${profile.identity.organization}`
   const contactActions = getProfileActionsByGroup(profile, 'contact')
@@ -197,12 +205,16 @@ export function renderProfileDocument(
     <meta name="build-revision" content="${escapeHtml(buildRevision)}">
     <meta name="profile-renderer" content="canonical">
     <title>${escapeHtml(title)}</title>
-    <style>${staticProfileStyle}</style>
+    <style>${isKohlGroup ? `* { box-sizing: border-box; } body { margin: 0; min-width: 320px; background: #12253c; } .contact-profile { min-height: 100vh; } ${kohlGroupStyle.replaceAll("url('/", `url('${publicBase}`)}` : staticProfileStyle}</style>
     <script type="application/ld+json">${JSON.stringify(jsonLd).replaceAll('<', '\\u003c')}</script>
   </head>
   <body>
     <main>
-      <section class="contact-profile ${escapeHtml(theme.className)}" data-contact-profile-theme="${escapeHtml(theme.key)}" data-contact-profile-theme-contract="${theme.contractVersion}" data-contact-profile-renderer="canonical" aria-labelledby="profile-title">
+      <section class="contact-profile ${escapeHtml(theme.className)}" data-contact-profile-theme="${escapeHtml(theme.key)}" data-contact-profile-theme-contract="${theme.contractVersion}" data-contact-profile-renderer="canonical" aria-labelledby="${isKohlGroup ? escapeHtml(profile.slug) + '-profile-title' : 'profile-title'}">
+        ${
+          isKohlGroup
+            ? renderKohlGroupMarkup(profile, publicBase)
+            : `
         <div class="contact-profile__screen contact-profile-crt-screen">
           <header class="contact-profile-header contact-profile-panel">
             <span class="contact-profile-header__brand">
@@ -275,10 +287,12 @@ export function renderProfileDocument(
             </div>
           </div>
         </div>
+        `
+        }
       </section>
     </main>
-    <script>${staticProfileActionScript}</script>
-    ${enhancementModulePath ? `<script type="module" src="${escapeHtml(enhancementModulePath)}"></script>` : ''}
+    ${isKohlGroup ? '' : `<script>${staticProfileActionScript}</script>`}
+    ${!isKohlGroup && enhancementModulePath ? `<script type="module" src="${escapeHtml(enhancementModulePath)}"></script>` : ''}
   </body>
 </html>
 `
