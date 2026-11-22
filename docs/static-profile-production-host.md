@@ -16,11 +16,13 @@ profile proof only.
 ## Deployment Contract
 
 `netlify.toml` builds `dist/static-profiles` through the existing staged static-profile command with
-`STATIC_PROFILE_SLUGS=chad`. The artifact contains:
+`STATIC_PROFILE_SLUGS=chad,chris`. The artifact contains:
 
 - the existing marketing SPA at the site root;
 - Chad's static HTML profile, metadata, JSON-LD, and public assets;
 - `contacts/chad-kohl.vcf`;
+- Chris's branded static card at `/card/ckohl-works/chris/`, reviewed local artwork, and
+  `contacts/chris-kohl.vcf` (issue #97; deployment verification pending);
 - no Pikes Peak Handyman fixture or vCard.
 
 The selection applies to the root Quasar SPA as well as generated static profile files. An
@@ -43,3 +45,11 @@ the Netlify dashboard.
 No DNS change is required for this issue because `works.ckohl.com` is already HTTPS-enabled on the
 existing Netlify site. Any future dedicated profile hostname requires a separate domain decision and
 platform configuration.
+
+## Chris rollout (issues #97 and NewAPI #26)
+
+Deploy the Works change first and verify the clean Chris URL and downloaded vCard. Only then
+deploy NewAPI's `chris` entry, which uses the existing 302 managed redirect mechanism. The stable
+physical-card URL is `https://go.ckohl.com/chris`. No new hostname or DNS record is required.
+Keep the tag unlocked until a real-phone NFC tap, QR scan, and vCard import pass. Local build or
+browser checks do not establish production or physical-card readiness.

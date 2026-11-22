@@ -7,7 +7,8 @@
     data-contact-profile-renderer="app"
     :aria-labelledby="titleId"
   >
-    <div class="contact-profile__screen contact-profile-crt-screen">
+    <KohlGroupProfile v-if="theme.key === KOHL_GROUP_THEME_KEY" :profile="profile" />
+    <div v-else class="contact-profile__screen contact-profile-crt-screen">
       <ContactProfileHeader />
 
       <div class="contact-profile-layout">
@@ -25,13 +26,17 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, defineAsyncComponent } from 'vue'
 import ContactProfileActions from '@/components/profile/ContactProfileActions.vue'
 import ContactProfileDetails from '@/components/profile/ContactProfileDetails.vue'
 import ContactProfileDisplayPanel from '@/components/profile/ContactProfileDisplayPanel.vue'
 import ContactProfileHeader from '@/components/profile/ContactProfileHeader.vue'
 import ContactProfileIdentityPanel from '@/components/profile/ContactProfileIdentityPanel.vue'
-import { resolveContactProfileTheme } from '@/data/contactProfileThemes.js'
+import { KOHL_GROUP_THEME_KEY, resolveContactProfileTheme } from '@/data/contactProfileThemes.js'
+
+const KohlGroupProfile = defineAsyncComponent(
+  () => import('@/components/profile/KohlGroupProfile.vue'),
+)
 
 const props = defineProps({
   profile: {

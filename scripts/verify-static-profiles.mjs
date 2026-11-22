@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url'
 import { contentHash, renderProfileDocument } from './static-profile-renderer.mjs'
 import {
   CONTACT_PROFILE_THEME_CONTRACT_VERSION,
+  CRT_AMBER_THEME_KEY,
   resolveContactProfileTheme,
 } from '../src/data/contactProfileThemes.js'
 import {
@@ -12,6 +13,7 @@ import {
   PROFILE_SCHEMA_VERSION,
   publishedProfiles,
 } from '../src/data/publishedProfiles.js'
+import { getContactProfileMedia } from '../src/data/contactProfileMedia.js'
 import { parseProfileSlugs, selectProfiles } from './profile-selection.mjs'
 
 const rootDir = resolve(dirname(fileURLToPath(import.meta.url)), '..')
@@ -93,22 +95,32 @@ for (const profile of expectedProfiles) {
     document,
     /ArrowLeft|ArrowRight|ArrowUp|ArrowDown|event\.key === 'Home'|event\.key === 'End'/,
   )
-  assert.ok(
-    document.includes(`<script type="module" src="${manifest.enhancementModulePath}"></script>`),
-    `generated profile ${profile.slug} must load the canonical-profile enhancement module`,
-  )
-  assert.ok(
-    document.includes(`data-display-scene-module="${manifest.sceneModulePath}"`),
-    `generated profile ${profile.slug} must expose the lazy scene module path to enhancement`,
-  )
-  assert.ok(
-    document.includes(`data-display-host-module="${manifest.displayHostModulePath}"`),
-    `generated profile ${profile.slug} must expose the lightweight display host to enhancement`,
-  )
-  assert.match(document, /crt-wireframe-fallback-mobile\.webp/)
-  assert.match(document, /crt-wireframe-fallback-wide\.webp/)
-  assert.match(document, /<dt>View mode<\/dt><dd>CANONICAL<\/dd>/)
-  assert.match(document, /class="[^"]*contact-profile-icon/)
+  if (expectedTheme.key === CRT_AMBER_THEME_KEY) {
+    assert.ok(
+      document.includes(`<script type="module" src="${manifest.enhancementModulePath}"></script>`),
+      `generated profile ${profile.slug} must load the canonical-profile enhancement module`,
+    )
+    assert.ok(
+      document.includes(`data-display-scene-module="${manifest.sceneModulePath}"`),
+      `generated profile ${profile.slug} must expose the lazy scene module path to enhancement`,
+    )
+    assert.ok(
+      document.includes(`data-display-host-module="${manifest.displayHostModulePath}"`),
+      `generated profile ${profile.slug} must expose the lightweight display host to enhancement`,
+    )
+    assert.match(document, /crt-wireframe-fallback-mobile\.webp/)
+    assert.match(document, /crt-wireframe-fallback-wide\.webp/)
+    assert.match(document, /<dt>View mode<\/dt><dd>CANONICAL<\/dd>/)
+    assert.match(document, /class="[^"]*contact-profile-icon/)
+  } else {
+    assert.doesNotMatch(document, /<script[^>]+src=|data-display-preset|WIREFRAME|View mode/)
+    assert.match(document, /contact-profile-kohl__action/)
+    const media = getContactProfileMedia(profile.identity.mediaKey)
+    for (const path of [media?.portrait, media?.brokerageLogo].filter(Boolean)) {
+      await readFile(join(outputDir, path))
+      assert.ok(document.includes(`src="${publicBase}${path}"`))
+    }
+  }
   assert.match(document, /application\/ld\+json/)
   assert.match(document, new RegExp(profile.identity.name))
   assert.ok(renderProfileDocument(profile, manifest.buildRevision).includes(expectedHash))
@@ -121,7 +133,7 @@ for (const profile of expectedProfiles) {
       `generated profile ${profile.slug} must include ${action.type} action ${action.key}`,
     )
   }
-  for (const item of profile.status) {
+  for (const item of expectedTheme.key === CRT_AMBER_THEME_KEY ? profile.status : []) {
     assert.ok(
       document.includes(`<dt>${item.label}</dt><dd>${item.value}</dd>`),
       `generated profile ${profile.slug} must include truthful status ${item.key}`,
@@ -154,6 +166,8 @@ if (expectedSlugs) {
       readFile(join(outputDir, 'card', 'ckohl-works', profile.slug, 'index.html')),
     )
     await assert.rejects(readFile(join(outputDir, 'contacts', profile.vCard.filename)))
+    const media = getContactProfileMedia(profile.identity.mediaKey)
+    if (media) await assert.rejects(readFile(join(outputDir, media.portrait)))
 
     for (const fixtureSentinel of [
       profile.identity.summary,

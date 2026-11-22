@@ -1,5 +1,6 @@
 export const CONTACT_PROFILE_THEME_CONTRACT_VERSION = 1
 export const CRT_AMBER_THEME_KEY = 'crt-amber'
+export const KOHL_GROUP_THEME_KEY = 'kohl-group'
 
 const crtAmberTheme = Object.freeze({
   contractVersion: CONTACT_PROFILE_THEME_CONTRACT_VERSION,
@@ -17,6 +18,19 @@ const crtAmberTheme = Object.freeze({
 
 export const contactProfileThemes = Object.freeze({
   [CRT_AMBER_THEME_KEY]: crtAmberTheme,
+  [KOHL_GROUP_THEME_KEY]: Object.freeze({
+    contractVersion: CONTACT_PROFILE_THEME_CONTRACT_VERSION,
+    key: KOHL_GROUP_THEME_KEY,
+    className: 'contact-profile-theme--kohl-group',
+    colorScheme: 'dark',
+    decorativeDisplay: Object.freeze({
+      presetKey: null,
+      enhancement: 'none',
+      canonicalRoute: 'static',
+      fallback: 'not-applicable',
+      reducedMotion: 'static',
+    }),
+  }),
 })
 
 function formatThemeKey(themeKey) {

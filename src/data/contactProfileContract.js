@@ -1,3 +1,5 @@
+import { getContactProfileMedia } from './contactProfileMedia.js'
+
 export const PROFILE_SCHEMA_VERSION = 2
 
 export const CONTACT_PROFILE_ACTION_TYPES = Object.freeze([
@@ -376,6 +378,9 @@ export function normalizeContactProfile(profile) {
   }
 
   const rawIdentity = requireObject(profile.identity, profileSlug, 'identity')
+  if (rawIdentity.mediaKey !== undefined && !getContactProfileMedia(rawIdentity.mediaKey)) {
+    fail(profileSlug, 'identity.mediaKey', 'must select reviewed local artwork')
+  }
   const summary = requireString(rawIdentity.summary, profileSlug, 'identity.summary')
   const identity = Object.freeze({
     name: requireString(rawIdentity.name, profileSlug, 'identity.name'),
@@ -383,6 +388,10 @@ export function normalizeContactProfile(profile) {
     role: requireString(rawIdentity.role, profileSlug, 'identity.role'),
     summary,
     summaryVariants: normalizeSummaryVariants(rawIdentity.summaryVariants, profileSlug, summary),
+    ...(rawIdentity.mediaKey ? { mediaKey: rawIdentity.mediaKey } : {}),
+    ...(rawIdentity.brokerage !== undefined
+      ? { brokerage: requireString(rawIdentity.brokerage, profileSlug, 'identity.brokerage') }
+      : {}),
   })
   const actions = validateActionCollection(profile.actions, profileSlug)
   const vCard = validateVcard(profile.vCard, actions, identity, profileSlug)
