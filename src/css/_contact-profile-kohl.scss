@@ -196,8 +196,9 @@
     padding: 24px 0;
   }
   .contact-profile-kohl__portrait {
-    width: min(100%, 176px);
-    margin-bottom: 16px;
+    width: min(100%, 224px);
+    margin-bottom: -32px;
+    mask-image: linear-gradient(to bottom, #000 65%, transparent);
   }
   .contact-profile-kohl__header {
     gap: 12px;
@@ -208,6 +209,7 @@
     height: 44px;
   }
   .contact-profile-kohl__intro {
+    position: relative;
     padding-left: 16px;
   }
   .contact-profile-kohl__identity h1 {
