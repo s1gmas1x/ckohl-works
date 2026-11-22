@@ -30,10 +30,8 @@
   padding: clamp(20px, 5vw, 64px);
 }
 .contact-profile-kohl__header {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
+  display: grid;
+  justify-items: start;
   gap: 24px;
   padding-bottom: 32px;
   border-bottom: 1px solid #6e7c8c;
