@@ -137,7 +137,7 @@
 .contact-profile-kohl__external .contact-profile-kohl__action {
   border-width: 1px 0 0;
 }
-.contact-profile-kohl__contact .contact-profile-kohl__action:not(:hover) .contact-profile-kohl__icon {
+.contact-profile-kohl__contact :not(:hover) > svg {
   color: #be5c39;
 }
 :where(.contact-profile-kohl__save) .contact-profile-kohl__action--primary {
