@@ -205,6 +205,8 @@ export function renderProfileDocument(
     <meta name="build-revision" content="${escapeHtml(buildRevision)}">
     <meta name="profile-renderer" content="canonical">
     <title>${escapeHtml(title)}</title>
+    ${isKohlGroup ? `<link rel="preload" href="${escapeHtml(publicBase)}profile-media/chris/jost-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="${escapeHtml(publicBase)}profile-media/chris/cormorant-latin.woff2" as="font" type="font/woff2" crossorigin>` : ''}
     <style>${isKohlGroup ? `* { box-sizing: border-box; } body { margin: 0; min-width: 320px; background: #12253c; } .contact-profile { min-height: 100vh; } ${kohlGroupStyle.replaceAll("url('/", `url('${publicBase}`)}` : staticProfileStyle}</style>
     <script type="application/ld+json">${JSON.stringify(jsonLd).replaceAll('<', '\\u003c')}</script>
   </head>
