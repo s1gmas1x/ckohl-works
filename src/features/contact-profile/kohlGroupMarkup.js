@@ -51,9 +51,7 @@ export function renderKohlGroupMarkup(profile, publicBase = '/') {
       <div class="contact-profile-kohl__links">
         <h2>Let’s connect</h2>
         <nav class="contact-profile-kohl__contact" aria-label="Contact">${contact.map((action) => actionLink(action, publicBase)).join('')}</nav>
-        <nav class="contact-profile-kohl__save" aria-label="Save contact">${save.map((action) => actionLink(action, publicBase)).join('')}
-          <small class="contact-profile-kohl__action-detail">If a file downloads, open it to add ${escapeHtml(identity.name)} to your contacts.</small>
-        </nav>
+        <nav class="contact-profile-kohl__save" aria-label="Save contact">${save.map((action) => actionLink(action, publicBase)).join('')}</nav>
         <nav class="contact-profile-kohl__external" aria-label="Website, social, and directions">${external.map((action) => actionLink(action, publicBase)).join('')}</nav>
       </div>
     </div>
