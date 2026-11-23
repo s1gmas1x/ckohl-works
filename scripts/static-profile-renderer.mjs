@@ -42,6 +42,10 @@ const contactProfileLayoutStyle = await readFile(
   'utf8',
 )
 
+const kohlGroupFavicon = `data:image/svg+xml,${encodeURIComponent(
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180"><rect width="180" height="180" rx="24" fill="#12253c"/><g transform="translate(8 18)"><path d="M12 4 H152 V138 M12 4 V96 M12 96 L62 40 L108 104 L134 74 L152 96" fill="none" stroke="#e3dac9" stroke-width="8"/><path d="M62 40 L86 70 L74 78 Z" fill="#be5c39"/></g></svg>',
+)}`
+
 const kohlGroupStyle = await readFile(
   new URL('../src/css/_contact-profile-kohl.scss', import.meta.url),
   'utf8',
@@ -205,6 +209,7 @@ export function renderProfileDocument(
     <meta name="build-revision" content="${escapeHtml(buildRevision)}">
     <meta name="profile-renderer" content="canonical">
     <title>${escapeHtml(title)}</title>
+    ${isKohlGroup ? `<link rel="icon" type="image/svg+xml" href="${kohlGroupFavicon}">` : ''}
     ${isKohlGroup ? `<link rel="preload" href="${escapeHtml(publicBase)}profile-media/chris/jost-latin.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="${escapeHtml(publicBase)}profile-media/chris/cormorant-latin.woff2" as="font" type="font/woff2" crossorigin>` : ''}
     <style>${isKohlGroup ? `* { box-sizing: border-box; } body { margin: 0; min-width: 320px; background: #12253c; } .contact-profile { min-height: 100vh; } ${kohlGroupStyle.replaceAll("url('/", `url('${publicBase}`)}` : staticProfileStyle}</style>
