@@ -10,6 +10,7 @@ import {
 import {
   CONTACT_PROFILE_THEME_CONTRACT_VERSION,
   KOHL_GROUP_THEME_KEY,
+  NEUTRAL_THEME_KEY,
   resolveContactProfileTheme,
 } from '../src/data/contactProfileThemes.js'
 import {
@@ -48,6 +49,11 @@ const kohlGroupFavicon = `data:image/svg+xml,${encodeURIComponent(
 
 const kohlGroupStyle = await readFile(
   new URL('../src/css/_contact-profile-kohl.scss', import.meta.url),
+  'utf8',
+)
+
+const neutralStyle = await readFile(
+  new URL('../src/css/_contact-profile-neutral.scss', import.meta.url),
   'utf8',
 )
 
@@ -169,6 +175,7 @@ export function renderProfileDocument(
 ) {
   const theme = resolveContactProfileTheme(profile.themeKey)
   const isKohlGroup = theme.key === KOHL_GROUP_THEME_KEY
+  const isNeutral = theme.key === NEUTRAL_THEME_KEY
   const hash = contentHash(profile)
   const title = `${profile.identity.name} | ${profile.identity.organization}`
   const contactActions = getProfileActionsByGroup(profile, 'contact')
@@ -196,42 +203,7 @@ export function renderProfileDocument(
   const fallbackMobilePath = `${publicBase}images/contact-profile/crt-wireframe-fallback-mobile.webp`
   const fallbackWidePath = `${publicBase}images/contact-profile/crt-wireframe-fallback-wide.webp`
 
-  return `<!doctype html>
-<html lang="en" data-contact-profile-renderer="canonical">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="${escapeHtml(profile.identity.summary)}">
-    <meta name="profile-schema-version" content="${PROFILE_SCHEMA_VERSION}">
-    <meta name="profile-theme-key" content="${escapeHtml(theme.key)}">
-    <meta name="profile-theme-contract-version" content="${theme.contractVersion}">
-    <meta name="profile-content-hash" content="${hash}">
-    <meta name="build-revision" content="${escapeHtml(buildRevision)}">
-    <meta name="profile-renderer" content="canonical">
-    <title>${escapeHtml(title)}</title>
-    ${isKohlGroup ? `<link rel="icon" type="image/svg+xml" href="${kohlGroupFavicon}">` : ''}
-    ${isKohlGroup ? `<link rel="preload" href="${escapeHtml(publicBase)}profile-media/chris/jost-latin.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="${escapeHtml(publicBase)}profile-media/chris/cormorant-latin.woff2" as="font" type="font/woff2" crossorigin>` : ''}
-    <style>${isKohlGroup ? `* { box-sizing: border-box; } body { margin: 0; min-width: 320px; background: #12253c; } .contact-profile { min-height: 100vh; } ${kohlGroupStyle.replaceAll("url('/", `url('${publicBase}`)}` : staticProfileStyle}</style>
-    <script type="application/ld+json">${JSON.stringify(jsonLd).replaceAll('<', '\\u003c')}</script>
-  </head>
-  <body>
-    <main>
-      <section class="contact-profile ${escapeHtml(theme.className)}" data-contact-profile-theme="${escapeHtml(theme.key)}" data-contact-profile-theme-contract="${theme.contractVersion}" data-contact-profile-renderer="canonical" aria-labelledby="${isKohlGroup ? escapeHtml(profile.slug) + '-profile-title' : 'profile-title'}">
-        ${
-          isKohlGroup
-            ? renderKohlGroupMarkup(profile, publicBase)
-            : `
-        <div class="contact-profile__screen contact-profile-crt-screen">
-          <header class="contact-profile-header contact-profile-panel">
-            <span class="contact-profile-header__brand">
-              <span class="contact-profile-header__mark" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></span>
-              <span>CK-CONTACT // TERMINAL 01</span>
-            </span>
-            <span class="contact-profile-header__state"><span class="contact-profile-header__state-dot" aria-hidden="true"></span>PROFILE READY</span>
-          </header>
-          <div class="contact-profile-layout">
-            <section class="contact-profile-identity contact-profile-panel">
+  const identityAndActions = `<section class="contact-profile-identity contact-profile-panel">
               <p class="contact-profile-identity__eyebrow">Profile // ${escapeHtml(profile.slug)}</p>
               <h1 id="profile-title">${escapeHtml(profile.identity.name)}</h1>
               <p class="contact-profile-identity__role">${escapeHtml(profile.identity.role)}</p>
@@ -255,7 +227,50 @@ export function renderProfileDocument(
                     .join('')}</nav>`
                 : ''
             }
-            </div>
+            </div>`
+
+  return `<!doctype html>
+<html lang="en" data-contact-profile-renderer="canonical">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="${escapeHtml(profile.identity.summary)}">
+    <meta name="profile-schema-version" content="${PROFILE_SCHEMA_VERSION}">
+    <meta name="profile-theme-key" content="${escapeHtml(theme.key)}">
+    <meta name="profile-theme-contract-version" content="${theme.contractVersion}">
+    <meta name="profile-content-hash" content="${hash}">
+    <meta name="build-revision" content="${escapeHtml(buildRevision)}">
+    <meta name="profile-renderer" content="canonical">
+    <title>${escapeHtml(title)}</title>
+    ${isKohlGroup ? `<link rel="icon" type="image/svg+xml" href="${kohlGroupFavicon}">` : ''}
+    ${
+      isKohlGroup
+        ? `<link rel="preload" href="${escapeHtml(publicBase)}profile-media/chris/jost-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="${escapeHtml(publicBase)}profile-media/chris/cormorant-latin.woff2" as="font" type="font/woff2" crossorigin>`
+        : ''
+    }
+    <style>${isKohlGroup ? `* { box-sizing: border-box; } body { margin: 0; min-width: 320px; background: #12253c; } .contact-profile { min-height: 100vh; } ${kohlGroupStyle.replaceAll("url('/", `url('${publicBase}`)}` : isNeutral ? `* { box-sizing: border-box; } body { margin: 0; } ${neutralStyle}` : staticProfileStyle}</style>
+    <script type="application/ld+json">${JSON.stringify(jsonLd).replaceAll('<', '\\u003c')}</script>
+  </head>
+  <body>
+    <main>
+      <section class="contact-profile ${escapeHtml(theme.className)}" data-contact-profile-theme="${escapeHtml(theme.key)}" data-contact-profile-theme-contract="${theme.contractVersion}" data-contact-profile-renderer="canonical" aria-labelledby="${isKohlGroup ? escapeHtml(profile.slug) + '-profile-title' : 'profile-title'}">
+        ${
+          isKohlGroup
+            ? renderKohlGroupMarkup(profile, publicBase)
+            : isNeutral
+              ? `<div class="neutral-profile-card">${identityAndActions}</div>`
+              : `
+        <div class="contact-profile__screen contact-profile-crt-screen">
+          <header class="contact-profile-header contact-profile-panel">
+            <span class="contact-profile-header__brand">
+              <span class="contact-profile-header__mark" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></span>
+              <span>CK-CONTACT // TERMINAL 01</span>
+            </span>
+            <span class="contact-profile-header__state"><span class="contact-profile-header__state-dot" aria-hidden="true"></span>PROFILE READY</span>
+          </header>
+          <div class="contact-profile-layout">
+            ${identityAndActions}
             <section class="contact-profile-display contact-profile-panel" aria-hidden="true">
               <p class="contact-profile-display__label">DISPLAY // WIREFRAME</p>
               <div class="contact-profile-display__viewport" data-display-preset="crt-wireframe" data-display-state="fallback"${
@@ -298,8 +313,8 @@ export function renderProfileDocument(
         }
       </section>
     </main>
-    ${isKohlGroup ? '' : `<script>${staticProfileActionScript}</script>`}
-    ${!isKohlGroup && enhancementModulePath ? `<script type="module" src="${escapeHtml(enhancementModulePath)}"></script>` : ''}
+    ${isKohlGroup || isNeutral ? '' : `<script>${staticProfileActionScript}</script>`}
+    ${!isKohlGroup && !isNeutral && enhancementModulePath ? `<script type="module" src="${escapeHtml(enhancementModulePath)}"></script>` : ''}
   </body>
 </html>
 `

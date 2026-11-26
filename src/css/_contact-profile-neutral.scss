@@ -1,0 +1,97 @@
+.contact-profile.contact-profile-theme--neutral {
+  --profile-page: #f3f4f3;
+  --profile-surface: #fff;
+  --profile-text: #202723;
+  --profile-muted: #505b55;
+  --profile-border: #cbd1cd;
+  --profile-accent: #32483d;
+  --profile-on-accent: #fff;
+  --profile-font: system-ui, sans-serif;
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  padding: clamp(1rem, 5vw, 3rem);
+  background: var(--profile-page);
+  color: var(--profile-text);
+  color-scheme: light;
+  font: 1rem/1.5 var(--profile-font);
+}
+
+.neutral-profile-card {
+  width: min(100%, 30rem);
+  padding: clamp(1.25rem, 5vw, 2.5rem);
+  background: var(--profile-surface);
+  border: 1px solid var(--profile-border);
+  border-top: 4px solid var(--profile-accent);
+  border-radius: 1rem;
+  overflow-wrap: anywhere;
+}
+
+/* Give the shared regions a neutral baseline in both delivery paths. */
+.contact-profile-theme--neutral
+  .neutral-profile-card
+  :where(section, nav, div, h1, p, span, a, svg) {
+  all: revert;
+  box-sizing: border-box;
+}
+
+.neutral-profile-card .contact-profile-identity h1 {
+  font: 650 clamp(2rem, 7vw, 3rem)/1.1 var(--profile-font);
+  letter-spacing: -0.035em;
+  margin: 0 0 0.6rem;
+}
+
+.neutral-profile-card .contact-profile-identity p {
+  margin: 0;
+}
+
+.neutral-profile-card .contact-profile-identity .contact-profile-identity__summary {
+  margin: 1.25rem 0;
+  color: var(--profile-muted);
+}
+
+.neutral-profile-card .contact-profile-identity .contact-profile-identity__eyebrow,
+.neutral-profile-card .contact-profile-action-tile .contact-profile-action-tile__index,
+.neutral-profile-card .contact-profile-action-tile .contact-profile-action-tile__type,
+.neutral-profile-card .contact-profile-save__copy .contact-profile-save__subtitle {
+  display: none;
+}
+
+.neutral-profile-card .contact-profile-action-regions nav {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.neutral-profile-card .contact-profile-action-regions a {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 48px;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--profile-border);
+  border-radius: 0.5rem;
+  color: var(--profile-text);
+  text-decoration: none;
+}
+
+.neutral-profile-card .contact-profile-action-regions svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: currentColor;
+  flex: none;
+}
+
+.neutral-profile-card .contact-profile-action-regions .contact-profile-save__link {
+  background: var(--profile-accent);
+  color: var(--profile-on-accent);
+}
+
+.neutral-profile-card .contact-profile-action-regions a:hover {
+  text-decoration: underline;
+}
+
+.neutral-profile-card .contact-profile-action-regions a:focus-visible {
+  outline: 3px solid var(--profile-accent);
+  outline-offset: 2px;
+}

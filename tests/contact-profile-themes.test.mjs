@@ -54,3 +54,12 @@ test('renders matching theme markers in generated profile HTML', () => {
     new RegExp(`data-contact-profile-theme-contract="${CONTACT_PROFILE_THEME_CONTRACT_VERSION}"`),
   )
 })
+
+test('the demo uses a neutral static theme with working contact actions', () => {
+  const demo = publishedProfiles.find((profile) => profile.slug === 'demo')
+  assert.equal(demo.themeKey, 'neutral')
+  const html = renderProfileDocument(demo, 'test', '/', { enhancementModulePath: '/crt.js' })
+  assert.match(html, /data-contact-profile-theme="neutral"/)
+  assert.match(html, /href="\/contacts\/demo.vcf" download="demo.vcf"/)
+  assert.doesNotMatch(html, /CK-CONTACT|data-display-preset|src="\/crt.js"/)
+})
