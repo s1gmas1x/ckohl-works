@@ -8,6 +8,11 @@
     :aria-labelledby="titleId"
   >
     <KohlGroupProfile v-if="theme.key === KOHL_GROUP_THEME_KEY" :profile="profile" />
+    <NeutralProfile
+      v-else-if="theme.key === NEUTRAL_THEME_KEY"
+      :profile="profile"
+      :title-id="titleId"
+    />
     <div v-else class="contact-profile__screen contact-profile-crt-screen">
       <ContactProfileHeader />
 
@@ -32,11 +37,17 @@ import ContactProfileDetails from '@/components/profile/ContactProfileDetails.vu
 import ContactProfileDisplayPanel from '@/components/profile/ContactProfileDisplayPanel.vue'
 import ContactProfileHeader from '@/components/profile/ContactProfileHeader.vue'
 import ContactProfileIdentityPanel from '@/components/profile/ContactProfileIdentityPanel.vue'
-import { KOHL_GROUP_THEME_KEY, resolveContactProfileTheme } from '@/data/contactProfileThemes.js'
+import {
+  KOHL_GROUP_THEME_KEY,
+  NEUTRAL_THEME_KEY,
+  resolveContactProfileTheme,
+} from '@/data/contactProfileThemes.js'
 
 const KohlGroupProfile = defineAsyncComponent(
   () => import('@/components/profile/KohlGroupProfile.vue'),
 )
+
+const NeutralProfile = defineAsyncComponent(() => import('@/components/profile/NeutralProfile.vue'))
 
 const props = defineProps({
   profile: {

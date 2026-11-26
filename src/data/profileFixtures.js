@@ -1,4 +1,8 @@
-import { CRT_AMBER_THEME_KEY, KOHL_GROUP_THEME_KEY } from './contactProfileThemes.js'
+import {
+  CRT_AMBER_THEME_KEY,
+  KOHL_GROUP_THEME_KEY,
+  NEUTRAL_THEME_KEY,
+} from './contactProfileThemes.js'
 import { PROFILE_SCHEMA_VERSION } from './contactProfileContract.js'
 
 export { PROFILE_SCHEMA_VERSION }
@@ -171,7 +175,7 @@ export const demoProfile = {
   schemaVersion: PROFILE_SCHEMA_VERSION,
   kind: 'contact_profile',
   slug: 'demo',
-  themeKey: CRT_AMBER_THEME_KEY,
+  themeKey: NEUTRAL_THEME_KEY,
   identity: {
     name: 'Alex Morgan',
     organization: 'Fieldwork Studio',

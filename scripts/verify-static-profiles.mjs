@@ -6,6 +6,7 @@ import { contentHash, renderProfileDocument } from './static-profile-renderer.mj
 import {
   CONTACT_PROFILE_THEME_CONTRACT_VERSION,
   CRT_AMBER_THEME_KEY,
+  NEUTRAL_THEME_KEY,
   resolveContactProfileTheme,
 } from '../src/data/contactProfileThemes.js'
 import {
@@ -112,6 +113,9 @@ for (const profile of expectedProfiles) {
     assert.match(document, /crt-wireframe-fallback-wide\.webp/)
     assert.match(document, /<dt>View mode<\/dt><dd>CANONICAL<\/dd>/)
     assert.match(document, /class="[^"]*contact-profile-icon/)
+  } else if (expectedTheme.key === NEUTRAL_THEME_KEY) {
+    assert.match(document, /class="neutral-profile-card"/)
+    assert.doesNotMatch(document, /<script[^>]+src=|data-display-preset|CK-CONTACT|WIREFRAME/)
   } else {
     assert.doesNotMatch(document, /<script[^>]+src=|data-display-preset|WIREFRAME|View mode/)
     assert.match(document, /contact-profile-kohl__action/)
