@@ -1,0 +1,9 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Morgan;Alex;;;
+FN:Alex Morgan
+ORG:Fieldwork Studio
+TITLE:Design Director
+TEL;TYPE=CELL,VOICE:+17195550182
+EMAIL;TYPE=INTERNET:alex@example.com
+END:VCARD
