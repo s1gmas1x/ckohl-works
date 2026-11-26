@@ -1,4 +1,9 @@
-import { chadProfile, chrisProfile, pikesPeakHandymanProfile } from './profileFixtures.js'
+import {
+  chadProfile,
+  chrisProfile,
+  demoProfile,
+  pikesPeakHandymanProfile,
+} from './profileFixtures.js'
 import { validateContactProfileThemes } from './contactProfileThemes.js'
 import {
   getActionHref,
@@ -12,7 +17,7 @@ export { getActionHref, getProfileAction, getProfileActionsByGroup, PROFILE_SCHE
 
 export const publishedProfiles = Object.freeze(
   validateContactProfileThemes(
-    normalizeContactProfiles([chadProfile, chrisProfile, pikesPeakHandymanProfile]),
+    normalizeContactProfiles([chadProfile, chrisProfile, demoProfile, pikesPeakHandymanProfile]),
   ),
 )
 

@@ -1,5 +1,5 @@
 [build]
-  command = "STATIC_PROFILE_SLUGS=chad,chris npm run build:profiles"
+  command = "STATIC_PROFILE_SLUGS=chad,chris,demo npm run build:profiles"
   publish = "dist/static-profiles"
 
 [build.environment]

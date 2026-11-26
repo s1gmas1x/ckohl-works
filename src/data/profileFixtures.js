@@ -167,7 +167,46 @@ export const chrisProfile = {
   },
 }
 
+export const demoProfile = {
+  schemaVersion: PROFILE_SCHEMA_VERSION,
+  kind: 'contact_profile',
+  slug: 'demo',
+  themeKey: CRT_AMBER_THEME_KEY,
+  identity: {
+    name: 'Alex Morgan',
+    organization: 'Fieldwork Studio',
+    role: 'Design Director',
+    summary:
+      'A sample digital contact card. Try saving Alex’s details to preview the contact experience.',
+  },
+  actions: [
+    {
+      key: 'call',
+      type: 'call',
+      label: 'Call Alex',
+      value: '+17195550182',
+      isPrimary: true,
+    },
+    { key: 'text', type: 'sms', label: 'Text Alex', value: '+17195550182' },
+    { key: 'email', type: 'email', label: 'Email Alex', value: 'alex@example.com' },
+    {
+      key: 'vcard',
+      type: 'vcard',
+      label: 'Save Contact',
+      value: '/contacts/demo.vcf',
+      download: 'demo.vcf',
+    },
+  ],
+  footer: ['profile', 'schema'],
+  vCard: {
+    filename: 'demo.vcf',
+    content:
+      'BEGIN:VCARD\r\nVERSION:3.0\r\nN:Morgan;Alex;;;\r\nFN:Alex Morgan\r\nORG:Fieldwork Studio\r\nTITLE:Design Director\r\nTEL;TYPE=CELL,VOICE:+17195550182\r\nEMAIL;TYPE=INTERNET:alex@example.com\r\nEND:VCARD\r\n',
+  },
+}
+
 export const profileModuleExportNames = {
+  demo: 'demoProfile',
   chad: 'chadProfile',
   chris: 'chrisProfile',
   'pikes-peak-handyman': 'pikesPeakHandymanProfile',
