@@ -18,6 +18,7 @@
 }
 
 .neutral-profile-card {
+  display: grid;
   width: min(100%, 30rem);
   padding: clamp(1.25rem, 5vw, 2.5rem);
   background: var(--profile-surface);
@@ -33,6 +34,30 @@
   :where(section, nav, div, h1, p, span, a, svg) {
   all: revert;
   box-sizing: border-box;
+}
+
+.neutral-profile-card .contact-profile-identity::before {
+  display: block;
+  width: min(100%, 14rem);
+  aspect-ratio: 1;
+  margin: 0 auto clamp(1rem, 3vw, 1.75rem);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle closest-side, var(--profile-accent) 98%, transparent) center 25% / 32%
+      32% no-repeat,
+    radial-gradient(ellipse at center, var(--profile-accent) 69%, transparent 70%) center
+      bottom -18% / 76% 64% no-repeat,
+    #e5ebe7;
+  content: '';
+}
+
+@media (min-width: 42rem) {
+  .neutral-profile-card {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(1.5rem, 5vw, 4rem);
+    width: min(100%, 56rem);
+  }
 }
 
 .neutral-profile-card .contact-profile-identity h1 {
