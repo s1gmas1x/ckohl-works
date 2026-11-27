@@ -7,7 +7,7 @@
       <h3>{{ solution.title }}</h3>
       <p>{{ solution.description }}</p>
       <RouterLink :to="{ path: '/', hash: solution.href }" class="solution-card__link">
-        <span>Learn More</span>
+        <span>{{ solution.linkLabel }}</span>
         <q-icon name="arrow_forward" size="17px" />
       </RouterLink>
     </q-card-section>

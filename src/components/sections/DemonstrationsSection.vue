@@ -7,7 +7,7 @@
         description="These are Ckohl Works demonstrations, built to show how a practical website and a smart customer destination can work together."
       />
 
-      <article class="demo-card demo-card--margots">
+      <article id="restaurant-demo" class="demo-card demo-card--margots">
         <img
           :src="margotsHeroImage"
           alt="Illustrated Margot's Pizza restaurant demonstration"
@@ -31,7 +31,7 @@
         </div>
       </article>
 
-      <article class="demo-card demo-card--contact">
+      <article id="contact-card-demo" class="demo-card demo-card--contact">
         <div class="contact-preview">
           <CrtContactPreview class="contact-preview__phone" loading="lazy" />
         </div>
@@ -43,12 +43,12 @@
             details directly to their phone without typing anything in manually.
           </p>
           <q-btn
-            flat
+            outline
             no-caps
             icon-right="arrow_forward"
             label="Open the contact card"
             to="/card/ckohl-works/chad"
-            class="ckw-btn ckw-btn--text"
+            class="ckw-btn ckw-btn--outline"
           />
         </div>
       </article>
@@ -131,7 +131,7 @@ import SectionHeading from '@/components/ui/SectionHeading.vue'
 }
 
 .contact-preview__phone {
-  width: min(100%, 206px);
+  width: min(100%, 236px);
 }
 
 @media (max-width: 820px) {
