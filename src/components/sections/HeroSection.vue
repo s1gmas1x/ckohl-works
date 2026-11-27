@@ -179,13 +179,16 @@ import contactCardScreen from '@/assets/images/hero/chad-contact-screen.webp'
 }
 .hero-showcase {
   position: relative;
-  min-height: 474px;
+  display: grid;
+  justify-items: end;
+  width: 100%;
+  padding: 28px 2% 32px 0;
 }
 .hero-showcase__direction {
   position: absolute;
   z-index: 2;
-  top: 22px;
-  left: 3%;
+  top: 68px;
+  left: 4%;
   margin: 0;
   color: var(--ckw-text-muted);
   font-size: 0.72rem;
@@ -196,53 +199,45 @@ import contactCardScreen from '@/assets/images/hero/chad-contact-screen.webp'
 .hero-showcase__card {
   position: absolute;
   z-index: 2;
-  top: 76px;
-  left: 0;
-  width: 52%;
-  max-width: 320px;
-  box-shadow: 0 20px 36px rgba(0, 0, 0, 0.36);
-  transform: rotate(-5deg);
+  top: 100px;
+  left: 2%;
+  width: min(64%, 420px);
+  border-radius: 8px;
+  box-shadow: 0 22px 38px rgba(0, 0, 0, 0.42);
+  transform: rotate(-3deg);
 }
 .hero-showcase__card img {
   display: block;
   width: 100%;
-  border-radius: 5px;
+  border-radius: inherit;
 }
 .hero-showcase__phone {
-  position: absolute;
-  top: 42px;
-  right: 7%;
-  bottom: 0;
-  width: min(48%, 286px);
+  position: relative;
+  width: min(41%, 244px);
+  padding-top: 14px;
   overflow: hidden;
-  border: 7px solid #151a20;
-  border-bottom: 0;
-  border-radius: 28px 28px 0 0;
-  background: #151a20;
+  border: 6px solid #151a20;
+  border-radius: 24px;
+  background: #090704;
   box-shadow:
-    0 -2px 0 rgba(255, 255, 255, 0.08),
-    0 20px 38px rgba(0, 0, 0, 0.42);
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 18px 34px rgba(0, 0, 0, 0.3);
 }
 .hero-showcase__phone::before {
   position: absolute;
-  z-index: 2;
-  top: 8px;
+  top: 4px;
   left: 50%;
-  width: 34%;
-  height: 7px;
+  width: 30%;
+  height: 4px;
   border-radius: 999px;
-  background: #151a20;
+  background: #272b30;
   content: '';
   transform: translateX(-50%);
 }
 .hero-showcase__phone-screen {
   display: block;
   width: 100%;
-  height: 100%;
-  padding-top: 18px;
-  background: #090704;
-  object-fit: contain;
-  object-position: center top;
+  height: auto;
 }
 @media (min-width: 1101px) {
   .hero-section__title-line--desktop {
@@ -257,8 +252,8 @@ import contactCardScreen from '@/assets/images/hero/chad-contact-screen.webp'
     max-width: 680px;
   }
   .hero-showcase {
+    justify-self: center;
     max-width: 620px;
-    width: 100%;
   }
 }
 @media (max-width: 560px) {
@@ -288,23 +283,22 @@ import contactCardScreen from '@/assets/images/hero/chad-contact-screen.webp'
     display: grid;
   }
   .hero-showcase {
-    min-height: min(108vw, 420px);
+    padding: clamp(125px, 39vw, 192px) 3% 28px 0;
   }
   .hero-showcase__direction {
-    top: 12px;
-    left: 2%;
+    top: 8px;
+    left: 5%;
     font-size: 0.65rem;
   }
   .hero-showcase__card {
-    top: 88px;
-    left: 3%;
-    width: 49%;
+    top: 30px;
+    left: 4%;
+    width: min(73%, 330px);
   }
   .hero-showcase__phone {
-    top: 22px;
-    right: 4%;
-    bottom: 0;
-    width: 52%;
+    width: min(49%, 218px);
+    border-width: 4px;
+    border-radius: 18px;
   }
 }
 </style>
