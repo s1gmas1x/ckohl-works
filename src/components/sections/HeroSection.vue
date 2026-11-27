@@ -66,26 +66,13 @@
           <img :src="contactCardFrontFallback" alt="Ckohl Works NFC and QR contact card" />
         </picture>
         <div class="hero-showcase__phone">
-          <div class="hero-showcase__phone-screen">
-            <p class="hero-showcase__terminal">CK-Contact // Terminal 01</p>
-            <div class="hero-showcase__identity">
-              <p>Chad Kohl</p>
-              <span>Full-Stack Developer</span>
-            </div>
-            <div class="hero-showcase__phone-actions" aria-hidden="true">
-              <span><ContactProfileIcon name="phone" /> Call</span>
-              <span><ContactProfileIcon name="message" /> Text</span>
-              <span class="hero-showcase__save-contact">
-                <ContactProfileIcon name="person-add" />
-                Save Contact
-                <ContactProfileIcon name="chevron-right" />
-              </span>
-            </div>
-            <figure class="hero-showcase__display">
-              <figcaption>Display // Wireframe</figcaption>
-              <img :src="contactCardDisplay" alt="Amber sunset over a wireframe grid" />
-            </figure>
-          </div>
+          <img
+            :src="contactCardScreen"
+            class="hero-showcase__phone-screen"
+            alt="Chad Kohl’s amber CRT contact card with Call, Text, Email, and Save Contact"
+            width="691"
+            height="1258"
+          />
         </div>
       </div>
     </div>
@@ -95,14 +82,10 @@
 <script setup>
 import contactCardFront from '@/assets/images/hero/ckohl-works-contact-card-front-nfc-paths.svg'
 import contactCardFrontFallback from '@/assets/images/hero/ckohl-works-contact-card-front-nfc-paths.png'
-import ContactProfileIcon from '@/components/profile/ContactProfileIcon.vue'
-
-const contactCardDisplay = `${import.meta.env.BASE_URL}images/contact-profile/crt-wireframe-fallback-wide.webp`
+import contactCardScreen from '@/assets/images/hero/chad-contact-screen.webp'
 </script>
 
 <style lang="scss" scoped>
-@use '../../css/contact-profile-fonts';
-
 .hero-section {
   position: relative;
   padding: 34px 0 0;
@@ -253,87 +236,13 @@ const contactCardDisplay = `${import.meta.env.BASE_URL}images/contact-profile/cr
   transform: translateX(-50%);
 }
 .hero-showcase__phone-screen {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  align-content: center;
-  gap: 8px;
-  height: 100%;
-  padding: 24px 10px 12px;
-  background: repeating-linear-gradient(0deg, #161007 0 1px, #0c0904 1px 4px);
-  color: #ffd489;
-  font-family: 'Sixtyfour Variable', monospace;
-  container-type: inline-size;
-}
-.hero-showcase__terminal,
-.hero-showcase__identity,
-.hero-showcase__display {
-  margin: 0;
-  padding: 8px;
-  border: 1px solid #775321;
-  border-radius: 3px;
-  background: #130e06;
-}
-.hero-showcase__terminal,
-.hero-showcase__identity span,
-.hero-showcase__display figcaption {
-  font-size: clamp(6px, 4cqi, 10px);
-  text-transform: uppercase;
-}
-.hero-showcase__identity p {
-  margin: 0 0 5px;
-  color: #ffe3aa;
-  font-size: clamp(12px, 9cqi, 22px);
-  line-height: 1.2;
-  text-shadow: 0 0 10px #bd781d;
-}
-.hero-showcase__display img {
   display: block;
   width: 100%;
-  aspect-ratio: 1.65;
-  margin-top: 6px;
-  border: 1px solid #775321;
-  object-fit: cover;
-}
-.hero-showcase__phone-actions {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 4px;
-}
-.hero-showcase__phone-actions span {
-  display: grid;
-  justify-items: center;
-  gap: 4px;
-  padding: 4px 2px;
-  border: 1px solid #775321;
-  border-radius: 3px;
-  background: #130e06;
-  font-size: clamp(7px, 4cqi, 10px);
-  text-transform: uppercase;
-}
-.hero-showcase__phone-actions .contact-profile-icon {
-  width: clamp(12px, 8cqi, 19px);
-  height: auto;
-}
-.hero-showcase__phone-actions .hero-showcase__save-contact {
-  grid-column: 1 / -1;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  justify-items: start;
-  padding-inline: 8px;
-  border-color: #c7872b;
-  background: #2c1b08;
-}
-@media (max-width: 360px) {
-  .hero-showcase__phone-screen {
-    gap: 5px;
-    padding-inline: 6px;
-  }
-
-  .hero-showcase__terminal,
-  .hero-showcase__identity,
-  .hero-showcase__display {
-    padding: 5px;
-  }
+  height: 100%;
+  padding-top: 18px;
+  background: #090704;
+  object-fit: contain;
+  object-position: center top;
 }
 @media (min-width: 1101px) {
   .hero-section__title-line--desktop {
