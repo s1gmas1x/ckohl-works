@@ -66,16 +66,16 @@
           <img :src="contactCardFrontFallback" alt="Ckohl Works NFC and QR contact card" />
         </picture>
         <div class="hero-showcase__phone">
-          <div class="hero-showcase__phone-content">
-            <div class="hero-showcase__phone-mark" aria-hidden="true">CK</div>
-            <p>Chad Kohl</p>
-            <span>Full-Stack Developer at Ckohl Works</span>
-            <div aria-label="Example customer actions" class="hero-showcase__phone-actions">
-              <span>Call</span>
-              <span>Email</span>
-              <span>Portfolio</span>
-              <span>Save</span>
+          <div class="hero-showcase__phone-screen">
+            <p class="hero-showcase__terminal">CK-Contact // Terminal 01</p>
+            <div class="hero-showcase__identity">
+              <p>Chad Kohl</p>
+              <span>Full-Stack Developer</span>
             </div>
+            <figure class="hero-showcase__display">
+              <figcaption>Display // Wireframe</figcaption>
+              <img :src="contactCardDisplay" alt="Amber sunset over a wireframe grid" />
+            </figure>
           </div>
         </div>
       </div>
@@ -86,9 +86,12 @@
 <script setup>
 import contactCardFront from '@/assets/images/hero/ckohl-works-contact-card-front-nfc-paths.svg'
 import contactCardFrontFallback from '@/assets/images/hero/ckohl-works-contact-card-front-nfc-paths.png'
+const contactCardDisplay = `${import.meta.env.BASE_URL}images/contact-profile/crt-wireframe-fallback-wide.webp`
 </script>
 
 <style lang="scss" scoped>
+@use '../../css/contact-profile-fonts';
+
 .hero-section {
   position: relative;
   padding: 34px 0 0;
@@ -238,59 +241,46 @@ import contactCardFrontFallback from '@/assets/images/hero/ckohl-works-contact-c
   content: '';
   transform: translateX(-50%);
 }
-.hero-showcase__phone-content {
-  position: absolute;
-  inset: 0;
+.hero-showcase__phone-screen {
   display: grid;
   align-content: center;
-  justify-items: center;
-  gap: 6px;
-  padding: 28px 12px 16px;
-  background:
-    radial-gradient(circle at 50% 26%, rgba(249, 156, 30, 0.16), transparent 28%), #0a0e12;
-  color: #ffffff;
-  text-align: center;
+  gap: 8px;
+  height: 100%;
+  padding: 24px 10px 12px;
+  background: repeating-linear-gradient(0deg, #161007 0 1px, #0c0904 1px 4px);
+  color: #ffd489;
+  font-family: 'Sixtyfour Variable', monospace;
+  container-type: inline-size;
 }
-.hero-showcase__phone-content p,
-.hero-showcase__phone-content > span {
+.hero-showcase__terminal,
+.hero-showcase__identity,
+.hero-showcase__display {
   margin: 0;
+  padding: 8px;
+  border: 1px solid #775321;
+  border-radius: 3px;
+  background: #130e06;
 }
-.hero-showcase__phone-content p {
-  color: #ffffff;
-  font-size: 0.92rem;
-  font-weight: 700;
+.hero-showcase__terminal,
+.hero-showcase__identity span,
+.hero-showcase__display figcaption {
+  font-size: clamp(6px, 4cqi, 10px);
+  text-transform: uppercase;
 }
-.hero-showcase__phone-content > span {
-  color: #b8c1cb;
-  font-size: 0.6rem;
+.hero-showcase__identity p {
+  margin: 0 0 5px;
+  color: #ffe3aa;
+  font-size: clamp(12px, 9cqi, 22px);
+  line-height: 1.2;
+  text-shadow: 0 0 10px #bd781d;
 }
-.hero-showcase__phone-mark {
-  display: grid;
-  width: 42px;
-  aspect-ratio: 1;
-  margin-bottom: 4px;
-  border: 1px solid rgba(249, 156, 30, 0.72);
-  border-radius: 50%;
-  color: var(--ckw-orange);
-  font-family: 'Orbitron', var(--ckw-font-body);
-  font-size: 0.78rem;
-  font-weight: 600;
-  place-items: center;
-}
-.hero-showcase__phone-actions {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 5px;
+.hero-showcase__display img {
+  display: block;
   width: 100%;
-  margin-top: 12px;
-}
-.hero-showcase__phone-actions span {
-  padding: 6px 3px;
-  border: 1px solid rgba(249, 156, 30, 0.45);
-  color: #ffffff;
-  font-size: 0.58rem;
-  font-weight: 700;
-  text-align: center;
+  aspect-ratio: 1.65;
+  margin-top: 6px;
+  border: 1px solid #775321;
+  object-fit: cover;
 }
 @media (min-width: 1101px) {
   .hero-section__title-line--desktop {
