@@ -29,7 +29,7 @@
             rel="noopener noreferrer"
             aria-label="LinkedIn"
           >
-            <q-icon name="business_center" size="20px" />
+            <ContactProfileIcon name="linkedin" class="site-footer__social-icon" />
           </a>
           <a href="mailto:chad_kohl@ckohl.com" aria-label="Email CKohl Works">
             <q-icon name="mail_outline" size="20px" />
@@ -43,6 +43,7 @@
 </template>
 
 <script setup>
+import ContactProfileIcon from '@/components/profile/ContactProfileIcon.vue'
 import BrandMark from '@/components/ui/BrandMark.vue'
 
 const year = new Date().getFullYear()
@@ -113,6 +114,12 @@ const year = new Date().getFullYear()
   border: 1px solid var(--ckw-border-strong);
   border-radius: 8px;
   color: var(--ckw-text-strong);
+}
+
+.site-footer__social-icon {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
 }
 
 @media (max-width: 860px) {

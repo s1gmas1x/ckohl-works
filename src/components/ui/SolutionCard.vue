@@ -1,33 +1,15 @@
 <template>
   <q-card flat bordered class="solution-card">
-    <div class="solution-card__visual" :class="`solution-card__visual--${solution.variant}`">
-      <q-icon :name="solution.icon" size="38px" />
-      <span
-        v-if="solution.variant === 'nfc'"
-        class="solution-card__signal"
-        aria-hidden="true"
-      ></span>
-      <span v-if="solution.variant === 'qr'" class="solution-card__qr" aria-hidden="true"></span>
-      <span
-        v-if="solution.variant === 'web'"
-        class="solution-card__browser"
-        aria-hidden="true"
-      ></span>
-      <span v-if="solution.variant === 'app'" class="solution-card__grid" aria-hidden="true"></span>
-      <span
-        v-if="solution.variant === 'analytics'"
-        class="solution-card__bars"
-        aria-hidden="true"
-      ></span>
-    </div>
-
     <q-card-section>
+      <div class="solution-card__visual" aria-hidden="true">
+        <q-icon :name="solution.icon" size="34px" />
+      </div>
       <h3>{{ solution.title }}</h3>
       <p>{{ solution.description }}</p>
-      <a :href="solution.href" class="solution-card__link">
+      <RouterLink :to="{ path: '/', hash: solution.href }" class="solution-card__link">
         <span>Learn More</span>
         <q-icon name="arrow_forward" size="17px" />
-      </a>
+      </RouterLink>
     </q-card-section>
   </q-card>
 </template>
@@ -46,7 +28,6 @@ defineProps({
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 10px;
   background: var(--ckw-surface-raised);
   border-color: var(--ckw-border);
   border-radius: 8px;
@@ -55,36 +36,22 @@ defineProps({
 }
 
 .solution-card__visual {
-  position: relative;
   display: grid;
   place-items: center;
-  min-height: 122px;
+  width: 60px;
+  height: 60px;
+  margin-bottom: 4px;
+  border-radius: 10px;
   background: var(--ckw-surface-subtle);
-  border: 0;
-  border-radius: 7px;
-  color: var(--ckw-orange);
-  overflow: hidden;
-}
-
-.solution-card__visual::before {
-  content: '';
-  position: absolute;
-  inset: 20px 28px;
-  border: 1px solid var(--ckw-grid-line);
-  border-radius: 6px;
-}
-
-.solution-card__visual :deep(.q-icon) {
-  position: relative;
-  z-index: 1;
-  filter: none;
+  color: color-mix(in srgb, var(--ckw-orange) 58%, var(--ckw-text-strong));
 }
 
 .solution-card :deep(.q-card__section) {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 10px;
   flex: 1;
-  padding: 18px 6px 6px;
+  padding: 22px;
 }
 
 .solution-card h3,
@@ -111,83 +78,10 @@ defineProps({
   gap: 6px;
   width: fit-content;
   margin-top: auto;
+  padding-top: 4px;
   color: var(--ckw-orange);
   font-size: 0.88rem;
   font-weight: 800;
   text-decoration: none;
-}
-
-.solution-card__signal,
-.solution-card__qr,
-.solution-card__browser,
-.solution-card__grid,
-.solution-card__bars {
-  position: absolute;
-  inset: auto;
-  border-color: rgba(255, 138, 0, 0.55);
-}
-
-.solution-card__signal {
-  top: 25px;
-  right: 38px;
-  width: 26px;
-  height: 26px;
-  border-top: 3px solid;
-  border-right: 3px solid;
-  border-radius: 0 18px 0 0;
-}
-
-.solution-card__qr {
-  width: 72px;
-  height: 72px;
-  border: 8px solid rgba(255, 255, 255, 0.82);
-  box-shadow:
-    inset 18px 0 0 rgba(255, 255, 255, 0.82),
-    inset 0 18px 0 rgba(255, 255, 255, 0.82),
-    0 0 0 1px rgba(255, 138, 0, 0.5);
-  opacity: 0.22;
-}
-
-.solution-card__browser {
-  width: 112px;
-  height: 68px;
-  border: 1px solid;
-  border-radius: 6px;
-  opacity: 0.35;
-}
-
-.solution-card__browser::before {
-  content: '';
-  position: absolute;
-  top: 16px;
-  right: 10px;
-  left: 10px;
-  height: 1px;
-  background: currentColor;
-}
-
-.solution-card__grid {
-  width: 110px;
-  height: 76px;
-  background:
-    linear-gradient(rgba(255, 138, 0, 0.28), rgba(255, 138, 0, 0.28)) 12px 12px / 35px 20px,
-    linear-gradient(rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.18)) 58px 12px / 38px 20px,
-    linear-gradient(rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.18)) 12px 44px / 84px 20px;
-  background-repeat: no-repeat;
-  border: 1px solid;
-  border-radius: 8px;
-  opacity: 0.38;
-}
-
-.solution-card__bars {
-  width: 112px;
-  height: 72px;
-  background:
-    linear-gradient(to top, rgba(255, 138, 0, 0.72) 72%, transparent 72%) 8px 0 / 14px 100%,
-    linear-gradient(to top, rgba(255, 255, 255, 0.22) 44%, transparent 44%) 36px 0 / 14px 100%,
-    linear-gradient(to top, rgba(255, 138, 0, 0.72) 88%, transparent 88%) 64px 0 / 14px 100%,
-    linear-gradient(to top, rgba(255, 255, 255, 0.22) 58%, transparent 58%) 92px 0 / 14px 100%;
-  background-repeat: no-repeat;
-  opacity: 0.45;
 }
 </style>
