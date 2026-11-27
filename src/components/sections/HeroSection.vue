@@ -182,7 +182,7 @@ import contactCardScreen from '@/assets/images/hero/chad-contact-screen.webp'
   display: grid;
   justify-items: end;
   width: 100%;
-  padding: 28px 2% 32px 0;
+  padding: 28px 1% 32px 0;
 }
 .hero-showcase__direction {
   position: absolute;
@@ -201,7 +201,7 @@ import contactCardScreen from '@/assets/images/hero/chad-contact-screen.webp'
   z-index: 2;
   top: 100px;
   left: 2%;
-  width: min(64%, 420px);
+  width: min(57%, 420px);
   border-radius: 8px;
   box-shadow: 0 22px 38px rgba(0, 0, 0, 0.42);
   transform: rotate(-3deg);
@@ -213,7 +213,7 @@ import contactCardScreen from '@/assets/images/hero/chad-contact-screen.webp'
 }
 .hero-showcase__phone {
   position: relative;
-  width: min(41%, 244px);
+  width: min(39%, 244px);
   padding-top: 14px;
   overflow: hidden;
   border: 6px solid #151a20;
