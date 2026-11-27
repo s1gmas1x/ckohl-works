@@ -28,12 +28,12 @@
             or tapping an NFC card: menu, directions, and the next useful action in one place.
           </p>
           <q-btn
-            flat
+            outline
             no-caps
             icon-right="arrow_forward"
             label="Open the restaurant demo"
             to="/margots-pizza"
-            class="ckw-btn ckw-btn--text"
+            class="ckw-btn ckw-btn--outline"
           />
         </div>
       </article>
