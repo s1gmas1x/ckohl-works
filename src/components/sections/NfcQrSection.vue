@@ -15,7 +15,7 @@
             color="primary"
             icon-right="arrow_forward"
             label="Start a Conversation"
-            href="#contact"
+            :to="{ path: '/', hash: '#contact' }"
             class="ckw-btn ckw-btn--primary"
           />
           <q-btn

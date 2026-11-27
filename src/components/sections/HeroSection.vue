@@ -45,7 +45,7 @@
             color="primary"
             icon-right="arrow_downward"
             label="See How It Works"
-            href="#how-it-works"
+            :to="{ path: '/', hash: '#how-it-works' }"
             class="ckw-btn ckw-btn--primary"
           />
           <q-btn
@@ -53,7 +53,7 @@
             no-caps
             icon-right="arrow_forward"
             label="View a Demo"
-            href="#demonstrations"
+            :to="{ path: '/', hash: '#demonstrations' }"
             class="ckw-btn ckw-btn--outline"
           />
         </div>

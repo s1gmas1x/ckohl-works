@@ -8,16 +8,16 @@
 
       <nav class="site-footer__links" aria-label="Solutions">
         <span>Solutions</span>
-        <a href="#solutions">Tap-and-Scan Pages</a>
-        <a href="#solutions">Digital Contact Cards</a>
-        <a href="#services">Business Websites &amp; Care</a>
+        <RouterLink :to="{ path: '/', hash: '#solutions' }">Tap-and-Scan Pages</RouterLink>
+        <RouterLink :to="{ path: '/', hash: '#solutions' }">Digital Contact Cards</RouterLink>
+        <RouterLink :to="{ path: '/', hash: '#services' }">Business Websites &amp; Care</RouterLink>
       </nav>
 
       <nav class="site-footer__links" aria-label="Company">
         <span>Company</span>
-        <a href="#how-it-works">How It Works</a>
-        <a href="#demonstrations">Demonstrations</a>
-        <a href="#contact">Contact</a>
+        <RouterLink :to="{ path: '/', hash: '#how-it-works' }">How It Works</RouterLink>
+        <RouterLink :to="{ path: '/', hash: '#demonstrations' }">Demonstrations</RouterLink>
+        <RouterLink :to="{ path: '/', hash: '#contact' }">Contact</RouterLink>
       </nav>
 
       <div class="site-footer__links">

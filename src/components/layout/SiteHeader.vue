@@ -14,7 +14,7 @@
           :label="item.label"
           :icon-right="item.hasMenu ? 'expand_more' : undefined"
           class="site-header__link"
-          @click="handleNavigation(item)"
+          :to="{ path: '/', hash: `#${item.id}` }"
         />
       </nav>
 
@@ -25,7 +25,7 @@
         color="primary"
         icon-right="arrow_forward"
         label="Start a Conversation"
-        href="#contact"
+        :to="{ path: '/', hash: '#contact' }"
         class="ckw-btn ckw-btn--primary site-header__cta"
       />
 
@@ -58,8 +58,6 @@
 </template>
 
 <script setup>
-import { nextTick } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
 import BrandMark from '@/components/ui/BrandMark.vue'
 
 defineEmits(['toggle-drawer', 'toggle-theme'])
@@ -87,39 +85,12 @@ defineProps({
   },
 })
 
-const HEADER_SCROLL_OFFSET = 92
-
-const route = useRoute()
-const router = useRouter()
-
 const navigationItems = [
   { label: 'How It Works', id: 'how-it-works' },
   { label: 'Offers', id: 'solutions' },
   { label: 'Demos', id: 'demonstrations' },
   { label: 'Contact', id: 'contact' },
 ]
-
-async function handleNavigation(item) {
-  await scrollToSection(item.id)
-}
-
-async function scrollToSection(sectionId) {
-  if (route.path !== '/') {
-    await router.push('/')
-    await nextTick()
-  }
-
-  const section = document.getElementById(sectionId)
-
-  if (!section) return
-
-  const scrollTop = section.getBoundingClientRect().top + window.scrollY - HEADER_SCROLL_OFFSET
-
-  window.scrollTo({
-    top: Math.max(scrollTop, 0),
-    behavior: 'smooth',
-  })
-}
 </script>
 
 <style lang="scss" scoped>
