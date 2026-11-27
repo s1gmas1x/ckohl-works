@@ -8,11 +8,18 @@
       />
 
       <article id="restaurant-demo" class="demo-card demo-card--margots">
-        <img
-          :src="margotsHeroImage"
-          alt="Illustrated Margot's Pizza restaurant demonstration"
-          class="demo-card__image"
-        />
+        <div class="restaurant-preview">
+          <img :src="margotsHeroImage" alt="" class="restaurant-preview__art" loading="lazy" />
+          <PhonePreview class="restaurant-preview__phone">
+            <img
+              :src="margotsMobilePreview"
+              alt="Margot’s Pizza on mobile, showing the restaurant artwork and View Sample Menu button"
+              width="780"
+              height="1556"
+              loading="lazy"
+            />
+          </PhonePreview>
+        </div>
         <div class="demo-card__content">
           <p class="demo-card__eyebrow">Restaurant destination after a tap or scan</p>
           <h3>Margot's Pizza</h3>
@@ -24,7 +31,7 @@
             flat
             no-caps
             icon-right="arrow_forward"
-            label="Explore the demonstration"
+            label="Open the restaurant demo"
             to="/margots-pizza"
             class="ckw-btn ckw-btn--text"
           />
@@ -57,8 +64,10 @@
 </template>
 
 <script setup>
+import margotsMobilePreview from '@/assets/images/mockup/margots-mobile-preview.webp'
 import margotsHeroImage from '@/assets/images/mockup/margots-pizza-hero-v2.webp'
 import CrtContactPreview from '@/components/ui/CrtContactPreview.vue'
+import PhonePreview from '@/components/ui/PhonePreview.vue'
 import SectionHeading from '@/components/ui/SectionHeading.vue'
 </script>
 
@@ -76,13 +85,27 @@ import SectionHeading from '@/components/ui/SectionHeading.vue'
   margin-top: 24px;
 }
 
-.demo-card__image {
-  display: block;
+.restaurant-preview {
+  position: relative;
+  display: grid;
+  align-items: center;
+  padding: clamp(20px, 4vw, 36px);
+  isolation: isolate;
+  background: #2a1212;
+}
+
+.restaurant-preview__art {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
   width: 100%;
   height: 100%;
-  min-height: 340px;
   object-fit: cover;
-  object-position: 84% center;
+  object-position: 72% center;
+}
+
+.restaurant-preview__phone {
+  width: min(64%, 218px);
 }
 
 .demo-card__content {
@@ -139,12 +162,8 @@ import SectionHeading from '@/components/ui/SectionHeading.vue'
     grid-template-columns: 1fr;
   }
 
-  .demo-card__image {
-    min-height: 260px;
-    max-height: 360px;
-  }
-
   .demo-card__content {
+    grid-row: 1;
     padding: 28px;
   }
 }

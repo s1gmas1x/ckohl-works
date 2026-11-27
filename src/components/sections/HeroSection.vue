@@ -232,8 +232,8 @@ import CrtContactPreview from '@/components/ui/CrtContactPreview.vue'
   }
   .hero-showcase__phone {
     width: min(49%, 218px);
-    --crt-preview-frame-width: 4px;
-    --crt-preview-frame-radius: 18px;
+    --phone-preview-frame-width: 4px;
+    --phone-preview-frame-radius: 18px;
   }
 }
 </style>
