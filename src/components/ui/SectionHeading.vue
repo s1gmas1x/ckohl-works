@@ -41,7 +41,7 @@ defineProps({
   display: grid;
   gap: 10px;
   max-width: 700px;
-  margin: 0 auto 38px;
+  margin: 0 auto 32px;
 }
 
 .section-heading--left {
@@ -57,8 +57,8 @@ defineProps({
 .section-heading__eyebrow {
   margin: 0;
   color: var(--ckw-text-muted);
-  font-size: 0.74rem;
-  font-weight: 800;
+  font-size: 0.72rem;
+  font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -66,7 +66,7 @@ defineProps({
 .section-heading__title {
   margin: 0;
   color: var(--ckw-text-strong);
-  font-size: clamp(1.9rem, 3.25vw, 2.6rem);
+  font-size: clamp(1.85rem, 3.15vw, 2.5rem);
   font-weight: 800;
   letter-spacing: 0;
   line-height: 1.12;

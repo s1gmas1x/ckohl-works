@@ -49,12 +49,12 @@
             class="ckw-btn ckw-btn--primary"
           />
           <q-btn
-            outline
+            flat
             no-caps
             icon-right="arrow_forward"
             label="View a Demo"
             :to="{ path: '/', hash: '#demonstrations' }"
-            class="ckw-btn ckw-btn--outline"
+            class="ckw-btn ckw-btn--text"
           />
         </div>
       </div>
@@ -120,10 +120,10 @@ import contactCardScreen from '@/assets/images/hero/chad-contact-screen.webp'
   gap: 8px;
   align-items: center;
   width: fit-content;
-  color: var(--ckw-orange);
-  font-size: 0.8rem;
-  font-weight: 800;
-  letter-spacing: 0.07em;
+  color: var(--ckw-text-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 .hero-section h1 {
@@ -281,6 +281,7 @@ import contactCardScreen from '@/assets/images/hero/chad-contact-screen.webp'
   }
   .hero-section__actions {
     display: grid;
+    gap: 4px;
   }
   .hero-showcase {
     padding: clamp(125px, 39vw, 192px) 3% 28px 0;
