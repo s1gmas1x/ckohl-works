@@ -32,21 +32,24 @@ export const solutions = [
     description:
       'QR and NFC experiences for menus, directions, reviews, booking, promotions, service details, and vendor or property pages.',
     icon: 'contactless',
-    href: '#contact',
+    href: '#restaurant-demo',
+    linkLabel: 'See the restaurant demo',
   },
   {
     title: 'Digital Contact Cards',
     description:
       'Give customers one mobile place to call, email, visit your site, book, get directions, or save your details.',
     icon: 'badge',
-    href: '#contact',
+    href: '#contact-card-demo',
+    linkLabel: 'See the contact card demo',
   },
   {
     title: 'Business Websites and Care',
     description:
       'Mobile-friendly websites, hosting, maintenance, updates, and support for the parts of your business customers rely on.',
     icon: 'web_asset',
-    href: '#contact',
+    href: '#services',
+    linkLabel: 'Explore websites and care',
   },
 ]
 

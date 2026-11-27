@@ -2,8 +2,8 @@
   <q-page class="home-page">
     <HeroSection />
     <ProcessSection />
-    <FeaturedSolutions />
     <DemonstrationsSection />
+    <FeaturedSolutions />
     <ServicesCareSection />
     <CtaSection />
     <ContactFormSection />

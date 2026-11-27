@@ -8,30 +8,13 @@
         </p>
 
         <h1>
-          <span class="hero-section__title-line hero-section__title-line--desktop"
-            >Give customers one</span
-          >
-          <span
-            class="hero-section__title-line hero-section__title-line--desktop hero-section__title-accent"
-            >useful place to go.</span
-          >
-          <span class="hero-section__title-line hero-section__title-line--mobile"
-            >Give customers</span
-          >
-          <span
-            class="hero-section__title-line hero-section__title-line--mobile hero-section__title-accent"
-            >one useful</span
-          >
-          <span
-            class="hero-section__title-line hero-section__title-line--mobile hero-section__title-accent"
-            >place to go.</span
-          >
+          Tap a card.
+          <span class="hero-section__title-accent">Open a page built for your business.</span>
         </h1>
 
         <p class="hero-section__summary">
-          Ckohl Works creates mobile business pages connected to QR codes, NFC cards, and links.
-          Customers can call, book, get directions, view a menu, save your contact, or take the next
-          useful action.
+          With a tap or QR scan, customers can view your menu, get directions, book an appointment,
+          or save your contact details.
         </p>
 
         <p class="hero-section__benefit">
@@ -125,13 +108,8 @@ import CrtContactPreview from '@/components/ui/CrtContactPreview.vue'
   font-weight: 800;
   line-height: 1.03;
 }
-.hero-section__title-line {
-  display: block;
-}
-.hero-section__title-line--mobile {
-  display: none;
-}
 .hero-section__title-accent {
+  display: block;
   color: var(--ckw-orange);
 }
 .hero-section__summary {
@@ -206,11 +184,6 @@ import CrtContactPreview from '@/components/ui/CrtContactPreview.vue'
 .hero-showcase__phone {
   width: min(39%, 244px);
 }
-@media (min-width: 1101px) {
-  .hero-section__title-line--desktop {
-    white-space: nowrap;
-  }
-}
 @media (max-width: 1100px) {
   .hero-section__grid {
     grid-template-columns: 1fr;
@@ -231,13 +204,7 @@ import CrtContactPreview from '@/components/ui/CrtContactPreview.vue'
     gap: 18px;
   }
   .hero-section h1 {
-    font-size: clamp(2.4rem, 11.5vw, 3.15rem);
-  }
-  .hero-section__title-line--desktop {
-    display: none;
-  }
-  .hero-section__title-line--mobile {
-    display: block;
+    font-size: clamp(2.1rem, 8.8vw, 3rem);
   }
   .hero-section__eyebrow {
     font-size: 0.7rem;
