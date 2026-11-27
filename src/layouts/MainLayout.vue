@@ -26,8 +26,8 @@
           v-for="item in drawerItems"
           :key="item.label"
           clickable
-          :href="`#${item.id}`"
-          @click="handleDrawerNavigation(item.id)"
+          :to="{ path: '/', hash: `#${item.id}` }"
+          @click="rightDrawerOpen = false"
         >
           <q-item-section>{{ item.label }}</q-item-section>
         </q-item>
@@ -44,11 +44,10 @@
 </template>
 
 <script setup>
-import { computed, nextTick, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import SiteHeader from '@/components/layout/SiteHeader.vue'
 
-const HEADER_SCROLL_OFFSET = 92
 const THEME_STORAGE_KEY = 'ckohl-works-theme'
 const rightDrawerOpen = ref(false)
 const theme = ref(getInitialTheme())
@@ -83,23 +82,5 @@ function applyTheme(activeTheme) {
 
   document.documentElement.dataset.theme = activeTheme
   document.documentElement.style.colorScheme = activeTheme
-}
-
-async function handleDrawerNavigation(sectionId) {
-  rightDrawerOpen.value = false
-  await nextTick()
-
-  window.setTimeout(() => {
-    const section = document.getElementById(sectionId)
-
-    if (!section) return
-
-    const scrollTop = section.getBoundingClientRect().top + window.scrollY - HEADER_SCROLL_OFFSET
-
-    window.scrollTo({
-      top: Math.max(scrollTop, 0),
-      behavior: 'smooth',
-    })
-  }, 220)
 }
 </script>
