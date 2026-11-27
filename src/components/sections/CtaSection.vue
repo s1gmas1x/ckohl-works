@@ -2,10 +2,7 @@
   <section class="content-section cta-section">
     <div class="section-inner">
       <div class="cta-section__panel">
-        <div>
-          <p class="cta-section__eyebrow">Start with the next useful step</p>
-          <h2>Tell us what customers need to <span>do next.</span></h2>
-        </div>
+        <h2>Have a project in mind?</h2>
 
         <p>
           We will talk through the customer experience you need and choose a practical first
@@ -43,19 +40,9 @@
   box-shadow: 0 16px 36px rgba(8, 12, 18, 0.1);
 }
 
-.cta-section__eyebrow,
 .cta-section h2,
 .cta-section p {
   margin: 0;
-}
-
-.cta-section__eyebrow {
-  margin-bottom: 8px;
-  color: var(--ckw-text-muted);
-  font-size: 0.76rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
 }
 
 .cta-section h2 {
@@ -63,10 +50,6 @@
   font-size: clamp(1.75rem, 3vw, 2.25rem);
   font-weight: 800;
   line-height: 1.12;
-}
-
-.cta-section h2 span {
-  color: var(--ckw-orange);
 }
 
 .cta-section p {

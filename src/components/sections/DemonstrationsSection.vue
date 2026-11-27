@@ -21,13 +21,12 @@
             or tapping an NFC card: menu, directions, and the next useful action in one place.
           </p>
           <q-btn
-            unelevated
+            flat
             no-caps
-            color="primary"
             icon-right="arrow_forward"
             label="Explore the demonstration"
             to="/margots-pizza"
-            class="ckw-btn ckw-btn--primary"
+            class="ckw-btn ckw-btn--text"
           />
         </div>
       </article>
@@ -52,13 +51,12 @@
             details directly to their phone without typing anything in manually.
           </p>
           <q-btn
-            unelevated
+            flat
             no-caps
-            color="primary"
             icon-right="arrow_forward"
             label="Open the contact card"
             to="/card/ckohl-works/chad"
-            class="ckw-btn ckw-btn--primary"
+            class="ckw-btn ckw-btn--text"
           />
         </div>
       </article>
@@ -117,7 +115,7 @@ import SectionHeading from '@/components/ui/SectionHeading.vue'
 
 .demo-card__content h3 {
   color: var(--ckw-text-strong);
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-size: clamp(1.65rem, 3vw, 2.35rem);
   line-height: 1.08;
 }
 
@@ -203,7 +201,8 @@ import SectionHeading from '@/components/ui/SectionHeading.vue'
 }
 
 .contact-preview__actions :deep(.q-icon) {
-  color: var(--ckw-orange);
+  color: var(--ckw-text-strong);
+  font-size: 18px;
 }
 
 @media (max-width: 820px) {

@@ -21,11 +21,6 @@ import SolutionCard from '@/components/ui/SolutionCard.vue'
 </script>
 
 <style lang="scss" scoped>
-.featured-solutions {
-  padding-top: 72px;
-  padding-bottom: 72px;
-}
-
 .featured-solutions__grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -35,13 +30,6 @@ import SolutionCard from '@/components/ui/SolutionCard.vue'
 @media (max-width: 900px) {
   .featured-solutions__grid {
     grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 680px) {
-  .featured-solutions {
-    padding-top: 54px;
-    padding-bottom: 54px;
   }
 }
 </style>

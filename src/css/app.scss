@@ -167,7 +167,7 @@ textarea {
 }
 
 .content-section {
-  padding: 68px 0;
+  padding: 64px 0;
 }
 
 .ckw-btn {
@@ -190,6 +190,15 @@ textarea {
   box-shadow:
     0 8px 20px rgba(255, 138, 0, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.ckw-btn--text {
+  color: var(--ckw-text-strong);
+}
+
+.ckw-btn--text .q-btn__content > span {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
 }
 
 .ckw-btn--outline {
@@ -225,7 +234,7 @@ textarea {
   }
 
   .content-section {
-    padding: 50px 0;
+    padding: 44px 0;
   }
 
   .ckw-btn {
