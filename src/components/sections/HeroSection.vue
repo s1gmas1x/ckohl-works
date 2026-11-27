@@ -254,6 +254,7 @@ const contactCardDisplay = `${import.meta.env.BASE_URL}images/contact-profile/cr
 }
 .hero-showcase__phone-screen {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   align-content: center;
   gap: 8px;
   height: 100%;
@@ -321,6 +322,18 @@ const contactCardDisplay = `${import.meta.env.BASE_URL}images/contact-profile/cr
   padding-inline: 8px;
   border-color: #c7872b;
   background: #2c1b08;
+}
+@media (max-width: 360px) {
+  .hero-showcase__phone-screen {
+    gap: 5px;
+    padding-inline: 6px;
+  }
+
+  .hero-showcase__terminal,
+  .hero-showcase__identity,
+  .hero-showcase__display {
+    padding: 5px;
+  }
 }
 @media (min-width: 1101px) {
   .hero-section__title-line--desktop {
