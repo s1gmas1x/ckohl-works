@@ -65,15 +65,7 @@
           <source :srcset="contactCardFront" type="image/svg+xml" />
           <img :src="contactCardFrontFallback" alt="Ckohl Works NFC and QR contact card" />
         </picture>
-        <div class="hero-showcase__phone">
-          <img
-            :src="contactCardScreen"
-            class="hero-showcase__phone-screen"
-            alt="Chad Kohl’s amber CRT contact card with Call, Text, Email, and Save Contact"
-            width="691"
-            height="1258"
-          />
-        </div>
+        <CrtContactPreview class="hero-showcase__phone" />
       </div>
     </div>
   </section>
@@ -82,7 +74,7 @@
 <script setup>
 import contactCardFront from '@/assets/images/hero/ckohl-works-contact-card-front-nfc-paths.svg'
 import contactCardFrontFallback from '@/assets/images/hero/ckohl-works-contact-card-front-nfc-paths.png'
-import contactCardScreen from '@/assets/images/hero/chad-contact-screen.webp'
+import CrtContactPreview from '@/components/ui/CrtContactPreview.vue'
 </script>
 
 <style lang="scss" scoped>
@@ -212,32 +204,7 @@ import contactCardScreen from '@/assets/images/hero/chad-contact-screen.webp'
   border-radius: inherit;
 }
 .hero-showcase__phone {
-  position: relative;
   width: min(39%, 244px);
-  padding-top: 14px;
-  overflow: hidden;
-  border: 6px solid #151a20;
-  border-radius: 24px;
-  background: #090704;
-  box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.08),
-    0 18px 34px rgba(0, 0, 0, 0.3);
-}
-.hero-showcase__phone::before {
-  position: absolute;
-  top: 4px;
-  left: 50%;
-  width: 30%;
-  height: 4px;
-  border-radius: 999px;
-  background: #272b30;
-  content: '';
-  transform: translateX(-50%);
-}
-.hero-showcase__phone-screen {
-  display: block;
-  width: 100%;
-  height: auto;
 }
 @media (min-width: 1101px) {
   .hero-section__title-line--desktop {
@@ -298,8 +265,8 @@ import contactCardScreen from '@/assets/images/hero/chad-contact-screen.webp'
   }
   .hero-showcase__phone {
     width: min(49%, 218px);
-    border-width: 4px;
-    border-radius: 18px;
+    --crt-preview-frame-width: 4px;
+    --crt-preview-frame-radius: 18px;
   }
 }
 </style>
