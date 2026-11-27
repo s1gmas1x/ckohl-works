@@ -72,6 +72,15 @@
               <p>Chad Kohl</p>
               <span>Full-Stack Developer</span>
             </div>
+            <div class="hero-showcase__phone-actions" aria-hidden="true">
+              <span><ContactProfileIcon name="phone" /> Call</span>
+              <span><ContactProfileIcon name="message" /> Text</span>
+              <span class="hero-showcase__save-contact">
+                <ContactProfileIcon name="person-add" />
+                Save Contact
+                <ContactProfileIcon name="chevron-right" />
+              </span>
+            </div>
             <figure class="hero-showcase__display">
               <figcaption>Display // Wireframe</figcaption>
               <img :src="contactCardDisplay" alt="Amber sunset over a wireframe grid" />
@@ -86,6 +95,8 @@
 <script setup>
 import contactCardFront from '@/assets/images/hero/ckohl-works-contact-card-front-nfc-paths.svg'
 import contactCardFrontFallback from '@/assets/images/hero/ckohl-works-contact-card-front-nfc-paths.png'
+import ContactProfileIcon from '@/components/profile/ContactProfileIcon.vue'
+
 const contactCardDisplay = `${import.meta.env.BASE_URL}images/contact-profile/crt-wireframe-fallback-wide.webp`
 </script>
 
@@ -243,6 +254,7 @@ const contactCardDisplay = `${import.meta.env.BASE_URL}images/contact-profile/cr
 }
 .hero-showcase__phone-screen {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   align-content: center;
   gap: 8px;
   height: 100%;
@@ -281,6 +293,47 @@ const contactCardDisplay = `${import.meta.env.BASE_URL}images/contact-profile/cr
   margin-top: 6px;
   border: 1px solid #775321;
   object-fit: cover;
+}
+.hero-showcase__phone-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px;
+}
+.hero-showcase__phone-actions span {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  padding: 4px 2px;
+  border: 1px solid #775321;
+  border-radius: 3px;
+  background: #130e06;
+  font-size: clamp(7px, 4cqi, 10px);
+  text-transform: uppercase;
+}
+.hero-showcase__phone-actions .contact-profile-icon {
+  width: clamp(12px, 8cqi, 19px);
+  height: auto;
+}
+.hero-showcase__phone-actions .hero-showcase__save-contact {
+  grid-column: 1 / -1;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  justify-items: start;
+  padding-inline: 8px;
+  border-color: #c7872b;
+  background: #2c1b08;
+}
+@media (max-width: 360px) {
+  .hero-showcase__phone-screen {
+    gap: 5px;
+    padding-inline: 6px;
+  }
+
+  .hero-showcase__terminal,
+  .hero-showcase__identity,
+  .hero-showcase__display {
+    padding: 5px;
+  }
 }
 @media (min-width: 1101px) {
   .hero-section__title-line--desktop {
