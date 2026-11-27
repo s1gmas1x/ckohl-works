@@ -67,7 +67,7 @@
 </template>
 
 <script setup>
-import margotsHeroImage from '@/assets/images/mockup/margots-pizza-hero.png'
+import margotsHeroImage from '@/assets/images/mockup/margots-pizza-hero-v2.webp'
 import SectionHeading from '@/components/ui/SectionHeading.vue'
 </script>
 
