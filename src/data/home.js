@@ -32,7 +32,6 @@ export const solutions = [
     description:
       'QR and NFC experiences for menus, directions, reviews, booking, promotions, service details, and vendor or property pages.',
     icon: 'contactless',
-    variant: 'nfc',
     href: '#contact',
   },
   {
@@ -40,15 +39,13 @@ export const solutions = [
     description:
       'Give customers one mobile place to call, email, visit your site, book, get directions, or save your details.',
     icon: 'badge',
-    variant: 'qr',
     href: '#contact',
   },
   {
     title: 'Business Websites and Care',
     description:
       'Mobile-friendly websites, hosting, maintenance, updates, and support for the parts of your business customers rely on.',
-    icon: 'support_agent',
-    variant: 'app',
+    icon: 'web_asset',
     href: '#contact',
   },
 ]
