@@ -32,16 +32,8 @@
       </article>
 
       <article class="demo-card demo-card--contact">
-        <div class="contact-preview" aria-label="Preview of Chad Kohl's digital contact card">
-          <p class="contact-preview__eyebrow">Digital contact card</p>
-          <div class="contact-preview__mark" aria-hidden="true">CK</div>
-          <h3>Chad Kohl</h3>
-          <p>Full-Stack Developer at Ckohl Works</p>
-          <div class="contact-preview__actions" aria-hidden="true">
-            <span><q-icon name="phone" /> Call</span>
-            <span><q-icon name="email" /> Email</span>
-            <span><q-icon name="person_add" /> Save Contact</span>
-          </div>
+        <div class="contact-preview">
+          <CrtContactPreview class="contact-preview__phone" loading="lazy" />
         </div>
         <div class="demo-card__content">
           <p class="demo-card__eyebrow">Digital contact-card demonstration</p>
@@ -66,6 +58,7 @@
 
 <script setup>
 import margotsHeroImage from '@/assets/images/mockup/margots-pizza-hero-v2.webp'
+import CrtContactPreview from '@/components/ui/CrtContactPreview.vue'
 import SectionHeading from '@/components/ui/SectionHeading.vue'
 </script>
 
@@ -130,79 +123,15 @@ import SectionHeading from '@/components/ui/SectionHeading.vue'
 
 .contact-preview {
   display: grid;
-  align-content: center;
-  justify-items: center;
-  min-height: 340px;
-  padding: 34px;
-  background: var(--ckw-surface-subtle);
-  color: var(--ckw-text-primary);
-  text-align: center;
-}
-
-.contact-preview__eyebrow,
-.contact-preview h3,
-.contact-preview p {
-  margin: 0;
-}
-
-.contact-preview__eyebrow {
-  color: var(--ckw-text-muted);
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-}
-
-.contact-preview__mark {
-  display: grid;
-  width: 64px;
-  aspect-ratio: 1;
-  margin: 18px 0 14px;
-  border: 1px solid var(--ckw-border-strong);
-  border-radius: 50%;
-  background: var(--ckw-surface-raised);
-  color: var(--ckw-orange);
-  font-family: 'Orbitron', var(--ckw-font-body);
-  font-size: 1.2rem;
-  font-weight: 600;
   place-items: center;
+  padding: clamp(20px, 4vw, 36px);
+  background:
+    radial-gradient(ellipse at 50% 35%, rgba(249, 156, 30, 0.16), transparent 65%),
+    var(--ckw-surface-subtle);
 }
 
-.contact-preview h3 {
-  color: var(--ckw-text-strong);
-  font-size: 2rem;
-  line-height: 1;
-}
-
-.contact-preview > p:not(.contact-preview__eyebrow) {
-  margin-top: 9px;
-  color: var(--ckw-text-primary);
-}
-
-.contact-preview__actions {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
-  width: min(100%, 330px);
-  margin-top: 24px;
-}
-
-.contact-preview__actions span {
-  display: grid;
-  gap: 5px;
-  place-items: center;
-  min-height: 62px;
-  padding: 7px 4px;
-  border: 1px solid var(--ckw-border);
-  border-radius: 6px;
-  color: var(--ckw-text-strong);
-  font-size: 0.73rem;
-  font-weight: 800;
-}
-
-.contact-preview__actions :deep(.q-icon) {
-  color: var(--ckw-text-strong);
-  font-size: 18px;
+.contact-preview__phone {
+  width: min(100%, 206px);
 }
 
 @media (max-width: 820px) {
@@ -217,10 +146,6 @@ import SectionHeading from '@/components/ui/SectionHeading.vue'
 
   .demo-card__content {
     padding: 28px;
-  }
-
-  .contact-preview {
-    min-height: 300px;
   }
 }
 </style>
