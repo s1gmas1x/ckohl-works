@@ -85,11 +85,23 @@ import SectionHeading from '@/components/ui/SectionHeading.vue'
   margin-top: 24px;
 }
 
+.restaurant-preview,
+.contact-preview {
+  align-items: end;
+  overflow: hidden;
+  padding: clamp(20px, 4vw, 36px) clamp(20px, 4vw, 36px) 0;
+}
+
+.restaurant-preview__phone,
+.contact-preview__phone {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  margin-bottom: -6px;
+}
+
 .restaurant-preview {
   position: relative;
   display: grid;
-  align-items: center;
-  padding: clamp(20px, 4vw, 36px);
   isolation: isolate;
   background: #2a1212;
 }
@@ -146,8 +158,7 @@ import SectionHeading from '@/components/ui/SectionHeading.vue'
 
 .contact-preview {
   display: grid;
-  place-items: center;
-  padding: clamp(20px, 4vw, 36px);
+  justify-items: center;
   background:
     radial-gradient(ellipse at 50% 35%, rgba(249, 156, 30, 0.16), transparent 65%),
     var(--ckw-surface-subtle);
